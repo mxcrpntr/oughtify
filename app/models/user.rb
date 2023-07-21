@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-    before_validation :ensure_session_token
+    before_validation :ensure_session_token, :validate_birth_date
 
     has_secure_password
     validates :email, :name, :password_digest, :session_token, :birth_date, presence: true
@@ -8,11 +8,12 @@ class User < ApplicationRecord
     validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
     validates :password, length: { in: 6..255 }, allow_nil: true
 
+
     def self.find_by_credentials(credential,password)
         if credential =~ URI::MailTo::EMAIL_REGEXP
             user = User.find_by(email: credential)
         else
-            user = User.find_by(name: name)
+            user = User.find_by(name: credential)
         end
         if user && user.authenticate(password)
             return user
@@ -37,4 +38,29 @@ class User < ApplicationRecord
         self.save!
         self.session_token
     end
+
+    def validate_birth_date
+        date_arr = self.birth_date.split("-").map{|str| str.to_i}
+        year,month,day = date_arr
+        return false if date_arr.length != 3
+        return false if !(1900..Date.today.year).include?(year)
+        if year == Date.today.year
+            return false if !(1..Date.today.month).include?(month)
+            if month == Date.today.month
+                return false if !(1..Date.today.day).include?(day)
+            end
+        end
+        return false if !(1..12).include?(month)
+        if [1,3,5,7,8,10,12].include?(month)
+            return false if !(1..31).include?(day)
+        elsif [4,6,9,11].include?(month)
+            return false if !(1..30).include?(day)
+        else
+            return false if day == 29 && (year % 4 != 0)
+            return false if !(1..29).include?(day)
+        end
+        return true
+    end
+
+
 end
