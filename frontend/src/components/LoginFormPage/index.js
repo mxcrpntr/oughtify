@@ -55,10 +55,15 @@ export default function LoginFormPage() {
                     required
                 />
             </label>
+            <label>Password
+                <input
+                    type="checkbox"
+                />
+            Remember me</label>
             <button type="submit" >Log In</button>
             <Link to="">Forgot your password?</Link>
             <hr />
-            <h3>Don't have an account? <Link to="">Sign up for Oughtify</Link></h3>
+            <h3>Don't have an account? <Link to="/signup">Sign up for Oughtify</Link></h3>
 
         </form>
     )
