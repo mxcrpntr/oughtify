@@ -43,6 +43,7 @@ export default function LoginFormPage() {
             <input 
                 type="text" 
                 value={credential}
+                placeholder="Email or username"
                 onChange={(e) => setCredential(e.target.value)} 
                 required
             />
@@ -51,6 +52,7 @@ export default function LoginFormPage() {
                 <input
                     type="password"
                     value={password}
+                    placeholder="Password"
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />

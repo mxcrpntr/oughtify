@@ -12,10 +12,12 @@ export default function SignupFormPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
-    const [birthDate, setBirthDate] = useState("YYYY-MM-DD");
-    const setYear = (year) => {
+    const [birthDate, setBirthDate] = useState(new Date());
+    let year;
+    const setYear = (newYear) => {
+        year = newYear;
         const date = birthDate;
-        date.setFullYear(year);
+        date.setFullYear(newYear);
         setBirthDate(date);
     }
     const setMonth = (month) => {
@@ -23,9 +25,11 @@ export default function SignupFormPage() {
         date.setMonth(month);
         setBirthDate(date);
     }
-    const setDay = (day) => {
+    let day;
+    const setDay = (newDay) => {
+        day = newDay;
         const date = birthDate;
-        date.setDate(day);
+        date.setDate(newDay);
         setBirthDate(date);
     }
     const [errors, setErrors] = useState([]);
@@ -65,6 +69,7 @@ export default function SignupFormPage() {
                 <input
                     type="text"
                     name="email"
+                    placeholder="Enter your email."
                     value={email}
                     onChange={(e)=> setEmail(e.target.value)}
                     required />
@@ -73,6 +78,7 @@ export default function SignupFormPage() {
                 <input
                     type="password"
                     name="password"
+                    placeholder="Create a password."
                     value={password}
                     onChange={(e)=> setPassword(e.target.value)}
                     required />
@@ -81,6 +87,7 @@ export default function SignupFormPage() {
                 <input 
                     type="text"
                     name="name"
+                    placeholder="Enter a profile name."
                     value={name}
                     onChange={(e)=> setName(e.target.value)} 
                     required />
@@ -112,16 +119,18 @@ export default function SignupFormPage() {
                     <input
                         type="text"
                         name="day"
-                        value=""
-                        onChange={(e) => setDay(e.target.value)}
+                        placeholder="DD"
+                        value={day}
+                        onChange={(e) => setDay(parseInt(e.target.value))}
                         required />
                 </label>
                 <label>Year
                     <input
                         type="text"
                         name="year"
-                        value=""
-                        onChange={(e) => setYear(e.target.value)}
+                        placeholder="YYYY"
+                        value={year}
+                        onChange={(e) => setYear(parseInt(e.target.value))}
                         required />
                 </label>
             </label>
@@ -145,8 +154,8 @@ export default function SignupFormPage() {
             <label>
                 <input type="checkbox" />
             Share my registration data with Oughtify's content providers for marketing purposes.</label>
-            <h4>By clicking on sign-up, you agree to <Link>Oughtify's Terms and Conditions of Use</Link>.</h4>
-            <h4>To learn more about how Oughtify collects, uses, shares and protects your personal data, please see <Link>Oughtify's Privacy Policy</Link>.</h4>
+            <h4>By clicking on sign-up, you agree to <Link to="">Oughtify's Terms and Conditions of Use</Link>.</h4>
+            <h4>To learn more about how Oughtify collects, uses, shares and protects your personal data, please see <Link to="">Oughtify's Privacy Policy</Link>.</h4>
             <button type="submit">Sign Up</button>
             <h2>Have an account? <Link to="/login">Log in</Link>.</h2>
         </form>
