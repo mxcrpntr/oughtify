@@ -1,6 +1,6 @@
 class Api::UsersController < ApplicationController
 
-    wrap_parameters include: User.attribute_names + ['password']
+    wrap_parameters include: User.attribute_names + ['password', 'birthDate']
 
     def create
         @user = User.new(user_params)

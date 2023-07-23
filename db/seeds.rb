@@ -22,7 +22,7 @@ ApplicationRecord.transaction do
       name: 'Demo-lition', 
       email: 'demo@user.io', 
       password: 'password',
-      birth_date: Date.new(2020-02-02)
+      birth_date: '2020-02-02')
     )
   
     # More users
@@ -31,7 +31,7 @@ ApplicationRecord.transaction do
         name: Faker::Internet.unique.username(specifier: 3),
         email: Faker::Internet.unique.email,
         password: 'password',
-        birth_date: Date.new(2020-02-02)
+        birth_date: '2020-02-02')
       }) 
     end
   
