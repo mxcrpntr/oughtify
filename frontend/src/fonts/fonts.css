@@ -1,0 +1,40 @@
+@font-face {
+    font-family: 'CircularSpotifyMedium';
+    src: local('CircularSpotifyMedium'),
+         url('./CircularSpotifyText-Medium.otf') format('opentype');
+}
+@font-face {
+    font-family: 'CircularSpotifyMediumItalic';
+    src: local('CircularSpotifyMediumItalic'),
+         url('./CircularSpotifyText-MediumItalic.otf') format('opentype');
+}
+@font-face {
+    font-family: 'CircularSpotifyLight';
+    src: local('CircularSpotifyLight'),
+         url('./CircularSpotifyText-Light.otf') format('opentype');
+}
+@font-face {
+    font-family: 'CircularSpotifyBold';
+    src: local('CircularSpotifyBold'),
+         url('./CircularSpotifyText-Bold.otf') format('opentype');
+}
+@font-face {
+    font-family: 'CircularSpotifyBook';
+    src: local('CircularSpotifyBook'),
+         url('./CircularSpotifyText-Book.otf') format('opentype');
+}
+@font-face {
+    font-family: 'CircularSpotifyBookItalic';
+    src: local('CircularSpotifyBookItalic'),
+         url('./CircularSpotifyText-BookItalic.otf') format('opentype');
+}
+@font-face {
+    font-family: 'CircularSpotifyBlack';
+    src: local('CircularSpotifyBlack'),
+         url('./CircularSpotifyText-Black.otf') format('opentype');
+}
+@font-face {
+    font-family: 'CircularSpotifyBlackItalic';
+    src: local('CircularSpotifyBlackItalic'),
+         url('./CircularSpotifyText-BlackItalic.otf') format('opentype');
+}

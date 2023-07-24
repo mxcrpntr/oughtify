@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as sessionActions from '../../store/session';
 import { Link, Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import './SignupForm.css'
+import SpotifyLogoSVG from "./SpotifyLogo";
 
 
 export default function SignupFormPage() {
@@ -63,11 +64,12 @@ export default function SignupFormPage() {
             <ul>
                 {errors.map(error => <li key={error}>{error}</li>)}
             </ul>
-            <img src="" />
+            <SpotifyLogoSVG />
             <h1>Sign up for free to start listening.</h1>
             <label>What's your email?
                 <input
                     type="text"
+                    className="textInput spanInput"
                     name="email"
                     placeholder="Enter your email."
                     value={email}
@@ -77,6 +79,7 @@ export default function SignupFormPage() {
             <label>Create a password
                 <input
                     type="password"
+                    className="textInput spanInput"
                     name="password"
                     placeholder="Create a password."
                     value={password}
@@ -86,6 +89,7 @@ export default function SignupFormPage() {
             <label>What should we call you?
                 <input 
                     type="text"
+                    className="textInput spanInput"
                     name="name"
                     placeholder="Enter a profile name."
                     value={name}
@@ -95,9 +99,11 @@ export default function SignupFormPage() {
             This appears on your profile.
             </label>
             <label>What's your date of birth?
-                <label>Month
+            <div className="birthDate">
+                <label className="monthInput">Month
                 <select
                     name="month"
+                    className="textInput"
                     onChange={(e) => setMonth(e.target.value)}
                     required >
                     <option value="" selected disabled>Month</option>
@@ -115,24 +121,27 @@ export default function SignupFormPage() {
                     <option value={11}>December</option>
                 </select>
                 </label>
-                <label>Day
+                <label className="dayInput">Day
                     <input
                         type="text"
+                        className="textInput"
                         name="day"
                         placeholder="DD"
                         value={day}
                         onChange={(e) => setDay(parseInt(e.target.value))}
                         required />
                 </label>
-                <label>Year
+                <label className="yearInput">Year
                     <input
                         type="text"
+                        className="textInput"
                         name="year"
                         placeholder="YYYY"
                         value={year}
                         onChange={(e) => setYear(parseInt(e.target.value))}
                         required />
                 </label>
+                </div>
             </label>
             <label>What's your gender?
                 <label>
