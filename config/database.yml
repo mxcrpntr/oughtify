@@ -81,6 +81,4 @@ test:
 #
 production:
   <<: *default
-  database: oughtify_production
-  username: oughtify
-  password: <%= ENV["OUGHTIFY_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
