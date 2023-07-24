@@ -3,7 +3,7 @@ import { commonPasswords } from "./commonPasswords";
 
 export const emailErrors = (email) => {
     const errors = [];
-    const emailRegex = new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
+    const emailRegex = new RegExp(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
     if (!emailRegex.test(email)) {
         errors.push("This email is invalid. Make sure it's written like example@email.com")
     }

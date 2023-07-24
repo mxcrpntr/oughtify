@@ -36,7 +36,7 @@ export default function SignupFormPage() {
         date.setDate(newDay);
         setBirthDate(date);
     }
-    const [errors, setErrors] = useState([]);
+    const [errors, setErrors] = useState({});
 
     const sessionUser = useSelector(state => state.session.user);
     if (sessionUser) {
@@ -75,62 +75,45 @@ export default function SignupFormPage() {
     const handleFocus = (inputType) => (e) => {
         e.preventDefault();
         if (inputType === 'email') {
-            if (!e.target.classList.contains("focused")) e.target.classList.add("focused");
-            if (e.target.classList.contains("red") && emailErrors(e.target.value)) {
-                document.querySelector(".emailError").innerText = emailErrors(e.target.value);
+            if (errors["emailError"]) {
+                setErrors({...errors,"emailError": emailErrors(e.target.value)});
             } else {
-                console.log("weere giid")
-                e.target.classList.remove("red");
-                document.querySelector(".emailError").innerText = "";
+                setErrors({...errors,"emailError": ""});
             }
         }
         if (inputType === 'password') {
-            if (!e.target.classList.contains("focused")) e.target.classList.add("focused");
-            if (e.target.classList.contains("red") && passwordErrors(e.target.value)) {
-                document.querySelector(".passwordError").innerText = passwordErrors(e.target.value);
+            if (errors["passwordError"]) {
+                setErrors({...errors,"passwordError": passwordErrors(e.target.value)});
             } else {
-                e.target.classList.remove("red");
-                document.querySelector(".passwordError").innerText = "";
+                setErrors({...errors,"passwordError": ""});
             }
         }
         if (inputType === 'name') {
-            if (!e.target.classList.contains("focused")) e.target.classList.add("focused");
-            if (e.target.classList.contains("red") && nameErrors(e.target.value)) {
-                const book = document.querySelector(".book");
-                book.classList.add("nameError");
-                book.innerText = nameErrors(e.target.value);
+            if (errors["nameError"]) {
+                setErrors({...errors,"nameError": nameErrors(e.target.value)});
             } else {
-                e.target.classList.remove("red");
-                const book = document.querySelector(".book");
-                book.classList.remove("nameError");
-                book.innerText = "This appears on your profile.";
+                setErrors({...errors,"nameError": ""});
             }
         }
         if (inputType === 'month') {
-            if (!e.target.classList.contains("focused")) e.target.classList.add("focused");
-            if (e.target.classList.contains("red") && monthErrors(e.target.value)) {
-                document.querySelector(".monthError").innerText = monthErrors(e.target.value);
+            if (errors["monthError"]) {
+                setErrors({...errors,"monthError": monthErrors(e.target.value)});
             } else {
-                e.target.classList.remove("red");
-                document.querySelector(".monthError").innerText = "";
+                setErrors({...errors,"monthError": ""});
             }
         }
         if (inputType === 'day') {
-            if (!e.target.classList.contains("focused")) e.target.classList.add("focused");
-            if (e.target.classList.contains("red") && dayErrors(e.target.value)) {
-                document.querySelector(".dayError").innerText = dayErrors(e.target.value);
+            if (errors["dayError"]) {
+                setErrors({...errors,"dayError": dayErrors(e.target.value)});
             } else {
-                e.target.classList.remove("red");
-                document.querySelector(".dayError").innerText = "";
+                setErrors({...errors,"dayError": ""});
             }
         }
         if (inputType === 'year') {
-            if (!e.target.classList.contains("focused")) e.target.classList.add("focused");
-            if (e.target.classList.contains("red") && yearErrors(e.target.value)) {
-                document.querySelector(".yearError").innerText = yearErrors(e.target.value);
+            if (errors["yearError"]) {
+                setErrors({...errors,"yearError": yearErrors(e.target.value)});
             } else {
-                e.target.classList.remove("red");
-                document.querySelector(".yearError").innerText = "";
+                setErrors({...errors,"yearError": ""});
             }
         }
     }
@@ -140,81 +123,48 @@ export default function SignupFormPage() {
     const handleBlur = (inputType) => (e) => {
         e.preventDefault();
         if (inputType === 'email') {
-            if (e.target.classList.contains("focused")) e.target.classList.remove("focused");
             if (emailErrors(e.target.value)) {
-                if (!e.target.classList.contains("red")) e.target.classList.add("red");
-                emailErrorText = emailErrors(e.target.value);
-                document.querySelector(".emailError").innerText = " " + emailErrorText;
+                setErrors({...errors,"emailError": emailErrors(e.target.value)});
             } else {
-                e.target.classList.remove("red");
-                document.querySelector(".emailError").innerText = "";
+                setErrors({...errors,"emailError": ""});
             }
         }
         if (inputType === 'password') {
-            if (e.target.classList.contains("focused")) e.target.classList.remove("focused");
             if (passwordErrors(e.target.value)) {
-                if (!e.target.classList.contains("red")) e.target.classList.add("red");
-                document.querySelector(".passwordError").innerText = passwordErrors(e.target.value);
+                setErrors({...errors,"passwordError": passwordErrors(e.target.value)});
             } else {
-                e.target.classList.remove("red");
-                document.querySelector(".passwordError").innerText = "";
+                setErrors({...errors,"passwordError": ""});
             }
         }
         if (inputType === 'name') {
-            if (e.target.classList.contains("focused")) e.target.classList.remove("focused");
             if (nameErrors(e.target.value)) {
-                if (!e.target.classList.contains("red")) e.target.classList.add("red");
-                const book = document.querySelector(".book");
-                book.classList.add("nameError");
-                book.innerText = nameErrors(e.target.value);
+                setErrors({...errors,"nameError": nameErrors(e.target.value)});
             } else {
-                e.target.classList.remove("red");
-                const book = document.querySelector(".book");
-                book.classList.remove("nameError");
-                book.innerText = "This appears on your profile.";
+                setErrors({...errors,"nameError": ""});
             }
         }
         if (inputType === 'month') {
-            if (e.target.classList.contains("focused")) e.target.classList.remove("focused");
             if (monthErrors(e.target.value)) {
-                if (!e.target.classList.contains("red")) e.target.classList.add("red");
-                document.querySelector(".monthError").innerText = monthErrors(e.target.value);
+                setErrors({...errors,"monthError": monthErrors(e.target.value)});
             } else {
-                e.target.classList.remove("red");
-                document.querySelector(".monthError").innerText = "";
+                setErrors({...errors,"monthError": ""});
             }
         }
         if (inputType === 'day') {
-            if (e.target.classList.contains("focused")) e.target.classList.remove("focused");
             if (dayErrors(e.target.value)) {
-                if (!e.target.classList.contains("red")) e.target.classList.add("red");
-                document.querySelector(".dayError").innerText = dayErrors(e.target.value);
+                setErrors({...errors,"dayError": dayErrors(e.target.value)});
             } else {
-                e.target.classList.remove("red");
-                document.querySelector(".dayError").innerText = "";
+                setErrors({...errors,"dayError": ""});
             }
         }
         if (inputType === 'year') {
-            if (e.target.classList.contains("focused")) e.target.classList.remove("focused");
             if (yearErrors(e.target.value)) {
-                if (!e.target.classList.contains("red")) e.target.classList.add("red");
-                document.querySelector(".yearError").innerText = yearErrors(e.target.value);
+                setErrors({...errors,"yearError": yearErrors(e.target.value)});
             } else {
-                e.target.classList.remove("red");
-                document.querySelector(".yearError").innerText = "";
+                setErrors({...errors,"yearError": ""});
             }
         }
     }
-
-        const emailErrorSpan = () => {
-            if (emailErrorText) {
-                return (<span className=""><i class="fa-solid fa-circle-exclamation"></i>{emailErrorText}</span>)
-            } else {
-                return ""
-            }
-        }
-
-
 
         return (
         <form onSubmit={handleSubmit}>
@@ -223,7 +173,7 @@ export default function SignupFormPage() {
             <label>What's your email?
                 <input
                     type="text"
-                    className="textInput spanInput"
+                    className={`textInput spanInput ${errors["emailError"] ? "red" : ""} `}
                     name="email"
                     placeholder="Enter your email."
                     value={email}
@@ -232,14 +182,15 @@ export default function SignupFormPage() {
                     onChange={(e)=> setEmail(e.target.value)}
                     required />
             </label>
-            <span className="emailError"></span>
-            {/* <ul>
-                {errors.map(error => <li key={error}><i class="fa-solid fa-circle-exclamation"></i> {error}</li>)}
-            </ul> */}
+            { errors["emailError"] && 
+                (
+                    <span className="emailError"><i class="fa-solid fa-circle-exclamation"></i>{" " + errors["emailError"]}</span>
+                )
+            }
             <label>Create a password
                 <input
                     type="password"
-                    className="textInput spanInput"
+                    className={`textInput spanInput ${errors["passwordError"] ? "red" : ""} `}
                     name="password"
                     placeholder="Create a password."
                     value={password}
@@ -248,11 +199,15 @@ export default function SignupFormPage() {
                     onChange={(e)=> setPassword(e.target.value)}
                     required />
             </label>
-            <span className="passwordError"></span>
+            { errors["passwordError"] && 
+                (
+                    <span className="passwordError"><i class="fa-solid fa-circle-exclamation"></i>{" " + errors["passwordError"]}</span>
+                )
+            }
             <label>What should we call you?
                 <input 
                     type="text"
-                    className="textInput spanInput"
+                    className={`textInput spanInput ${errors["nameError"] ? "red" : ""} `}
                     name="name"
                     placeholder="Enter a profile name."
                     value={name}
@@ -260,15 +215,20 @@ export default function SignupFormPage() {
                     onBlur={handleBlur("name")}
                     onChange={(e)=> setName(e.target.value)} 
                     required />
-                {/* <br /> */}
             </label>
-            <span className="book">This appears on your profile.</span>
+            { errors["nameError"] ? 
+                (
+                    <span className="nameError"><i class="fa-solid fa-circle-exclamation"></i>{" " + errors["nameError"]}</span>
+                ) : (
+                    <span className="book">This appears on your profile.</span>
+                )
+            }
             <label>What's your date of birth?
             <div className="birthDate">
                 <label className="monthInput"><span className="book">Month</span>
                 <select
                     name="month"
-                    className="textInput"
+                    className={`textInput ${errors["monthError"] ? "red" : ""} `}
                     onFocus={handleFocus("month")}
                     onBlur={handleBlur("month")}
                     onChange={(e) => setMonth(e.target.value)}
@@ -291,7 +251,7 @@ export default function SignupFormPage() {
                 <label className="dayInput"><span className="book">Day</span>
                     <input
                         type="text"
-                        className="textInput"
+                        className={`textInput ${errors["dayError"] ? "red" : ""} `}
                         name="day"
                         placeholder="DD"
                         value={day}
@@ -303,7 +263,7 @@ export default function SignupFormPage() {
                 <label className="yearInput"><span className="book">Year</span>
                     <input
                         type="text"
-                        className="textInput"
+                        className={`textInput ${errors["yearError"] ? "red" : ""} `}
                         name="year"
                         placeholder="YYYY"
                         value={year}
@@ -314,6 +274,24 @@ export default function SignupFormPage() {
                 </label>
                 </div>
             </label>
+            
+            { errors["monthError"] && 
+                (
+                    <span className="monthError"><i class="fa-solid fa-circle-exclamation"></i>{" " + errors["monthError"]}</span>
+                )
+            }
+
+            { errors["dayError"] && 
+                (
+                    <span className="dayError"><i class="fa-solid fa-circle-exclamation"></i>{" " + errors["dayError"]}</span>
+                )
+            }
+
+            { errors["yearError"] && 
+                (
+                    <span className="yearError"><i class="fa-solid fa-circle-exclamation"></i>{" " + errors["yearError"]}</span>
+                )
+            }       
             <span className="monthError"></span>
             <span className="dayError"></span>
             <span className="yearError"></span>
