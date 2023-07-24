@@ -21,9 +21,11 @@ export default function SignupFormPage() {
         date.setFullYear(newYear);
         setBirthDate(date);
     }
-    const setMonth = (month) => {
+    let month;
+    const setMonth = (newMonth) => {
+        month = newMonth;
         const date = birthDate;
-        date.setMonth(month);
+        date.setMonth(newMonth);
         setBirthDate(date);
     }
     let day;
@@ -58,12 +60,24 @@ export default function SignupFormPage() {
                 });
     };
 
+    document.querySelector("body").className = "signUpBody"
 
-    return (
+    const emailInput = document.querySelector("input[name='email']")
+
+    const passwordInput = document.querySelector("input[name='password']")
+
+    const nameInput = document.querySelector("input[name='name']")
+
+    const monthInput = document.querySelector("select[name='month']")
+
+    const dayInput = document.querySelector("input[name='day']")
+
+    const yearInput = document.querySelector("input[name='year']")
+
+
+
+        return (
         <form onSubmit={handleSubmit}>
-            <ul>
-                {errors.map(error => <li key={error}>{error}</li>)}
-            </ul>
             <SpotifyLogoSVG />
             <h1>Sign up for free to start listening.</h1>
             <label>What's your email?
@@ -76,6 +90,9 @@ export default function SignupFormPage() {
                     onChange={(e)=> setEmail(e.target.value)}
                     required />
             </label>
+            {/* <ul>
+                {errors.map(error => <li key={error}><i class="fa-solid fa-circle-exclamation"></i> {error}</li>)}
+            </ul> */}
             <label>Create a password
                 <input
                     type="password"
@@ -96,11 +113,11 @@ export default function SignupFormPage() {
                     onChange={(e)=> setName(e.target.value)} 
                     required />
                 <br />
-            This appears on your profile.
+            <span className="book">This appears on your profile.</span>
             </label>
             <label>What's your date of birth?
             <div className="birthDate">
-                <label className="monthInput">Month
+                <label className="monthInput"><span className="book">Month</span>
                 <select
                     name="month"
                     className="textInput"
@@ -121,7 +138,7 @@ export default function SignupFormPage() {
                     <option value={11}>December</option>
                 </select>
                 </label>
-                <label className="dayInput">Day
+                <label className="dayInput"><span className="book">Day</span>
                     <input
                         type="text"
                         className="textInput"
@@ -131,7 +148,7 @@ export default function SignupFormPage() {
                         onChange={(e) => setDay(parseInt(e.target.value))}
                         required />
                 </label>
-                <label className="yearInput">Year
+                <label className="yearInput"><span className="book">Year</span>
                     <input
                         type="text"
                         className="textInput"
@@ -144,26 +161,27 @@ export default function SignupFormPage() {
                 </div>
             </label>
             <label>What's your gender?
+                <br />
                 <label>
                     <input type="radio" name="gender" value="Male" />
-                Male</label>
+                <span className="book radio">Male</span></label>
                 <label>
                     <input type="radio" name="gender" value="Female"  />
-                Female</label>
+                <span className="book radio">Female</span></label>
                 <label>
                     <input type="radio" name="gender" value="Non-binary"  />
-                Non-binary</label>
+                <span className="book radio">Non-binary</span></label>
                 <label>
                     <input type="radio" name="gender" value="Other"  />
-                Other</label>
+                <span className="book radio">Other</span></label>
                 <label>
                     <input type="radio" name="gender" value="Prefer"  />
-                Prefer not to say</label>
+                <span className="book radio">Prefer not to say</span></label>
             </label>
             <label>
                 <input type="checkbox" />
             Share my registration data with Oughtify's content providers for marketing purposes.</label>
-            <h4>By clicking on sign-up, you agree to <Link to="">Oughtify's Terms and Conditions of Use</Link>.</h4>
+            <h4>By clicking on sign-up, you agree to Oughtify's <Link to="">Terms and Conditions of Use</Link>.</h4>
             <h4>To learn more about how Oughtify collects, uses, shares and protects your personal data, please see <Link to="">Oughtify's Privacy Policy</Link>.</h4>
             <button type="submit">Sign Up</button>
             <h2>Have an account? <Link to="/login">Log in</Link>.</h2>

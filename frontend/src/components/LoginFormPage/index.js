@@ -31,13 +31,14 @@ export default function LoginFormPage() {
             else setErrors([res.statusText]);
         });
     }
+    document.querySelector("body").className = "logInBody"
 
     return(
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} id="logIn">
             <h1>Log in to Oughtify</h1>
             <hr />
             <ul>
-                {errors.map(error => <li key={error}>{error}</li>)}
+                {errors.map(error => <li key={error}><i class="fa-regular fa-circle-exclamation"></i> {error}</li>)}
             </ul>
             <label>Email or username
             <input 
@@ -57,7 +58,7 @@ export default function LoginFormPage() {
                     required
                 />
             </label>
-            <label>Password
+            <label>
                 <input
                     type="checkbox"
                 />

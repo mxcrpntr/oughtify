@@ -1,4 +1,67 @@
-form {
+form#logIn {
     display: flex;
     flex-direction: column;
+    width: 734px;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: CircularSpotifyMedium;
+    align-items: center;
+}
+#logIn > label > input[type="password"] , #logIn > label > input[type="text"]  {
+    border: 1px solid #727272;
+    border-radius: 4px;
+    background-color: #121212;
+    height: 48px;
+    width: 324px;
+    padding-inline: 14px;
+    font-size: 16px;
+    color: #ffffff;
+}
+#logIn > label > input[type="password"]:hover , #logIn > label > input[type="text"]:hover  {
+    border: 1px solid #ffffff;
+}
+#logIn > label, #logIn > label {
+    width: 324px;
+    font-size: 14px;
+    padding: 8px;
+    /* margin: 16px; */
+}
+form#logIn > h1 {
+    font-size: 48px;
+}
+form#logIn > button {
+    background-color: #6FD862;
+    width: 324px;
+    height: 48px;
+    font-size: 16px;
+    margin: 16px;
+}
+form#logIn > button:hover {
+    background-color: #74E167;
+}
+form#logIn a {
+    color: #ffffff;
+}
+form#logIn hr {
+    height: 1px;
+    width: 550px;
+    border: 0;
+    background-color: #292929;
+}
+
+.logInBody {
+    background: linear-gradient(#1A1A1A, #000000);
+}
+
+form#logIn a, form#logIn h3 {
+    font-size: 16px;
+    margin: 30px 0;
+    font-family: CircularSpotifyBook;
+}
+
+form#logIn li {
+    color: #ffffff;
+    background-color: #ff0000;
+    height: 48px;
+    width: 634px;
 }
