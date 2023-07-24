@@ -1,38 +1,41 @@
+import { commonPasswords } from "./commonPasswords";
 
 
 export const emailErrors = (email) => {
     const errors = [];
-    if (!email.match(email.match(
-        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    )) {
+    const emailRegex = new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
+    if (!emailRegex.test(email)) {
         errors.push("This email is invalid. Make sure it's written like example@email.com")
     }
     if (email.length === 0) {
-        errors.pop();
+        if (errors[0]) errors.pop();
         errors.push("You need to enter your email.")
     }
-    return errors;
+    return errors[0];
 }
 
 export const passwordErrors = (password) => {
     const errors = [];
+    if (commonPasswords.has(password)) {
+        errors.push("Your password is too weak. Set a stronger one.");
+    }
     if (password.length < 8) {
-        errors.push("Your password is too short")
+        if (errors[0]) errors.pop();
+        errors.push("Your password is too short");
     }
     if (password.length === 0) {
-        errors.pop();
+        if (errors[0]) errors.pop();
         errors.push("You need to enter a password.")
     }
-    return errors;
+    return errors[0];
 }
 
 export const nameErrors  = (name) => {
     const errors = [];
     if (name.length === 0) {
-        errors.pop();
         errors.push("Enter a name for your profile.")
     }
-    return errors;
+    return errors[0];
 }
 
 export const monthErrors  = (month) => {
@@ -40,24 +43,25 @@ export const monthErrors  = (month) => {
     if (!month) {
         errors.push("Select your birth month.")
     }
-    return errors;
+    return errors[0];
 }
 export const dayErrors  = (day) => {
     const errors = [];
     if (!day || !validDay(day)) {
         errors.push("Enter a valid day of the month.")
     }
-    return errors;
+    return errors[0];
 }
 export const yearErrors  = (year) => {
     const errors = [];
     if (!year || !validYear(year)) {
         errors.push("Enter a valid year.")
     }
-    return errors;
+    return errors[0];
 }
 
 const validDay = (day) => {
+    const errors = [];
     const numerals = new Set(["0","1","2","3","4","5","6","7","8","9"]);
     const chars = day.split("");
     for (let i = 0; i < chars.length; i++) {
@@ -66,6 +70,7 @@ const validDay = (day) => {
     return true;
 }
 const validYear = (year) => {
+    const errors = [];
     const numerals = new Set(["0","1","2","3","4","5","6","7","8","9"]);
     const chars = year.split("");
     if (chars.length !== 4) return false;

@@ -4,6 +4,7 @@ import * as sessionActions from '../../store/session';
 import { Link, Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import './SignupForm.css'
 import SpotifyLogoSVG from "./SpotifyLogo";
+import { dayErrors, emailErrors, monthErrors, nameErrors, passwordErrors, yearErrors } from "./errorCheckers";
 
 
 export default function SignupFormPage() {
@@ -61,18 +62,157 @@ export default function SignupFormPage() {
     };
 
     document.querySelector("body").className = "signUpBody"
+    
+    var [
+        emailErrorText,
+        passwordErrorText,
+        nameErrorText,
+        monthErrorText,
+        dayErrorText,
+        yearErrorText
+          ] = ["","","","","",""]
 
-    const emailInput = document.querySelector("input[name='email']")
+    const handleFocus = (inputType) => (e) => {
+        e.preventDefault();
+        if (inputType === 'email') {
+            if (!e.target.classList.contains("focused")) e.target.classList.add("focused");
+            if (e.target.classList.contains("red") && emailErrors(e.target.value)) {
+                document.querySelector(".emailError").innerText = emailErrors(e.target.value);
+            } else {
+                console.log("weere giid")
+                e.target.classList.remove("red");
+                document.querySelector(".emailError").innerText = "";
+            }
+        }
+        if (inputType === 'password') {
+            if (!e.target.classList.contains("focused")) e.target.classList.add("focused");
+            if (e.target.classList.contains("red") && passwordErrors(e.target.value)) {
+                document.querySelector(".passwordError").innerText = passwordErrors(e.target.value);
+            } else {
+                e.target.classList.remove("red");
+                document.querySelector(".passwordError").innerText = "";
+            }
+        }
+        if (inputType === 'name') {
+            if (!e.target.classList.contains("focused")) e.target.classList.add("focused");
+            if (e.target.classList.contains("red") && nameErrors(e.target.value)) {
+                const book = document.querySelector(".book");
+                book.classList.add("nameError");
+                book.innerText = nameErrors(e.target.value);
+            } else {
+                e.target.classList.remove("red");
+                const book = document.querySelector(".book");
+                book.classList.remove("nameError");
+                book.innerText = "This appears on your profile.";
+            }
+        }
+        if (inputType === 'month') {
+            if (!e.target.classList.contains("focused")) e.target.classList.add("focused");
+            if (e.target.classList.contains("red") && monthErrors(e.target.value)) {
+                document.querySelector(".monthError").innerText = monthErrors(e.target.value);
+            } else {
+                e.target.classList.remove("red");
+                document.querySelector(".monthError").innerText = "";
+            }
+        }
+        if (inputType === 'day') {
+            if (!e.target.classList.contains("focused")) e.target.classList.add("focused");
+            if (e.target.classList.contains("red") && dayErrors(e.target.value)) {
+                document.querySelector(".dayError").innerText = dayErrors(e.target.value);
+            } else {
+                e.target.classList.remove("red");
+                document.querySelector(".dayError").innerText = "";
+            }
+        }
+        if (inputType === 'year') {
+            if (!e.target.classList.contains("focused")) e.target.classList.add("focused");
+            if (e.target.classList.contains("red") && yearErrors(e.target.value)) {
+                document.querySelector(".yearError").innerText = yearErrors(e.target.value);
+            } else {
+                e.target.classList.remove("red");
+                document.querySelector(".yearError").innerText = "";
+            }
+        }
+    }
 
-    const passwordInput = document.querySelector("input[name='password']")
+ 
 
-    const nameInput = document.querySelector("input[name='name']")
+    const handleBlur = (inputType) => (e) => {
+        e.preventDefault();
+        if (inputType === 'email') {
+            if (e.target.classList.contains("focused")) e.target.classList.remove("focused");
+            if (emailErrors(e.target.value)) {
+                if (!e.target.classList.contains("red")) e.target.classList.add("red");
+                emailErrorText = emailErrors(e.target.value);
+                document.querySelector(".emailError").innerText = " " + emailErrorText;
+            } else {
+                e.target.classList.remove("red");
+                document.querySelector(".emailError").innerText = "";
+            }
+        }
+        if (inputType === 'password') {
+            if (e.target.classList.contains("focused")) e.target.classList.remove("focused");
+            if (passwordErrors(e.target.value)) {
+                if (!e.target.classList.contains("red")) e.target.classList.add("red");
+                document.querySelector(".passwordError").innerText = passwordErrors(e.target.value);
+            } else {
+                e.target.classList.remove("red");
+                document.querySelector(".passwordError").innerText = "";
+            }
+        }
+        if (inputType === 'name') {
+            if (e.target.classList.contains("focused")) e.target.classList.remove("focused");
+            if (nameErrors(e.target.value)) {
+                if (!e.target.classList.contains("red")) e.target.classList.add("red");
+                const book = document.querySelector(".book");
+                book.classList.add("nameError");
+                book.innerText = nameErrors(e.target.value);
+            } else {
+                e.target.classList.remove("red");
+                const book = document.querySelector(".book");
+                book.classList.remove("nameError");
+                book.innerText = "This appears on your profile.";
+            }
+        }
+        if (inputType === 'month') {
+            if (e.target.classList.contains("focused")) e.target.classList.remove("focused");
+            if (monthErrors(e.target.value)) {
+                if (!e.target.classList.contains("red")) e.target.classList.add("red");
+                document.querySelector(".monthError").innerText = monthErrors(e.target.value);
+            } else {
+                e.target.classList.remove("red");
+                document.querySelector(".monthError").innerText = "";
+            }
+        }
+        if (inputType === 'day') {
+            if (e.target.classList.contains("focused")) e.target.classList.remove("focused");
+            if (dayErrors(e.target.value)) {
+                if (!e.target.classList.contains("red")) e.target.classList.add("red");
+                document.querySelector(".dayError").innerText = dayErrors(e.target.value);
+            } else {
+                e.target.classList.remove("red");
+                document.querySelector(".dayError").innerText = "";
+            }
+        }
+        if (inputType === 'year') {
+            if (e.target.classList.contains("focused")) e.target.classList.remove("focused");
+            if (yearErrors(e.target.value)) {
+                if (!e.target.classList.contains("red")) e.target.classList.add("red");
+                document.querySelector(".yearError").innerText = yearErrors(e.target.value);
+            } else {
+                e.target.classList.remove("red");
+                document.querySelector(".yearError").innerText = "";
+            }
+        }
+    }
 
-    const monthInput = document.querySelector("select[name='month']")
-
-    const dayInput = document.querySelector("input[name='day']")
-
-    const yearInput = document.querySelector("input[name='year']")
+        const emailErrorSpan = () => {
+            if (emailErrorText) {
+                return (<span className=""><i class="fa-solid fa-circle-exclamation"></i>{emailErrorText}</span>)
+            } else {
+                return ""
+            }
+        }
 
 
 
@@ -87,9 +227,12 @@ export default function SignupFormPage() {
                     name="email"
                     placeholder="Enter your email."
                     value={email}
+                    onFocus={handleFocus("email")}
+                    onBlur={handleBlur("email")}
                     onChange={(e)=> setEmail(e.target.value)}
                     required />
             </label>
+            <span className="emailError"></span>
             {/* <ul>
                 {errors.map(error => <li key={error}><i class="fa-solid fa-circle-exclamation"></i> {error}</li>)}
             </ul> */}
@@ -100,9 +243,12 @@ export default function SignupFormPage() {
                     name="password"
                     placeholder="Create a password."
                     value={password}
+                    onFocus={handleFocus("password")}
+                    onBlur={handleBlur("password")}
                     onChange={(e)=> setPassword(e.target.value)}
                     required />
             </label>
+            <span className="passwordError"></span>
             <label>What should we call you?
                 <input 
                     type="text"
@@ -110,17 +256,21 @@ export default function SignupFormPage() {
                     name="name"
                     placeholder="Enter a profile name."
                     value={name}
+                    onFocus={handleFocus("name")}
+                    onBlur={handleBlur("name")}
                     onChange={(e)=> setName(e.target.value)} 
                     required />
-                <br />
-            <span className="book">This appears on your profile.</span>
+                {/* <br /> */}
             </label>
+            <span className="book">This appears on your profile.</span>
             <label>What's your date of birth?
             <div className="birthDate">
                 <label className="monthInput"><span className="book">Month</span>
                 <select
                     name="month"
                     className="textInput"
+                    onFocus={handleFocus("month")}
+                    onBlur={handleBlur("month")}
                     onChange={(e) => setMonth(e.target.value)}
                     required >
                     <option value="" selected disabled>Month</option>
@@ -145,6 +295,8 @@ export default function SignupFormPage() {
                         name="day"
                         placeholder="DD"
                         value={day}
+                        onFocus={handleFocus("day")}
+                        onBlur={handleBlur("day")}
                         onChange={(e) => setDay(parseInt(e.target.value))}
                         required />
                 </label>
@@ -155,11 +307,16 @@ export default function SignupFormPage() {
                         name="year"
                         placeholder="YYYY"
                         value={year}
+                        onFocus={handleFocus("year")}
+                        onBlur={handleBlur("year")}
                         onChange={(e) => setYear(parseInt(e.target.value))}
                         required />
                 </label>
                 </div>
             </label>
+            <span className="monthError"></span>
+            <span className="dayError"></span>
+            <span className="yearError"></span>
             <label>What's your gender?
                 <br />
                 <label>

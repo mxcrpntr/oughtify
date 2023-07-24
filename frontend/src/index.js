@@ -7,8 +7,10 @@ import configureStore from './store';
 import { createRoot } from 'react-dom/client';
 import csrfFetch from './store/csrf';
 import * as sessionActions from './store/session';
+import { emailErrors } from './components/SignupFormPage/errorCheckers';
 
 const store = configureStore();
+window.emailErrors = emailErrors;
 
 if (process.env.NODE_ENV !== 'production') {
   window.store = store;
