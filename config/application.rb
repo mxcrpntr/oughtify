@@ -40,5 +40,9 @@ module Oughtify
       same_site: :lax, 
       secure: Rails.env.production?
     config.api_only = true
+
+
+    config.railties_order = [:all, :main_app]
+
   end
 end
