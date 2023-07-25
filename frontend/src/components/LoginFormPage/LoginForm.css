@@ -64,4 +64,12 @@ form#logIn li {
     background-color: #ff0000;
     height: 48px;
     width: 634px;
+    box-sizing: border-box;
+    padding: 15px 0;
+}
+form#logIn .fa-solid {
+    font-size: 24px;
+    padding-inline: 16px 8px;
+    margin: -3px 0 0 0 ;
+    vertical-align: middle;
 }

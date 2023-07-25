@@ -36,10 +36,10 @@ export default function LoginFormPage() {
     return(
         <form onSubmit={handleSubmit} id="logIn">
             <h1>Log in to Oughtify</h1>
-            <hr />
             <ul>
-                {errors.map(error => <li key={error}><i class="fa-regular fa-circle-exclamation"></i> {error}</li>)}
+                {errors.map(error => <li key={error}><i className="fa-solid fa-circle-exclamation"></i> {error}</li>)}
             </ul>
+            <hr />
             <label>Email or username
             <input 
                 type="text" 
