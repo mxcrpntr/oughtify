@@ -67,10 +67,7 @@ button {
 }
 button:hover {
     background-color: #74E167;
-    height: 58px;
-    width: 160px;
-
-
+    transform: scale(1.03);
 }
 input[type="radio"] {
     color: #74E167;

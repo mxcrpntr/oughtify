@@ -22,10 +22,16 @@ export default function SignupFormPage() {
 
     useEffect(() => {
         const date = birthDate;
-        if (month) date.setMonth(month);
-        if (validDay(day)) date.setDate(day);
-        if (validYear(year)) date.setFullYear(year);
-        setBirthDate(date);
+        if (month) {
+            date.setMonth(month);
+            if (validYear(year)) {
+                date.setFullYear(year);
+                if (validDay(day)) {
+                    date.setDate(day);
+                }
+            }
+            setBirthDate(date);
+        }
     }, [day,month,year])
 
     const sessionUser = useSelector(state => state.session.user);
@@ -62,8 +68,6 @@ export default function SignupFormPage() {
 
     document.querySelector("body").className = "signUpBody"
     
-
-
     const handleFocus = (inputType) => (e) => {
         e.preventDefault();
         const alreadyErrors = errors[inputType];
@@ -73,7 +77,6 @@ export default function SignupFormPage() {
             setErrors(newErrors);
         }
     }
-
 
     const handleBlur = (inputType) => (e) => {
         e.preventDefault();

@@ -38,6 +38,7 @@ form#logIn > button {
 }
 form#logIn > button:hover {
     background-color: #74E167;
+    transform: scale(1.03);
 }
 form#logIn a {
     color: #ffffff;
@@ -72,4 +73,7 @@ form#logIn .fa-solid {
     padding-inline: 16px 8px;
     margin: -3px 0 0 0 ;
     vertical-align: middle;
+}
+form#logIn ul {
+    padding: 0;
 }
