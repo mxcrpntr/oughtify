@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as sessionActions from '../../store/session';
 import { Link, Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import './SignupForm.css'
 import SpotifyLogoSVG from "./SpotifyLogo";
+import signUpErrors, { validDay, validYear } from "./signUpErrors";
 
 
 export default function SignupFormPage() {
@@ -13,29 +14,25 @@ export default function SignupFormPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
+    const [month, setMonth] = useState("");
+    const [day, setDay] = useState("");
+    const [year, setYear] = useState("");
     const [birthDate, setBirthDate] = useState(new Date());
-    let year;
-    const setYear = (newYear) => {
-        year = newYear;
+    const [errors, setErrors] = useState({});
+
+    useEffect(() => {
         const date = birthDate;
-        date.setFullYear(newYear);
-        setBirthDate(date);
-    }
-    let month;
-    const setMonth = (newMonth) => {
-        month = newMonth;
-        const date = birthDate;
-        date.setMonth(newMonth);
-        setBirthDate(date);
-    }
-    let day;
-    const setDay = (newDay) => {
-        day = newDay;
-        const date = birthDate;
-        date.setDate(newDay);
-        setBirthDate(date);
-    }
-    const [errors, setErrors] = useState([]);
+        if (month) {
+            date.setMonth(month);
+            if (validYear(year)) {
+                date.setFullYear(year);
+                if (validDay(day)) {
+                    date.setDate(day);
+                }
+            }
+            setBirthDate(date);
+        }
+    }, [day,month,year])
 
     const sessionUser = useSelector(state => state.session.user);
     if (sessionUser) {
@@ -44,83 +41,115 @@ export default function SignupFormPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setErrors([]);
-        return dispatch(sessionActions.signup({ email, password, name, birthDate }))
-            .catch(async (res) => {
-                let data;
-                try {
-                    // .clone() essentially allows you to read the response body twice
-                    data = await res.clone().json();
-                } catch {
-                    data = await res.text(); // Will hit this case if the server is down
-                }
-                if (data?.errors) setErrors(data.errors);
-                else if (data) setErrors([data]);
-                else setErrors([res.statusText]);
-                });
+        const fields = ["email","password","name","month","day","year"];
+        const values = [email,password,name,month,day,year];
+        const newErrors = {...errors};
+        for (let i = 0; i < fields.length; i++) {
+            newErrors[fields[i]] = signUpErrors(fields[i])(values[i])
+        }
+        setErrors(newErrors);
+        if (!Object.values(errors).some(ele => ele)) {
+            setErrors([]);
+            return dispatch(sessionActions.signup({ email, password, name, birthDate }))
+                .catch(async (res) => {
+                    let data;
+                    try {
+                        // .clone() essentially allows you to read the response body twice
+                        data = await res.clone().json();
+                    } catch {
+                        data = await res.text(); // Will hit this case if the server is down
+                    }
+                    if (data?.errors) setErrors(data.errors);
+                    else if (data) setErrors([data]);
+                    else setErrors([res.statusText]);
+                    });
+        }
     };
 
     document.querySelector("body").className = "signUpBody"
+    
+    const handleFocus = (inputType) => (e) => {
+        e.preventDefault();
+        const alreadyErrors = errors[inputType];
+        if (alreadyErrors) {
+            const newErrors = {...errors};
+            newErrors[inputType] = signUpErrors(inputType)(e.target.value);
+            setErrors(newErrors);
+        }
+    }
 
-    const emailInput = document.querySelector("input[name='email']")
-
-    const passwordInput = document.querySelector("input[name='password']")
-
-    const nameInput = document.querySelector("input[name='name']")
-
-    const monthInput = document.querySelector("select[name='month']")
-
-    const dayInput = document.querySelector("input[name='day']")
-
-    const yearInput = document.querySelector("input[name='year']")
-
-
+    const handleBlur = (inputType) => (e) => {
+        e.preventDefault();
+        const newErrors = {...errors};
+        newErrors[inputType] = signUpErrors(inputType)(e.target.value);
+        setErrors(newErrors);
+    }
 
         return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
             <SpotifyLogoSVG />
             <h1>Sign up for free to start listening.</h1>
             <label>What's your email?
                 <input
                     type="text"
-                    className="textInput spanInput"
+                    className={`textInput spanInput ${errors["email"] ? "red" : ""} `}
                     name="email"
                     placeholder="Enter your email."
                     value={email}
+                    onFocus={handleFocus("email")}
+                    onBlur={handleBlur("email")}
                     onChange={(e)=> setEmail(e.target.value)}
                     required />
             </label>
-            {/* <ul>
-                {errors.map(error => <li key={error}><i class="fa-solid fa-circle-exclamation"></i> {error}</li>)}
-            </ul> */}
+            { errors["email"] && 
+                (
+                    <span className="emailError"><i className="fa-solid fa-circle-exclamation"></i>{" " + errors["email"]}</span>
+                )
+            }
             <label>Create a password
                 <input
                     type="password"
-                    className="textInput spanInput"
+                    className={`textInput spanInput ${errors["password"] ? "red" : ""} `}
                     name="password"
                     placeholder="Create a password."
                     value={password}
+                    onFocus={handleFocus("password")}
+                    onBlur={handleBlur("password")}
                     onChange={(e)=> setPassword(e.target.value)}
                     required />
             </label>
+            { errors["password"] && 
+                (
+                    <span className="passwordError"><i className="fa-solid fa-circle-exclamation"></i>{" " + errors["password"]}</span>
+                )
+            }
             <label>What should we call you?
                 <input 
                     type="text"
-                    className="textInput spanInput"
+                    className={`textInput spanInput ${errors["name"] ? "red" : ""} `}
                     name="name"
                     placeholder="Enter a profile name."
                     value={name}
+                    onFocus={handleFocus("name")}
+                    onBlur={handleBlur("name")}
                     onChange={(e)=> setName(e.target.value)} 
                     required />
-                <br />
-            <span className="book">This appears on your profile.</span>
             </label>
+            { errors["name"] ? 
+                (
+                    <span className="nameError"><i className="fa-solid fa-circle-exclamation"></i>{" " + errors["name"]}</span>
+                ) : (
+                    <span className="book">This appears on your profile.</span>
+                )
+            }
             <label>What's your date of birth?
             <div className="birthDate">
                 <label className="monthInput"><span className="book">Month</span>
                 <select
                     name="month"
-                    className="textInput"
+                    className={`textInput ${errors["month"] ? "red" : ""} `}
+                    onFocus={handleFocus("month")}
+                    onBlur={handleBlur("month")}
                     onChange={(e) => setMonth(e.target.value)}
                     required >
                     <option value="" selected disabled>Month</option>
@@ -141,25 +170,54 @@ export default function SignupFormPage() {
                 <label className="dayInput"><span className="book">Day</span>
                     <input
                         type="text"
-                        className="textInput"
+                        className={`textInput ${errors["day"] ? "red" : ""} `}
                         name="day"
                         placeholder="DD"
                         value={day}
-                        onChange={(e) => setDay(parseInt(e.target.value))}
+                        onFocus={handleFocus("day")}
+                        onBlur={handleBlur("day")}
+                        onChange={(e) => {
+                           setDay(e.target.value.slice(0,2));
+                        }}
                         required />
                 </label>
                 <label className="yearInput"><span className="book">Year</span>
                     <input
                         type="text"
-                        className="textInput"
+                        className={`textInput ${errors["year"] ? "red" : ""} `}
                         name="year"
                         placeholder="YYYY"
                         value={year}
-                        onChange={(e) => setYear(parseInt(e.target.value))}
+                        onFocus={handleFocus("year")}
+                        onBlur={handleBlur("year")}
+                        onChange={(e) => {
+                            setYear(e.target.value.slice(0,4));
+                        }}
                         required />
                 </label>
                 </div>
             </label>
+            
+            { errors["month"] && 
+                (
+                    <span className="monthError"><i className="fa-solid fa-circle-exclamation"></i>{" " + errors["month"]}</span>
+                )
+            }
+
+            { errors["day"] && 
+                (
+                    <span className="dayError"><i className="fa-solid fa-circle-exclamation"></i>{" " + errors["day"]}</span>
+                )
+            }
+
+            { errors["year"] && 
+                (
+                    <span className="yearError"><i className="fa-solid fa-circle-exclamation"></i>{" " + errors["year"]}</span>
+                )
+            }       
+            <span className="monthError"></span>
+            <span className="dayError"></span>
+            <span className="yearError"></span>
             <label>What's your gender?
                 <br />
                 <label>

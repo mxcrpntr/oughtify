@@ -7,8 +7,10 @@ import configureStore from './store';
 import { createRoot } from 'react-dom/client';
 import csrfFetch from './store/csrf';
 import * as sessionActions from './store/session';
+import signUpErrors from './components/SignupFormPage/signUpErrors';
 
 const store = configureStore();
+window.signUpErrors = signUpErrors;
 
 if (process.env.NODE_ENV !== 'production') {
   window.store = store;

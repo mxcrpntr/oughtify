@@ -31,15 +31,19 @@ export default function LoginFormPage() {
             else setErrors([res.statusText]);
         });
     }
+    const handleDemoLogin = (e) => {
+        e.preventDefault();
+        return dispatch(sessionActions.login({credential: "Demo-lition", password: "password" }))
+    }
     document.querySelector("body").className = "logInBody"
 
     return(
         <form onSubmit={handleSubmit} id="logIn">
             <h1>Log in to Oughtify</h1>
-            <hr />
             <ul>
-                {errors.map(error => <li key={error}><i class="fa-regular fa-circle-exclamation"></i> {error}</li>)}
+                {errors.map(error => <li key={error}><i className="fa-solid fa-circle-exclamation"></i> {error}</li>)}
             </ul>
+            <hr />
             <label>Email or username
             <input 
                 type="text" 
@@ -64,6 +68,7 @@ export default function LoginFormPage() {
                 />
             Remember me</label>
             <button type="submit" >Log In</button>
+            <button onClick={handleDemoLogin} >Demo Log In</button>
             <Link to="">Forgot your password?</Link>
             <hr />
             <h3>Don't have an account? <Link to="/signup">Sign up for Oughtify</Link></h3>
