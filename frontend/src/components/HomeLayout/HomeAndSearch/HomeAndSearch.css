@@ -1,0 +1,41 @@
+.homeAndSearch {
+    top: 0px;
+    min-width: 280px;
+    height: 112px;
+    min-height: 112px;
+    background-color: #121212;
+    margin: 0 0 8px 0;
+    border-radius: 8px;
+    /* flex: 0 1 auto; */
+}
+
+.homeAndSearch a {
+    text-decoration: none;
+    color: #A7A7A7;
+    font-size: 16px;
+}
+.homeAndSearch a:hover {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+.homeAndSearch ul {
+    height: 88%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 6px;
+}
+.homeAndSearch i.fa-solid {
+    font-size: 24px;
+}
+
+.homeAndSearch span.home {
+    margin-left: 18px;
+}
+.homeAndSearch span.search {
+    margin-left: 17.5px;
+}
+.homeAndSearch span.fa-solid {
+    margin-left: 18px;
+    vertical-align: middle;
+}

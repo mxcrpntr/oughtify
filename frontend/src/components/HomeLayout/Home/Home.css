@@ -1,0 +1,11 @@
+.home {
+    position: relative;
+    min-width: 424px;
+    overflow-y: scroll;
+    height: 100%;
+    background-color: #121212;
+    border-radius: 8px;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: auto;
+}

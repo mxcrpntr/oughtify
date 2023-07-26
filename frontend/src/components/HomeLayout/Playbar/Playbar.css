@@ -1,0 +1,9 @@
+.playbar {
+    position: fixed;
+    bottom: 0;
+    height: 72px;
+    flex: 0 1 72px;
+    width: 100%;
+    background-color: #000000;
+    opacity: 0;
+}

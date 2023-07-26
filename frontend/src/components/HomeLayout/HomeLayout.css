@@ -1,0 +1,30 @@
+.homeLayout {
+}
+/* section {
+    flex: 1 1;
+} */
+.left {
+    flex: 0 0;
+    flex-basis: 280px;
+    position: sticky;
+    height: inherit;
+    display: flex;
+    width: auto;
+    flex-direction: column;
+    padding: 8px 0 0 8px;
+}
+.right {
+    position: relative;
+    height: inherit;
+    flex: 1 1;
+    position: sticky;
+    padding: 8px 8px 0 0;
+}
+.homeTop {
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    top: 0;
+    bottom: 72px;
+}

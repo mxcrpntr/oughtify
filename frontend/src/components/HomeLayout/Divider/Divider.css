@@ -1,0 +1,8 @@
+.divider {
+    height: inherit;
+    width: 8px;
+    background-color: #000000;
+    cursor: ew-resize;
+    z-index: 1;
+}
+  
