@@ -66,7 +66,7 @@ export default function SignupFormPage() {
         }
     };
 
-    document.querySelector("body").className = "signUpBody"
+    // document.querySelector("body").className = "signUpBody"
     
     const handleFocus = (inputType) => (e) => {
         e.preventDefault();

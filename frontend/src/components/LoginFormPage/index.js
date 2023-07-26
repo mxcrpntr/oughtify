@@ -35,7 +35,7 @@ export default function LoginFormPage() {
         e.preventDefault();
         return dispatch(sessionActions.login({credential: "Demo-lition", password: "password" }))
     }
-    document.querySelector("body").className = "logInBody"
+    // document.querySelector("body").className = "logInBody"
 
     return(
         <form onSubmit={handleSubmit} id="logIn">
