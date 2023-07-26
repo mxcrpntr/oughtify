@@ -7,14 +7,16 @@ import HomeLayout from "./components/HomeLayout";
 function App() {
   return (
     <>
-    {/* <Navigation /> */}
-    <HomeLayout />    
+    {/* <Navigation /> */} 
     <Switch>
       <Route path="/login">
         <LoginFormPage />
       </Route>
       <Route path="/signup">
         <SignupFormPage />
+      </Route>
+      <Route path="">
+        <HomeLayout />   
       </Route>
     </Switch>
     </>

@@ -3,7 +3,9 @@
     height: 100%;
     min-width: 280px;
     background-color: #121212;
-    border-radius: 8px;
+    /* border-radius: 8px; */
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
     overflow-y: scroll;
     margin: 0;
     box-sizing: border-box;

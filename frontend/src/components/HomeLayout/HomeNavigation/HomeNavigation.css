@@ -6,8 +6,97 @@
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     margin: 8px 8px 8px 0;
-    border: solid 2px #00ff00;
     top: 0;
     right: 0;
     left: 0;
+    font-family: CircularSpotifyBook;
+    color: #A7A7A7;
+    font-size: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.homeNavigation button {
+    font-family: CircularSpotifyBook;
+    text-decoration: none;
+    color: #A7A7A7;
+    background: none;
+    width: auto;
+    height: auto;
+    font-size: 16px;
+    vertical-align: middle;
+    margin-right: 8px;
+
+
+}
+.homeNavigation button:hover {
+    color: #FFFFFF;
+    transform: scale(1.03);
+}
+.homeNavigation .looseLinks {
+    letter-spacing: 2px;
+    margin-right: 4px;
+}
+
+
+.homeNavigation button.loggedOut {
+    font-size: 16px;
+    height: 32px;
+    width: 32px;
+    background-color: #0A0A0A;
+    margin-left: 12px;
+    margin-right: 0;
+    border-radius: 50%;
+    vertical-align: middle;
+    cursor: not-allowed;
+    color: #A7A7A7;
+    transform: none;
+}
+
+.homeNavigation .vl, .vl:hover {
+    color: #FFFFFF;
+    border-left: solid 1px #FFFFFF;
+    width: 0;
+    height: 25px;
+    border-radius: 0;
+    margin: 0 4px 0 16px;
+    text-align: center;
+    transform: none;
+}
+.homeNavigation .logIn {
+    font-family: CircularSpotifyMedium;
+    height: 48px;
+    width: 109.38px;
+    background-color: #FFFFFF;
+    color: #000000;
+    border-radius: 500px;
+    margin-right: 16px;
+    margin-left: 16px;
+}
+.homeNavigation .logIn:hover {
+    color: #000000;
+}
+
+.homeNavigation .signUp {
+    margin-left: 14px;
+}
+
+.homeNavigation .installApp {
+    font-size: 16px;
+    height: 32px;
+    width: 118.58px;
+    background-color: #0A0A0A;
+    border-radius: 500px;
+    vertical-align: middle;
+    color: #FFFFFF;
+}
+.homeNavigation .profile {
+    font-size: 16px;
+    height: 32px;
+    width: 32px;
+    background-color: #0A0A0A;
+    border-radius: 50%;
+    vertical-align: middle;
+    color: #FFFFFF;
 }

@@ -5,8 +5,46 @@
     /* border: solid 2px #ff0000; */
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    overflow-y: scroll;
     margin: 0;
     box-sizing: border-box;
     flex: 1 1 auto;
+    font-family: CircularSpotifyBook;
+}
+.libraryNavigation a {
+    text-decoration: none;
+    color: #A7A7A7;
+    font-size: 16px;
+}
+.libraryNavigation a:hover {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.libraryNavigation i.fa-solid {
+    font-size: 24px;
+}
+
+.libraryNavigation span.yourLibrary {
+    margin-left: 18px;
+}
+.libraryNavigation span.fa-solid {
+    /* margin-left: 18px; */
+    vertical-align: middle;
+}
+.libraryNavigation span.circle {
+    margin-left: 18px;
+    background-color: #121212;
+    padding: 4px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+.libraryNavigation span.circle:hover {
+    background-color: #1A1A1A;
+}
+.libraryNavigation .firstLine {
+    display: flex;
+    flex-direction: row;
+    padding: 8px;
+    justify-content: space-between;
+    align-items: center;
 }

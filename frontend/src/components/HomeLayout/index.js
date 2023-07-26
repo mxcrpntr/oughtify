@@ -5,6 +5,7 @@ import HomeNavigation from "./HomeNavigation";
 import Library from "./Library";
 import Playbar from "./Playbar";
 import "./HomeLayout.css"
+import LibraryNavigation from "./LibraryNavigation";
 
 export default function HomeLayout() {
     
@@ -13,6 +14,7 @@ export default function HomeLayout() {
             <div className="homeTop">
                 <section className="left">
                     <HomeAndSearch />
+                    <LibraryNavigation />
                     <Library />
                 </section>
                 <Divider />

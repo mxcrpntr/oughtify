@@ -5,5 +5,56 @@
     flex: 0 1 72px;
     width: 100%;
     background-color: #000000;
-    opacity: 0;
+    opacity: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: #FDFDFD;
+    z-index: 2;
+}
+.playbar .middle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.playbar .middleTop {
+    width: 450px;
+    font-size: 19px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: #A7A7A7;
+}
+.playbar .fa-solid:hover {
+    color: #FDFDFD;
+}
+.fa-circle-play {
+    font-size: 32px;
+    color: #FDFDFD;
+}
+.fa-circle-play:hover {
+    font-size: 32px;
+    color: #FDFDFD;
+    transform: scale(1.03);
+}
+.playbar .fa-solid {
+    margin-right: 12px;
+    margin-left: 12px;
+}
+.playbar .track {
+    height: 4px;
+    background: #4D4D4D;
+    border-radius: 4px;
+    margin: 8px;
+}
+.playbar .knob {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+    margin-top: -1px;
+    transform: translate(-25%, -25%);
 }
