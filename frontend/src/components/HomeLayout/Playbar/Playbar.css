@@ -1,8 +1,8 @@
 .playbar {
     position: fixed;
     bottom: 0;
-    height: 72px;
-    flex: 0 1 72px;
+    height: 88px;
+    flex: 0 1 88px;
     width: 100%;
     background-color: #000000;
     opacity: 1;
@@ -14,12 +14,16 @@
     z-index: 2;
 }
 .playbar .middle {
+    padding: 12px;
+    height: 75%;
+    width: 35%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
 }
+
 .playbar .middleTop {
-    width: 450px;
+    width: auto;
     font-size: 19px;
     display: flex;
     flex-direction: row;
@@ -40,8 +44,8 @@
     transform: scale(1.03);
 }
 .playbar .fa-solid {
-    margin-right: 12px;
-    margin-left: 12px;
+    margin-right: 13px;
+    margin-left: 13px;
 }
 .playbar .track {
     height: 4px;

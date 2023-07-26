@@ -1,4 +1,4 @@
-.home {
+div.home {
     position: relative;
     min-width: 424px;
     overflow-y: scroll;
@@ -8,4 +8,63 @@
     margin: 0;
     box-sizing: border-box;
     overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+div.home:first-child {
+    padding-top: 66px;
+}
+div.home h2 {
+    font-family: CircularSpotifyMedium;
+    font-size: 24px;
+    text-align: left;
+    padding-left: 20px;
+    color: #FFFFFF;
+}
+div.home h2 a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+div.home h2 a:hover {
+    text-decoration: underline;
+}
+
+.artistGrid {
+    /* display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; */
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(240px, 1fr));
+}
+div.home ul {
+        /* flex: 0 0 auto; */
+    margin: 16px;
+    padding: 16px;
+    max-width: 300px;
+    background-color: #181818;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    /* align-items: center; */
+    border-radius: 4px;
+}
+div.home li + li {
+    color: #FFFFFF;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    font-size: 16px;
+    /* text-align: center; */
+}
+div.home ul:hover {
+    background-color: #282828;
+}
+
+
+div.home ul img {
+    width: 100%;
+    border-radius: 4px;
+    box-shadow: 0px 4px 10px -1px rgba(0, 0, 0, 1);
 }

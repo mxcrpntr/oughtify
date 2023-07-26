@@ -1,11 +1,13 @@
 import { Link, NavLink, useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import "./HomeNavigation.css"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../store/session";
 
 export default function HomeNavigation() {
     const history = useHistory();
     const dispatch = useDispatch();
+    const sessionUser = useSelector(state => state.session.user);
+
 
     return (
         <div className="homeNavigation">
@@ -25,7 +27,7 @@ export default function HomeNavigation() {
                     </span>
                 </>
             )}
-            {sessionStorage["currentUser"] && (
+            {sessionUser && (
                 <>
                     <span>
                         <button className="fa-solid circle loggedOut"><i class="fa-solid fa-chevron-left"></i></button>

@@ -14,9 +14,10 @@
     padding: 8px 0 0 8px;
 }
 .right {
-    position: relative;
+    flex: 1 1 auto;
+    /* position: relative; */
+    /* width: auto; */
     height: inherit;
-    flex: 1 1;
     position: sticky;
     padding: 8px 8px 0 0;
 }
@@ -26,5 +27,6 @@
     flex-direction: row;
     height: auto;
     top: 0;
-    bottom: 72px;
+    bottom: 88px;
+    width: 100%;
 }
