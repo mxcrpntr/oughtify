@@ -10,7 +10,7 @@ export default function Home() {
             <div className="artistGrid">
                 <ul>
                     <li><img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></li>
-                    <li>Joni Mitchell</li>
+                    <li className="artistName">Joni MitiiiiiiiiiiiiiiiiichellMitiiiiiiiiiiiiiiiiichell</li>
                 </ul>
                 <ul>
                     <li><img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></li>

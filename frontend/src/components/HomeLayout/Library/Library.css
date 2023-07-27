@@ -13,10 +13,12 @@
 }
 
 .library > ul {
-    height: 64px;
+    /* height: 64px; */
     /* width: ; */
     /* padding: 8px; */
     margin: 8px;
+    display: grid;
+    width: 100%;
 }
 .library .albumImage  {
     display: flex;
@@ -32,6 +34,9 @@
     border-radius: 4px;
     padding: 8px;
     box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .library > ul > li:hover {
     background-color: #1A1A1A;
@@ -45,19 +50,26 @@
 .library .albumInfo{
     padding-left: 12px;
     width: 100%;
+    /* flex: 1 0 auto; */
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: flex-start;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .library h3, h4 {
-    max-width: 100%;
-    font-family: CircularSpotifyBook;
-    white-space: nowrap; 
-    overflow: hidden;
-    text-overflow: ellipsis;
+    max-width: 95%;
+    font-family: CircularSpotifyLight;
+    font-weight: bold;
+    letter-spacing: .5px;
     text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .library h3 {
     color: #FFFFFF;
@@ -66,6 +78,6 @@
 }
 .library h4 {
     color: #A7A7A7;
-    font-size: 14px;
+    font-size: 13px;
     margin: 0;
 }

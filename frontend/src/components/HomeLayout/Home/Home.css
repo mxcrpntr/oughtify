@@ -35,13 +35,13 @@ div.home h2 a:hover {
     /* display: flex;
     flex-wrap: wrap;
     justify-content: flex-start; */
-
+    margin: 12px;
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(240px, 1fr));
 }
 div.home ul {
         /* flex: 0 0 auto; */
-    margin: 16px;
+    margin: 8px;
     padding: 16px;
     max-width: 300px;
     background-color: #181818;
@@ -51,12 +51,16 @@ div.home ul {
     /* align-items: center; */
     border-radius: 4px;
 }
+div.home li.artistName {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 div.home li + li {
     color: #FFFFFF;
     padding-top: 16px;
     padding-bottom: 16px;
     font-size: 16px;
-    /* text-align: center; */
 }
 div.home ul:hover {
     background-color: #282828;

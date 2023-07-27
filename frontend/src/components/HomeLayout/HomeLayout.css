@@ -10,15 +10,15 @@
     height: inherit;
     display: flex;
     width: auto;
+    max-width: calc(100% - 448px);
     flex-direction: column;
     padding: 8px 0 0 8px;
 }
 .right {
     flex: 1 1 auto;
-    /* position: relative; */
-    /* width: auto; */
     height: inherit;
     position: sticky;
+    /* max-width: calc(100% - 304px); */
     padding: 8px 8px 0 0;
 }
 .homeTop {
