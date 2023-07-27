@@ -19,6 +19,7 @@
     align-items: center;
     opacity: .75;
     white-space: nowrap;
+    z-index: 1;
 }
 .homeNavigation button {
     font-family: CircularSpotifyBook;

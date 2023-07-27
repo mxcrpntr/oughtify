@@ -1,0 +1,71 @@
+div.home .albumShowTop {
+    position: absolute;
+    width: inherit;
+    height: 340px;
+    z-index: 0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: darkolivegreen;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+div.home .albumImage > img {
+    width: 200px;
+    height: 200px;
+    box-shadow: 0px 0px 30px -5px rgba(0, 0, 0, 1);
+}
+div.home .albumImage > img:hover {
+    transform: scale(1.03);
+
+}
+div.home .albumImage {
+    margin: 0 0 30px 30px;
+}
+div.home .albumHeaders {
+    margin: 0 0 30px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+.albumHeaders h4, h5, h1, a {
+    text-decoration: none;
+    color: #FFFFFF;
+    /* box-shadow: 0px 0px 30px -5px rgba(0, 0, 0, 1); */
+    background: transparent;
+}
+.albumHeaders h1 {
+    font-family: CircularSpotifyMedium;
+    font-size: 60px;
+}
+.albumHeaders h4, a {
+    font-family: CircularSpotifyBook;
+}
+.albumHeaders h5 {
+    font-family: CircularSpotifyLight;
+    vertical-align: middle;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.albumHeaders a:hover {
+    text-decoration: underline;
+}
+.albumHeaders h5 > img {
+    width: 24px;
+    height: auto;
+    border-radius: 500px;
+    margin-top: -2px;
+    margin-right: 2px;
+}
+.albumHeaders .albumLength {
+    font-family: CircularSpotifyLight;
+    color: #FFFFFF;
+}
+
+.trackList {
+    margin-top: 340px;
+}

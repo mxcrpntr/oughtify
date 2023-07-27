@@ -1,66 +1,25 @@
-import { Link } from "react-router-dom/cjs/react-router-dom.min"
+import { Link, Route, Switch, useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import "./Home.css"
-
+import ArtistsIndex from "./ArtistsIndex";
+import ArtistShow from "./ArtistShow";
+import AlbumShow from "./AlbumShow";
 
 export default function Home() {
+    const history = useHistory();
 
     return (
         <div className="home">
-            <h2><Link to="">Artists</Link></h2>
-            <div className="artistGrid">
-                <ul>
-                    <li><img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></li>
-                    <li className="artistName">Joni MitiiiiiiiiiiiiiiiiichellMitiiiiiiiiiiiiiiiiichell</li>
-                </ul>
-                <ul>
-                    <li><img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></li>
-                    <li>Joni Mitchell</li>
-                </ul>
-                <ul>
-                    <li><img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></li>
-                    <li>Joni Mitchell</li>
-                </ul>
-                <ul>
-                    <li><img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></li>
-                    <li>Joni Mitchell</li>
-                </ul>
-                <ul>
-                    <li><img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></li>
-                    <li>Joni Mitchell</li>
-                </ul>
-                <ul>
-                    <li><img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></li>
-                    <li>Joni Mitchell</li>
-                </ul>
-                <ul>
-                    <li><img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></li>
-                    <li>Joni Mitchell</li>
-                </ul>
-                <ul>
-                    <li><img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></li>
-                    <li>Joni Mitchell</li>
-                </ul>
-                <ul>
-                    <li><img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></li>
-                    <li>Joni Mitchell</li>
-                </ul>
-                <ul>
-                    <li><img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></li>
-                    <li>Joni Mitchell</li>
-                </ul>
-                <ul>
-                    <li><img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></li>
-                    <li>Joni Mitchell</li>
-                </ul>
-                <ul>
-                    <li><img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></li>
-                    <li>Joni Mitchell</li>
-                </ul>
-                <ul>
-                    <li><img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></li>
-                    <li>Joni Mitchell</li>
-                </ul>
-            </div>
+            <Switch>
+                <Route path="/home">
+                    <ArtistsIndex />
+                </Route>
+                <Route path="/artists">
+                    <ArtistShow />
+                </Route>
+                <Route path="/albums">
+                    <AlbumShow />
+                </Route>
+            </Switch>
   
         </div>
     )

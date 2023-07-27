@@ -1,0 +1,115 @@
+
+div.home .artistBanner {
+    position: absolute;
+
+    width: inherit;
+    height: 282.39px;
+    background-position-y: center;
+    background-size: 100%;
+    z-index: 0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    margin-right: 60px;
+}
+div.home .artistHeaders {
+    z-index: 1;
+    top: 0;
+    color: #FFFFFF;
+    font-family: CircularSpotifyLight;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 24px;
+}
+div.home .opaqueBkgd {
+    position: relative;
+    width: calc(100% - 68px);
+    margin: auto;
+}
+div.home .popularSongs {
+    width: 100%;
+}
+
+div.home .popularSongs > table {
+    
+    display: table;
+    margin-right: 34px;
+    width: 100%;
+    color: #B3B3B3;
+    font-family: CircularSpotifyLight;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+div.home .popularSongs > table > tr {
+    /* display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center; */
+    display: table;
+    height: 56px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 4px;
+    
+}
+div.home .popularSongs > table > tr > td:first-child {
+    /* width: 50%; */
+    
+}
+div.home .popularSongs > table > tr > td:nth-child(2) {
+    text-align: right;
+    
+}
+
+div.home .popularSongs > table > tr:hover {
+    background-color: #1A1A1A;
+    border-radius: 4px;
+}
+
+div.home .popularSongs > table a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+div.home .popularSongs > table a:hover {
+    text-decoration: underline;
+}
+
+div.home .popularSongs .songInfoSpan {
+    color: #FFFFFF;
+    font-size: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+}
+
+div.home .popularSongs > table  img {
+    height: 40px;
+    width: 40px;
+    border-radius: 0px;
+    box-shadow: none;
+}
+
+h1 {
+    font-size: 100px;
+    white-space: nowrap;
+    margin: 0;
+}
+h5 {
+    font-size: 14px;
+}
+h4 {
+    font-size: 16px;
+    margin: 0;
+}
+.fa-circle-check {
+    color: #3D91F4;
+    font-size: 24px;
+    vertical-align: middle;
+    margin-top: -5px;
+    padding-right: 2px;
+}
