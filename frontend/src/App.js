@@ -3,23 +3,28 @@ import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import Navigation from "./components/Navigation";
 import HomeLayout from "./components/HomeLayout";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
-  const location = useLocation();
-  if (location.pathname === "/signup") {
+
+  const { pathname } = useLocation();
+
+  if (pathname === "/signup") {
     document.querySelector("body").className = "signUpBody";
   } else {
     document.querySelector("body").classList.remove("signUpBody");
   }
-  if (location.pathname === "/login") {
+  if (pathname === "/login") {
     document.querySelector("body").className = "logInBody"
   } else {
     document.querySelector("body").classList.remove("logInBody");
   }
-  // window.location = location;
+
+
   return (
     <>
     {/* <Navigation /> */} 
+    {/* <ScrollToTop /> */}
     <Switch>
       <Route path="/login">
         <LoginFormPage />

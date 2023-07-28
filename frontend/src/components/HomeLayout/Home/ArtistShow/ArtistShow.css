@@ -23,8 +23,9 @@ div.home .artistHeaders {
     margin: 24px;
 }
 div.home .opaqueBkgd {
+    padding-top: 32px;
     position: relative;
-    width: calc(100% - 68px);
+    width: calc(100% - 32px);
     margin: auto;
 }
 div.home .popularSongs {
@@ -32,9 +33,8 @@ div.home .popularSongs {
 }
 
 div.home .popularSongs > table {
-    
-    display: table;
-    margin-right: 34px;
+
+    /* margin-right: 34px; */
     width: 100%;
     color: #B3B3B3;
     font-family: CircularSpotifyLight;
@@ -46,22 +46,78 @@ div.home .popularSongs > table > tr {
     /* display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center; */
-    display: table;
+    
+    /* display: table; */
+    display: grid;
+    grid-template-columns: 20px 40px 2fr 1fr 1fr;
+    /* gap: 16px; */
+    align-items: center;
     height: 56px;
     width: 100%;
     text-align: center;
     cursor: pointer;
     border-radius: 4px;
-    
+    gap: 16px;
 }
-div.home .popularSongs > table > tr > td:first-child {
-    /* width: 50%; */
-    
+
+.popularSongs span.bigButtons {
+    vertical-align: middle;
 }
-div.home .popularSongs > table > tr > td:nth-child(2) {
+.popularSongs button.bigPlay {
+    width: 56px;
+    height: 56px;
+    font-size: 24px;
+    vertical-align: middle;
+}
+.popularSongs button.bigPlay > i {
+    padding-left: 2px;
+}
+.popularSongs .bigHeart {
+    padding-left: 24px;
+    font-size: 32px;
+    width: 56px;
+    height: 56px;
+    vertical-align: middle;
+    color: #B3B3B3;
+}
+.popularSongs .bigHeart > i:hover {
+    color: #FFFFFF;
+}
+.popularSongs .bigDots {
+    padding-left: 24px;
+    font-size: 24px;
+    vertical-align: middle;
+    color: #B3B3B3;
+}
+.popularSongs .bigDots > i:hover {
+    color: #FFFFFF;
+}
+.popularSongs h2 {
+    font-family: CircularSpotifyMedium;
+    font-size: 24px;
+    text-align: left;
+    color: #FFFFFF;
+}
+.popularSongs .col1 {
     text-align: right;
-    
+}
+.popularSongs .col4, .popularSongs .col5 {
+    text-align: right;
+}
+.popularSongs .col1 , .popularSongs .col2, .popularSongs .col3{
+    color: #FFFFFF;
+    font-size: 16px;
+}
+.popularSongs .col3 {
+
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* padding-right: 16px; */
+}
+.popularSongs .col5 {
+    padding-right: 16px;
 }
 
 div.home .popularSongs > table > tr:hover {

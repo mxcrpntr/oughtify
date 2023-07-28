@@ -19,16 +19,21 @@ export default function AlbumShow() {
 
                     <h5>
                         <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img>
-                        <Link to="/artists">Joni Mitchell</Link> &nbsp;· 1974 · 5 songs, <span className="albumLength">54 min 57 sec</span>
+                        <Link to="/artists">Joni Mitchell</Link> &nbsp;· 1974 · 5 songs, &nbsp; <span className="albumLength">54 min 57 sec</span>
 
                     </h5>
                 </div>
             </div>
-            <div className=''>
+            <div className='opaqueBkgd-2'>
                 <div className='trackList'>
-                
+                <span className="bigButtons">
+                    <button className="bigPlay"><i class="fa-solid fa-play"></i></button>
+                    <span className="bigHeart"><i class="fa-regular fa-heart"></i></span>
+                    <span className="bigDots"><i class="fa-solid fa-ellipsis"></i></span>
+                </span>
+
                     <table>
-                    <tr>
+                        <tr>
                             <td>#</td>
                             <td>
                                 Title
@@ -41,7 +46,7 @@ export default function AlbumShow() {
                             <td>
                                 <ul>
                                     <li>SOoooogODOong 1111111</li>
-                                    <li>Joni Mitcell</li>
+                                    <li><Link to="/artists">Joni Mitchell</Link></li>
                                 </ul>
                             </td>
                             <td>5:01</td>
@@ -51,7 +56,7 @@ export default function AlbumShow() {
                             <td>
                                 <ul>
                                     <li>son twotw</li>
-                                    <li>Joni Mitcell</li>
+                                    <li><Link to="/artists">Joni Mitchell</Link></li>
                                 </ul>
                             </td>
                             <td>5:01</td>
@@ -62,7 +67,7 @@ export default function AlbumShow() {
                             <td>
                                 <ul>
                                     <li>Threee221333333actiallythird</li>
-                                    <li>Joni Mitcell</li>
+                                    <li><Link to="/artists">Joni Mitchell</Link></li>
                                 </ul>
                             </td>
                             <td>5:01</td>
@@ -73,7 +78,7 @@ export default function AlbumShow() {
                             <td>
                                 <ul>
                                     <li>fort song for</li>
-                                    <li>Joni Mitcell</li>
+                                    <li><Link to="/artists">Joni Mitchell</Link></li>
                                 </ul>
                             </td>
                             <td>5:01</td>
@@ -85,7 +90,7 @@ export default function AlbumShow() {
                             <td>
                                 <ul>
                                     <li>it;s the last * fivfth song</li>
-                                    <li>Joni Mitcell</li>
+                                    <li><Link to="/artists">Joni Mitchell</Link></li>
                                 </ul>
                             </td>
                             <td>5:01</td>

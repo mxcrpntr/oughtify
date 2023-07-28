@@ -14,7 +14,7 @@ div.home {
     justify-content: flex-start;
 }
 
-div.home h2 {
+div.home > h2 {
     font-family: CircularSpotifyMedium;
     font-size: 24px;
     text-align: left;
@@ -85,7 +85,7 @@ div.home .artistGrid li + li {
     padding-bottom: 16px;
     font-size: 16px;
 }
-div.home ul:hover {
+div.home .artistGrid ul:hover {
     background-color: #282828;
 }
 

@@ -23,46 +23,67 @@ export default function ArtistShow() {
             </div>
             <div className='opaqueBkgd'>
                 <div className='popularSongs'>
+
+                <span className="bigButtons">
+                    <button className="bigPlay"><i class="fa-solid fa-play"></i></button>
+                    <span className="bigHeart"><i class="fa-regular fa-heart"></i></span>
+                    <span className="bigDots"><i class="fa-solid fa-ellipsis"></i></span>
+                </span>
                     <h2>Popular</h2>
                     <table>
                         <tr>
-                            <td><span className='songInfoSpan'><span className='number'>1</span>
-                            <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img>
-                            <Link to="/artists">Song Title Number one</Link></span></td>
-                            <td>5,436,444</td>
-                            <td>5:01</td>
+                                {/* <span className='songInfoSpan'> */}
+                            <td className='col1'>1</td>
+                            <td className='col2'> <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></td>
+                            <td className='col3'><Link to="/albums">Song Title Number one</Link></td>
+
+                                {/* </span> */}
+                            <td className='col4'>5,436,444</td>
+                            <td className='col5'>5:01</td>
                         </tr>
 
                         <tr>
-                            <td><span className='songInfoSpan'>2
-                            <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img>
-                            <Link to="/artists">Song Title Number one</Link></span></td>
-                            <td>4,444</td>
-                            <td>5:01</td>
+                                {/* <span className='songInfoSpan'> */}
+                            <td className='col1'>2</td>
+                            <td className='col2'> <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></td>
+                            <td className='col3'><Link to="/albums">Song Title Number one</Link></td>
+
+                                {/* </span> */}
+                            <td className='col4'>5,436,444</td>
+                            <td className='col5'>5:01</td>
                         </tr>
 
                         <tr>
-                            <td><span className='songInfoSpan'>3
-                            <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img>
-                            <Link to="/artists">Song Title 88329849248294 one</Link></span></td>
-                            <td>5,436,444</td>
-                            <td>5:01</td>
+                                {/* <span className='songInfoSpan'> */}
+                            <td className='col1'>3</td>
+                            <td className='col2'> <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></td>
+                            <td className='col3'><Link to="/albums">Song Title Number one</Link></td>
+
+                                {/* </span> */}
+                            <td className='col4'>5,436,444</td>
+                            <td className='col5'>5:01</td>
+                        </tr>
+                        <tr>
+                                {/* <span className='songInfoSpan'> */}
+                            <td className='col1'>4</td>
+                            <td className='col2'> <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></td>
+                            <td className='col3'><Link to="/albums">Song Title Number one</Link></td>
+
+                                {/* </span> */}
+                            <td className='col4'>5,436,444</td>
+                            <td className='col5'>5:01</td>
                         </tr>
 
-                        <tr>
-                            <td><span className='songInfoSpan'>4
-                            <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img>
-                            <Link to="/artists">Song  Number 2</Link></span></td>
-                            <td>5,436,444</td>
-                            <td>5:01</td>
-                        </tr>
 
                         <tr>
-                            <td><span className='songInfoSpan'>5
-                            <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img>
-                            <Link to="/artists">Song Title Number one</Link></span></td>
-                            <td>5,436,444</td>
-                            <td>5:01</td>
+                                {/* <span className='songInfoSpan'> */}
+                            <td className='col1'>5</td>
+                            <td className='col2'> <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></td>
+                            <td className='col3'><Link to="/albums">Song Title Number one</Link></td>
+
+                                {/* </span> */}
+                            <td className='col4'>5,436,444</td>
+                            <td className='col5'>5:01</td>
                         </tr>
                     </table>
                 </div>

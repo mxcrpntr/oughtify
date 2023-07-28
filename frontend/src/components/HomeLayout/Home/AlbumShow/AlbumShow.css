@@ -2,7 +2,7 @@ div.home .albumShowTop {
     position: absolute;
     width: inherit;
     height: 340px;
-    z-index: 0;
+    z-index: 1;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     background-color: darkolivegreen;
@@ -18,7 +18,6 @@ div.home .albumImage > img {
 }
 div.home .albumImage > img:hover {
     transform: scale(1.03);
-
 }
 div.home .albumImage {
     margin: 0 0 30px 30px;
@@ -65,7 +64,107 @@ div.home .albumHeaders {
     font-family: CircularSpotifyLight;
     color: #FFFFFF;
 }
+div.home .opaqueBkgd-2 {
+    background-image: linear-gradient(to bottom, rgba(85, 107, 47,.1), rgba(18,18,18,1));
 
+}
 .trackList {
-    margin-top: 340px;
+    position: relative;
+    width: calc(100% - 44px);
+    margin: auto;
+    margin-top: 356px;
+    color: #B3B3B3;
+    font-family: CircularSpotifyLight;
+    font-size: 14px;
+}
+.trackList span.bigButtons {
+    vertical-align: middle;
+}
+.trackList button.bigPlay {
+    width: 56px;
+    height: 56px;
+    font-size: 24px;
+    vertical-align: middle;
+}
+.trackList button.bigPlay > i {
+    padding-left: 2px;
+}
+.trackList .bigHeart {
+    padding-left: 24px;
+    font-size: 32px;
+    width: 56px;
+    height: 56px;
+    vertical-align: middle;
+}
+.trackList .bigHeart > i:hover {
+    color: #FFFFFF;
+}
+.trackList .bigDots {
+    padding-left: 24px;
+    font-size: 24px;
+    vertical-align: middle;
+}
+.trackList .bigDots > i:hover {
+    color: #FFFFFF;
+}
+.trackList hr {
+    width: 100%;
+    height: 1px;
+    border: none;
+    background-color: #B3B3B3;
+    opacity: .2;
+}
+.trackList > table {
+    width: 100%;
+    padding: 16px;
+}
+
+.trackList > table > tr{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 16fr 1fr;
+    align-items: center;
+    gap: 16px;
+    height: 56px;
+    border-radius: 4px;
+}
+.trackList > table > tr:hover {
+    background-color: #282828;
+}
+.trackList > table > tr:first-child {
+    background-color: transparent;
+    height: 36px;
+    align-items: flex-end;
+}
+
+.trackList > table > tr > td:first-child{
+    font-size: 16px;
+    text-align: right;
+}
+.trackList > table > tr > td:last-child{
+    text-align: right;
+    padding-right: 16px;
+}
+
+.trackList > table ul > li:first-child{
+    font-family: CircularSpotifyLight;
+    font-size: 16px;
+    color: #FFFFFF;
+}
+.trackList > table ul a{
+    font-family: CircularSpotifyLight;
+    font-size: 14px;
+    color: #B3B3B3;
+    text-decoration: none;
+}
+.trackList > table ul a:hover{
+    text-decoration: underline;
+}
+.trackList > table ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+div.home .moreBy ul:hover {
+    background-color: #282828;
 }
