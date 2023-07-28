@@ -88,7 +88,9 @@ div.home .artistGrid li + li {
 div.home .artistGrid ul:hover {
     background-color: #282828;
 }
-
+div.home .albumGrid ul:hover {
+    background-color: #282828;
+}
 
 div.home .artistGrid ul img {
     border-radius: 4px;

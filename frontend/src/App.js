@@ -24,7 +24,7 @@ function App() {
   return (
     <>
     {/* <Navigation /> */} 
-    {/* <ScrollToTop /> */}
+    <ScrollToTop />
     <Switch>
       <Route path="/login">
         <LoginFormPage />

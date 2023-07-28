@@ -92,7 +92,7 @@ div.home .popularSongs > table > tr {
 .popularSongs .bigDots > i:hover {
     color: #FFFFFF;
 }
-.popularSongs h2 {
+.popularSongs h2, .discog h2  {
     font-family: CircularSpotifyMedium;
     font-size: 24px;
     text-align: left;
@@ -168,4 +168,8 @@ h4 {
     vertical-align: middle;
     margin-top: -5px;
     padding-right: 2px;
+}
+
+.discog ul:hover {
+    background-color: #282828;
 }
