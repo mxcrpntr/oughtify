@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_26_150813) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_28_160127) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,12 +42,36 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_150813) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "albums", force: :cascade do |t|
+    t.string "title", null: false
+    t.bigint "artist_id", null: false
+    t.integer "year", null: false
+    t.date "date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["artist_id"], name: "index_albums_on_artist_id"
+    t.index ["title"], name: "index_albums_on_title"
+  end
+
   create_table "artists", force: :cascade do |t|
     t.string "name", null: false
     t.text "bio"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_artists_on_name"
+  end
+
+  create_table "songs", force: :cascade do |t|
+    t.string "title", null: false
+    t.integer "length", null: false
+    t.bigint "album_id", null: false
+    t.integer "plays", default: 0, null: false
+    t.integer "number", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["album_id", "number"], name: "index_songs_on_album_id_and_number", unique: true
+    t.index ["album_id"], name: "index_songs_on_album_id"
+    t.index ["title"], name: "index_songs_on_title"
   end
 
   create_table "users", force: :cascade do |t|
@@ -58,6 +82,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_150813) do
     t.date "birth_date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "queue", default: [], null: false, array: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["name"], name: "index_users_on_name", unique: true
     t.index ["session_token"], name: "index_users_on_session_token", unique: true

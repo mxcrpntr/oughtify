@@ -2,11 +2,13 @@ class User < ApplicationRecord
     before_validation :ensure_session_token
 
     has_secure_password
-    validates :email, :name, :password_digest, :session_token, :birth_date, presence: true
+    validates :email, :name, :password_digest, :session_token, :birth_date, :queue, presence: true
     validates :email, :name, :session_token, uniqueness: true
-    validates :name, length: { in: 1..30 }, format: { without: URI::MailTo::EMAIL_REGEXP, message:  "can't be an email" }
+    validates :name, length: { in: 1..30 }, format: { without: URI::MailTo::EMAIL_REGEXP, message:  "Name can't be an email" }
     validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
-    validates :password, length: { in: 6..255 }, allow_nil: true
+    validates :password, length: { in: 8..255 }, allow_nil: true
+
+    has_one_attached :profile_image
 
 
     def self.find_by_credentials(credential,password)
