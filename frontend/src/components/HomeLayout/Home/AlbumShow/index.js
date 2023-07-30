@@ -2,8 +2,11 @@ import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min"
 import AlbumsIndex from "../ArtistShow/AlbumsIndex"
 import './AlbumShow.css'
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAlbum, getAlbum } from "../../../../store/albums";
+import { fetchAlbum, getAlbum, getAlbums } from "../../../../store/albums";
 import { useEffect } from "react";
+import { getSongs } from "../../../../store/songs";
+import { getArtist } from "../../../../store/artists";
+import TrackListItem from "./TrackListItem";
 
 export default function AlbumShow() {
 
@@ -11,18 +14,39 @@ export default function AlbumShow() {
 
     const {albumId} = useParams();
 
-    const { album, songs, artist, moreAlbums } = useSelector(getAlbum(albumId));
-    console.log(artist)
-    const runtime = 0;
+    const album = useSelector(getAlbum(albumId));
+    const artist = useSelector(getArtist(album.artistId))
+    const songs = useSelector(getSongs);
+    const albums = useSelector(getAlbums);
+
+    const moreAlbums = {};
+    
+    Object.values(albums)
+        .filter(album => album.id != albumId)
+        .forEach(album => moreAlbums[album.id] = album);
+
+    let runtime = 0;
 
     Object.values(songs).forEach(song => runtime += song.length)
+
+    const formatRuntime = (runtime) => {
+        const min = Math.floor(runtime / 60);
+        const sec = runtime % 60;
+        return `${min} min ${sec} sec`
+    }
 
     useEffect(()=> {
         dispatch(fetchAlbum(albumId));
     },[])
 
+    
     return (
         <>
+            {Object.keys(album).length > 0
+                && Object.keys(songs).length > 0
+                && Object.keys(artist).length > 0
+                && (
+            <>
             <div className="albumShowTop">
                 <div className="albumImage">
                     <img src={album.imageUrl}></img>
@@ -32,8 +56,11 @@ export default function AlbumShow() {
                     <h1>{album.title}</h1>
 
                     <h5>
-                        <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img>
-                        <Link to="/artists">{artist.name}</Link> &nbsp;· {album.year}· {album.length} song{ album.length === 1 ? "" : "s" }, &nbsp; <span className="albumLength">{runtime}</span>
+                        <img src={artist.imageUrl}></img>
+                        <Link to={`/artists/${artist.id}`}>{artist.name}</Link>
+                        &nbsp;· {album.date.substr(0,4)}
+                        &nbsp;· {album.songIds.length} song{ album.songIds.length === 1 ? "" : "s" },
+                        &nbsp; <span className="albumLength">{formatRuntime(runtime)}</span>
 
                     </h5>
                 </div>
@@ -55,29 +82,36 @@ export default function AlbumShow() {
                             <td><i class="fa-regular fa-clock"></i></td>
                         </tr>
                         <hr></hr>
-                        {songs.map(song => {
+                        {Object.values(songs).map(song => {
                             return (
-                                <tr>
-                                <td>{song.number}</td>
-                                <td>
-                                    <ul>
-                                        <li>{song.title}</li>
-                                        <li><Link to={`/artists/${artist.id}`}>{artist.name}</Link></li>
-                                    </ul>
-                                </td>
-                                    <td>{song.lenth}</td>
-                                </tr>
+                                // <tr>
+                                // <td>{song.number}</td>
+                                // <td>
+                                //     <ul>
+                                //         <li>{song.title}</li>
+                                //         <li><Link to={`/artists/${artist.id}`}>{artist.name}</Link></li>
+                                //     </ul>
+                                // </td>
+                                //     <td>{song.lenth}</td>
+                                // </tr>
+                                <TrackListItem song={song} artist={artist} />
                             )
                         })}
 
                     </table>
                 </div>
                 <div className='moreBy'>
-                    <h2>More by {artist.name}</h2>
-                    <AlbumsIndex />
+                    {Object.keys(moreAlbums).length > 0 && (
+                        <>
+                            <h2>More by {artist.name}</h2>
+                            <AlbumsIndex albums={moreAlbums} />
+                        </>
+                    )}
                 </div>
             </div>
+            </>
 
+            )}
         </>
     )
 }

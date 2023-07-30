@@ -3,7 +3,6 @@ import './AlbumsIndexItem.css'
 
 export default function AlbumsIndexItem({album}) {
     const history = useHistory();
-    console.log(album?.date)
     return (
         <ul onClick={()=> {history.push(`/albums/${album?.id}`)}}>
             <li><img src={album?.imageUrl}></img></li>

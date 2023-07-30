@@ -14,7 +14,13 @@ export const receiveSong = (song) => ({
     song
 })
 
+export const getSongs = (store) => {
+    return store?.songs ? store.songs : {};
+}
 
+export const getSong = (songId) => (store) => {
+    return store?.songs?.[songId] ? store.songs[songId] : {};
+}
 
 const songsReducer = (state = {}, action) => {
     let newState = {...Object.freeze(state)};

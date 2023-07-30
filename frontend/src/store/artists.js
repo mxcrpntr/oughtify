@@ -11,7 +11,7 @@ const receiveArtists = (artists) => ({
     artists
 })
 
-const receiveArtist = (artist) => ({
+export const receiveArtist = (artist) => ({
     type: RECEIVE_ARTIST,
     artist
 })

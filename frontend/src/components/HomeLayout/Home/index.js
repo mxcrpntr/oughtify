@@ -21,7 +21,7 @@ export default function Home() {
                 <Route path="/artists/:artistId">
                     <ArtistShow  />
                 </Route>
-                <Route path="/albums">
+                <Route path="/albums/:albumId">
                     <AlbumShow  />
                 </Route>
             </Switch>

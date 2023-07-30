@@ -7,33 +7,37 @@ export default function AlbumsIndex({albums}) {
     //     paddingTop: `66px`,
     // }
     console.log(albums)
-    Object.values(albums).map(album => {
-        console.log(album)
-    })
+    if (albums) {
+        Object.values(albums).map(album => {
+            console.log(album)
+        })
+    }
 
     return (
         <>
             {/* <h2 style={topPadding}><Link to="">Artists</Link></h2> */}
-            <div className="albumGrid">
-                {Object.values(albums).map(album => {
-                    return <AlbumsIndexItem album={album} />
-                })}
-                {Object.values(albums).map(album => {
-                    return <AlbumsIndexItem album={album} />
-                })}
-                {Object.values(albums).map(album => {
-                    return <AlbumsIndexItem album={album} />
-                })}
-                {Object.values(albums).map(album => {
-                    return <AlbumsIndexItem album={album} />
-                })}
-                {Object.values(albums).map(album => {
-                    return <AlbumsIndexItem album={album} />
-                })}
-                {Object.values(albums).map(album => {
-                    return <AlbumsIndexItem album={album} />
-                })}
-            </div>
+            {albums && (
+                <div className="albumGrid">
+                    {Object.values(albums).map(album => {
+                        return <AlbumsIndexItem album={album} />
+                    })}
+                    {Object.values(albums).map(album => {
+                        return <AlbumsIndexItem album={album} />
+                    })}
+                    {Object.values(albums).map(album => {
+                        return <AlbumsIndexItem album={album} />
+                    })}
+                    {Object.values(albums).map(album => {
+                        return <AlbumsIndexItem album={album} />
+                    })}
+                    {Object.values(albums).map(album => {
+                        return <AlbumsIndexItem album={album} />
+                    })}
+                    {Object.values(albums).map(album => {
+                        return <AlbumsIndexItem album={album} />
+                    })}
+                </div>
+            )}
         </>
     )
 }
