@@ -2,7 +2,7 @@
     height: inherit;
     width: 8px;
     background-color: #000000;
-    cursor: ew-resize;
+    cursor: col-resize;
     z-index: 1;
 }
   

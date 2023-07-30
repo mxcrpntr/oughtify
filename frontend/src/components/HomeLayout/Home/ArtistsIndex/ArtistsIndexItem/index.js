@@ -1,13 +1,14 @@
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 
 
-export default function ArtistsIndexItem() {
+export default function ArtistsIndexItem({artist}) {
     const history = useHistory();
+    console.log(artist)
 
     return (
-        <ul onClick={()=> {history.push("/artists")}}>
-            <li><img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img></li>
-            <li className="artistName">Joni MitiiiiiiiiiiiiiiiiichellMitiiiiiiiiiiiiiiiiichell</li>
+        <ul onClick={()=> {history.push(`/artists/${artist.id}`)}}>
+            <li><img src={`${artist.imageUrl}`}></img></li>
+            <li className="artistName">{artist.name}</li>
         </ul>
     )
 }

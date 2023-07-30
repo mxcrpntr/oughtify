@@ -5,7 +5,9 @@ div.home .artistBanner {
     width: inherit;
     height: 282.39px;
     background-position-y: center;
-    background-size: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 282.39px;
     z-index: 0;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
