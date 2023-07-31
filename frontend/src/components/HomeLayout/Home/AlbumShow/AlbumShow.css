@@ -123,7 +123,7 @@ div.home .opaqueBkgd-2 {
 .trackList > table > tr{
     width: 100%;
     display: grid;
-    grid-template-columns: .5fr 16fr .5fr 1fr;
+    grid-template-columns: .5fr 16fr .5fr 1fr .35fr;
     align-items: center;
     gap: 16px;
     height: 56px;
@@ -142,8 +142,11 @@ div.home .opaqueBkgd-2 {
     font-size: 16px;
     text-align: right;
 }
-.trackList > table > tr > td:last-child{
+.trackList > table > tr > td:nth-child(4){
     text-align: right;
+}
+.trackList > table > tr > td:last-child{
+    text-align: left;
     padding-right: 16px;
 }
 

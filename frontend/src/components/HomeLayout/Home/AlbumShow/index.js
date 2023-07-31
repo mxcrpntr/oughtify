@@ -6,7 +6,7 @@ import { fetchAlbum, getAlbum, getAlbums } from "../../../../store/albums";
 import { useEffect } from "react";
 import { getSongs } from "../../../../store/songs";
 import { getArtist } from "../../../../store/artists";
-import TrackListItem from "./TrackListItem";
+import TrackListItem, { invisibleEllipsisSymbol } from "./TrackListItem";
 
 export default function AlbumShow() {
 
@@ -81,6 +81,7 @@ export default function AlbumShow() {
                             </td>
                             <td></td>
                             <td><i class="fa-regular fa-clock"></i></td>
+                            <td>{invisibleEllipsisSymbol()}</td>
                         </tr>
                         <hr></hr>
                         {Object.values(songs).map(song => {
