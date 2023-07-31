@@ -1,11 +1,13 @@
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import "./Library.css"
 
 export default function Library() {
+    const history = useHistory();
 
     return (
         <div className="library">
             <ul>
-                <li>
+                <li onClick={() => {history.push(`/albums/${1}`)}}>
                     <div className="albumImage">
                         <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img>
                     </div>
@@ -14,7 +16,7 @@ export default function Library() {
                         <h4>Joni Mitchell</h4>
                     </div>
                 </li>
-                <li>
+                <li onClick={() => {history.push(`/albums/${1}`)}}>
                     <div className="albumImage">
                         <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img>
                     </div>
@@ -23,7 +25,7 @@ export default function Library() {
                         <h4>Joni Mitchell</h4>
                     </div>
                 </li>
-                <li>
+                <li onClick={() => {history.push(`/albums/${1}`)}}>
                     <div className="albumImage">
                         <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img>
                     </div>
@@ -32,7 +34,7 @@ export default function Library() {
                         <h4>Joni Mitchell</h4>
                     </div>
                 </li>
-                <li>
+                <li onClick={() => {history.push(`/albums/${1}`)}}>
                     <div className="albumImage">
                         <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img>
                     </div>
@@ -41,7 +43,7 @@ export default function Library() {
                         <h4>Joni Mitchell</h4>
                     </div>
                 </li>
-                <li>
+                <li onClick={() => {history.push(`/albums/${1}`)}}>
                     <div className="albumImage">
                         <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img>
                     </div>
@@ -50,7 +52,7 @@ export default function Library() {
                         <h4>Joni Mitchell</h4>
                     </div>
                 </li>
-                <li>
+                <li onClick={() => {history.push(`/albums/${1}`)}}>
                     <div className="albumImage">
                         <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img>
                     </div>
@@ -59,7 +61,7 @@ export default function Library() {
                         <h4>Joni Mitchell</h4>
                     </div>
                 </li>
-                <li>
+                <li onClick={() => {history.push(`/albums/${1}`)}}>
                     <div className="albumImage">
                         <img src="https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg"></img>
                     </div>

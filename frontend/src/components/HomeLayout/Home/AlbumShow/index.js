@@ -79,6 +79,7 @@ export default function AlbumShow() {
                             <td>
                                 Title
                             </td>
+                            <td></td>
                             <td><i class="fa-regular fa-clock"></i></td>
                         </tr>
                         <hr></hr>

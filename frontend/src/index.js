@@ -11,6 +11,13 @@ import signUpErrors from './components/SignupFormPage/signUpErrors';
 
 const store = configureStore();
 window.signUpErrors = signUpErrors;
+window.onkeydown = (e) => {
+  if (e.keyCode === 32 || e.keyCode === 179)  {
+    console.log('hey')
+    e.preventDefault();
+    document.querySelector(".playPause").click();
+  }
+}
 
 if (process.env.NODE_ENV !== 'production') {
   window.store = store;

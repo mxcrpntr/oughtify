@@ -7,11 +7,18 @@ import { useEffect } from 'react';
 import PopularSongItem from './PopularSongItem';
 
 
-export const formatTime = (seconds) => 
-    new Date(seconds * 1000)
-        .toISOString()
-        .slice(11, 19)
-        .replace(/^0(?:0:0?)?/, '');
+export const formatTime = (seconds) => {
+    if (seconds && !isNaN(seconds)) {
+        return new Date(seconds * 1000)
+            .toISOString()
+            .slice(11, 19)
+            .replace(/^0(?:0:0?)?/, '');
+    } else if (seconds === 0) {
+        return '0:00';
+    } else {
+        return '-:--';
+    }
+} 
 
 
 export default function ArtistShow() {
