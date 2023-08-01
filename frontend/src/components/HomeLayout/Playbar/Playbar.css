@@ -195,3 +195,48 @@
     align-items: center;
 
 }
+
+.playbar .signUpBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(100% - 16px);
+    height: 72px;
+    margin: auto;
+    background: linear-gradient(to right, #B03D96, #509BF5);
+    cursor: pointer;
+}
+
+.playbar .signUpBarText {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 16px;
+}
+
+.playbar .signUpBarText h7 {
+    font-family: CircularSpotifyLight;
+    font-size: 12px;
+    color: #FFFFFF;
+}
+.playbar .signUpBarText h6 {
+    font-family: CircularSpotifyLight;
+    font-size: 16px;
+    color: #FFFFFF;
+}
+
+.playbar .signUpBar .barButtonContainer {
+    padding-right: 24px;
+}
+
+.playbar .signUpBar button {
+    background-color: #FFFFFF;
+    width: 153.81px;
+    height: 48px;
+    color: #000000;
+    font-size: 16px;
+    cursor: pointer;
+}

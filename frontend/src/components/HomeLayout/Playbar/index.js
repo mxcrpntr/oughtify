@@ -34,6 +34,7 @@ export default function Playbar() {
     });
     const [showVolumeKnob,setShowVolumeKnob] = useState(false);
 
+    const [previousVolume,setPreviousVolume] = useState(1);
 
     const [isDragging,setIsDragging] = useState(false);
 
@@ -81,7 +82,7 @@ export default function Playbar() {
 
     useEffect(() => {
         const updateTime = () => {
-            if (!isDragging) {
+            if (!isDragging && audioRef.current) {
                 const currentTime = audioRef.current.currentTime;
                 setCurrentSongTime(currentTime);
                 if (sessionUser?.queue?.[0]) sessionUser.queue[0][1] = currentTime;
@@ -132,35 +133,11 @@ export default function Playbar() {
                     console.log('Error playing audio:', error);
                 });;
             } else {
-                audioRef.current.pause();    
+                if (audioRef.current) audioRef.current.pause();    
             }
         }
         togglePlay();
     }, [paused])
-
-    // const togglePlay = async () => {
-    //     // setPaused(!paused);
-    //     if(audioRef?.current?.paused || paused) {
-    //         if (audioRef.current.readyState < 1) {
-    //             await new Promise((resolve) => {
-    //                 const handleCanPlayThrough = () => {
-    //                   resolve();
-    //                   audioRef.current.removeEventListener('canplaythrough', handleCanPlayThrough);
-    //                 };
-    //                 audioRef.current.addEventListener('canplaythrough', handleCanPlayThrough, { once: true });
-    //             });
-    //         }
-    //         audioRef.current.play().catch((error) => {
-    //             console.log('Error playing audio:', error);
-    //         });;
-    //         setPaused(false);
-    //     } else {
-
-    //             audioRef.current.pause();
-    //             setPaused(true);
-
-    //     }
-    // }
 
     const playCirc = () => {
         return <i class="fa-solid fa-circle-play"></i>;
@@ -227,10 +204,13 @@ export default function Playbar() {
             setVolumeRangeStyle({...volumeRangeStyle,backgroundColor: `#5FBA56`, width: `${volPercent}%`, transition: "none"});
             if (volPercent > 66) {
                 setVolumeSymbol(volumeHighSymbol());
+                setPreviousVolume(volPercent / 100);
             } else if (volPercent > 15) {
                 setVolumeSymbol(volumeMidSymbol());
+                setPreviousVolume(volPercent / 100);
             } else if (volPercent > 0) {
                 setVolumeSymbol(volumeLowSymbol());
+                setPreviousVolume(volPercent / 100);
             } else {
                 setVolumeSymbol(volumeOffSymbol());
             }
@@ -279,10 +259,13 @@ export default function Playbar() {
         audioRef.current.volume = volPercent / 100;
         if (volPercent > 66) {
             setVolumeSymbol(volumeHighSymbol());
+            setPreviousVolume(volPercent / 100);
         } else if (volPercent > 15) {
             setVolumeSymbol(volumeMidSymbol());
+            setPreviousVolume(volPercent / 100);
         } else if (volPercent > 0) {
             setVolumeSymbol(volumeLowSymbol());
+            setPreviousVolume(volPercent / 100);
         } else {
             setVolumeSymbol(volumeOffSymbol());
         }
@@ -318,10 +301,13 @@ export default function Playbar() {
         audioRef.current.volume = volPercent / 100;
         if (volPercent > 66) {
             setVolumeSymbol(volumeHighSymbol());
+            setPreviousVolume(volPercent / 100);
         } else if (volPercent > 15) {
             setVolumeSymbol(volumeMidSymbol());
+            setPreviousVolume(volPercent / 100);
         } else if (volPercent > 0) {
             setVolumeSymbol(volumeLowSymbol());
+            setPreviousVolume(volPercent / 100);
         } else {
             setVolumeSymbol(volumeOffSymbol());
         }
@@ -329,92 +315,131 @@ export default function Playbar() {
 
     return (
         <div className="playbar">
-            <section className="leftSide">
-                <div className="trackImage">
-                    <img src={currentSong?.imageUrl}></img>
-                </div>
-                <div className="trackInfo">
-                    <h3 onClick={() => {history.push(`/albums/${currentSong?.albumId}`)}}>{currentSong?.title ? currentSong.title : ""}</h3>
-                    <h4 onClick={() => {history.push(`/artists/${currentSong?.artistId}`)}}>{currentSong?.artistName ? currentSong.artistName : ""}</h4>
-                </div>
-                <div>
+            {sessionUser && (
+            <>
+                <section className="leftSide">
+                    {currentSong && (
+                        <>
+                            <div className="trackImage">
+                                <img src={currentSong?.imageUrl}></img>
+                            </div>
+                            <div className="trackInfo">
+                                <h3 onClick={() => {history.push(`/albums/${currentSong?.albumId}`)}}>{currentSong?.title ? currentSong.title : ""}</h3>
+                                <h4 onClick={() => {history.push(`/artists/${currentSong?.artistId}`)}}>{currentSong?.artistName ? currentSong.artistName : ""}</h4>
+                            </div>
+                            <div>
+                            <i class="fa-regular fa-heart"></i>
+                            </div>
+                            <div>
 
-                </div>
-                <div>
-
-                </div>
-            </section>
-            <section className="middle">
-                <div className="middleTop">
-                    <i class="fa-solid fa-shuffle"></i>
-                    <i class="fa-solid fa-backward-step"
-                        onClick={() => {audioRef.current.currentTime = 0}}>
-                    </i>
-                    <div className="playPause" onClick={() => {setPaused(!paused)}}>
-                        {audioRef?.current?.paused ? playCirc() : pauseCirc() }
+                            </div>
+                        </>
+                    )}
+                </section>
+                <section className="middle">
+                    <div className="middleTop">
+                        <i class="fa-solid fa-shuffle"></i>
+                        <i class="fa-solid fa-backward-step"
+                            onClick={() => {audioRef.current.currentTime = 0}}>
+                        </i>
+                        <div className="playPause" onClick={() => {setPaused(!paused)}}>
+                            {audioRef?.current?.paused ? playCirc() : pauseCirc() }
+                        </div>
+                        <i class="fa-solid fa-forward-step"
+                            onClick={() => {
+                                if (sessionUser.queue.length === 1) {
+                                    audioRef.current.currentTime = audioRef.current.duration;
+                                } else {
+                                    sessionUser.queue.shift();
+                                }
+                            }}>
+                        </i>
+                        <i class="fa-solid fa-repeat"></i>
+                        <audio onTimeUpdate={() => {}} src={audioSrc} ref={audioRef} preload="auto" />
                     </div>
-                    <i class="fa-solid fa-forward-step"
-                        onClick={() => {
-                            if (sessionUser.queue.length === 1) {
-                                audioRef.current.currentTime = audioRef.current.duration;
+                    <div className="middleBottom">
+                        <div>{formatTime(currentSongTime)}</div>
+                        <div className="trackContainer" draggable="true" ref={trackContainerRef}
+                                onMouseEnter={() => {
+                                    setShowKnob(true);
+                                    setRangeStyle({...rangeStyle,backgroundColor: `#5FBA56`});
+                                }}
+                                onMouseLeave={() => {
+                                    setShowKnob(false);
+                                    setRangeStyle({...rangeStyle,backgroundColor: `#FFFFFF`});
+                                }}
+                                onDragStart={handleDragStart}
+                                onDrag={handleDrag}
+                                onDragEnd={handleDragEnd}
+                                onClick={handleClick}>
+                            <div className="track" ref={trackRef}>
+                                <div className="knob" style={knobStyle} hidden={showKnob ? "" : "hidden"}></div>
+                                <div className="range" style={rangeStyle}></div>
+                            </div>
+                        </div>
+                        <div onClick={toggleDurationView}>
+                            {durationOrRemainder ?
+                                formatTime(audioRef?.current?.duration) :
+                                "-" + formatTime(audioRef?.current?.duration - currentSongTime)}
+                        </div>
+                        
+                    </div>
+                </section>
+                <section className="rightSide">
+                <div className="queueSymbol"><i class="fa-solid fa-list-ul"></i></div>
+                <div className="volumeSymbol"
+                    onClick={() => {
+                        if (audioRef.current.volume !== 0) {
+                            audioRef.current.volume = 0;
+                            setVolumeKnobStyle({...volumeKnobStyle, "left": 0});
+                            setVolumeRangeStyle({...volumeRangeStyle, "width": 0});
+                            setVolumeSymbol(volumeOffSymbol());
+                        } else {
+                            audioRef.current.volume = previousVolume;
+                            setVolumeKnobStyle({...volumeKnobStyle, "left": `${previousVolume * 100}%`});
+                            setVolumeRangeStyle({...volumeRangeStyle, "width": `${previousVolume * 100}%`});
+                            if (previousVolume <= .15) {
+                                setVolumeSymbol(volumeLowSymbol());
+                            } else if (previousVolume <= .66) {
+                                setVolumeSymbol(volumeMidSymbol());
                             } else {
-                                sessionUser.queue.shift();
+                                setVolumeSymbol(volumeHighSymbol());
                             }
-                        }}>
-                    </i>
-                    <i class="fa-solid fa-repeat"></i>
-                    <audio onTimeUpdate={() => {}} src={audioSrc} ref={audioRef} preload="auto" />
+                        }
+                        }}>{volumeSymbol}</div>
+                <div className="volumeTrackContainer" draggable="true" ref={volumeTrackContainerRef}
+                                onMouseEnter={() => {
+                                    setShowVolumeKnob(true);
+                                    setVolumeRangeStyle({...volumeRangeStyle,backgroundColor: `#5FBA56`});
+                                }}
+                                onMouseLeave={() => {
+                                    setShowVolumeKnob(false);
+                                    setVolumeRangeStyle({...volumeRangeStyle,backgroundColor: `#FFFFFF`});
+                                }}
+                                onDragStart={handleVolumeDragStart}
+                                onDrag={handleVolumeDrag}
+                                onDragEnd={handleVolumeDragEnd}
+                                onClick={handleVolumeClick}>
+                            <div className="volumeTrack" ref={volumeTrackRef}>
+                                <div className="volumeKnob" style={volumeKnobStyle} hidden={showVolumeKnob ? "" : "hidden"}></div>
+                                <div className="volumeRange" style={volumeRangeStyle}></div>
+                            </div>
                 </div>
-                <div className="middleBottom">
-                    <div>{formatTime(currentSongTime)}</div>
-                    <div className="trackContainer" draggable="true" ref={trackContainerRef}
-                            onMouseEnter={() => {
-                                setShowKnob(true);
-                                setRangeStyle({...rangeStyle,backgroundColor: `#5FBA56`});
-                            }}
-                            onMouseLeave={() => {
-                                setShowKnob(false);
-                                setRangeStyle({...rangeStyle,backgroundColor: `#FFFFFF`});
-                            }}
-                            onDragStart={handleDragStart}
-                            onDrag={handleDrag}
-                            onDragEnd={handleDragEnd}
-                            onClick={handleClick}>
-                        <div className="track" ref={trackRef}>
-                            <div className="knob" style={knobStyle} hidden={showKnob ? "" : "hidden"}></div>
-                            <div className="range" style={rangeStyle}></div>
-                        </div>
+                <div className="fullScreenSymbol"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></div>
+                </section>
+            </>
+            )}
+            {!sessionUser && (
+                <section className="signUpBar" onClick={()=>{history.push("/signup")}}>
+                    <div className="signUpBarText">
+                        <h7>PREVIEW OF OUGHTIFY</h7>
+                        <h6>Sign up to get unlimited songs with no ads. No credit card needed.</h6>
                     </div>
-                    <div onClick={toggleDurationView}>
-                        {durationOrRemainder ?
-                            formatTime(audioRef?.current?.duration) :
-                            "-" + formatTime(audioRef?.current?.duration - currentSongTime)}
+                    <div className="barButtonContainer">
+                        <button className="signUpBarButton">Sign up free</button>
                     </div>
-                    
-                </div>
-            </section>
-            <section className="rightSide">
-            <div className="volumeSymbol"
-                onClick={() => {audioRef.current.volume = 0; setVolumeKnobStyle({...volumeKnobStyle, "left": 0}); setVolumeRangeStyle({...volumeRangeStyle, "width": 0})}}>{volumeSymbol}</div>
-            <div className="volumeTrackContainer" draggable="true" ref={volumeTrackContainerRef}
-                            onMouseEnter={() => {
-                                setShowVolumeKnob(true);
-                                setVolumeRangeStyle({...volumeRangeStyle,backgroundColor: `#5FBA56`});
-                            }}
-                            onMouseLeave={() => {
-                                setShowVolumeKnob(false);
-                                setVolumeRangeStyle({...volumeRangeStyle,backgroundColor: `#FFFFFF`});
-                            }}
-                            onDragStart={handleVolumeDragStart}
-                            onDrag={handleVolumeDrag}
-                            onDragEnd={handleVolumeDragEnd}
-                            onClick={handleVolumeClick}>
-                        <div className="volumeTrack" ref={volumeTrackRef}>
-                            <div className="volumeKnob" style={volumeKnobStyle} hidden={showVolumeKnob ? "" : "hidden"}></div>
-                            <div className="volumeRange" style={volumeRangeStyle}></div>
-                        </div>
-                    </div>
-            </section>
+                </section>
+            )}
         </div>
     )
 }

@@ -14,7 +14,8 @@ window.signUpErrors = signUpErrors;
 window.onkeydown = (e) => {
   if (e.keyCode === 32 || e.keyCode === 179)  {
     e.preventDefault();
-    document.querySelector(".playPause").click();
+    const playPause = document.querySelector(".playPause");
+    if (playPause) playPause.click();
   }
 }
 

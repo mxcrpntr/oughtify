@@ -53,6 +53,19 @@ export default function TrackListItem({song,artist,songsForQueue}) {
         }
     }
 
+    const displayNumberPlay = () => {
+        if (song.id === currentSong?.id) {
+            const audio = document.querySelector("audio");
+            if (audio.paused) {
+                return numberPlay;
+            } else {
+                return spinningDiscSymbol();
+            }
+        } else {
+            return numberPlay;
+        }
+    }
+
     return (
         <>
         { song.id !== currentSong?.id && (

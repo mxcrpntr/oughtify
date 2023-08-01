@@ -29,6 +29,10 @@ div.home h2 a:hover {
     text-decoration: underline;
 }
 
+div.home .userGreeting {
+    font-size: 32px;
+}
+
 .artistGrid {
     /* display: flex;
     flex-wrap: wrap;

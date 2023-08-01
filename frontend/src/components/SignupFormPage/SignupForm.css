@@ -34,9 +34,10 @@ form span.radio {
 form h1,form  h2,form  h4 {
     text-align: center;
 }
-form h1 {
+form.signUpForm h1 {
     font-size: 32px;
     letter-spacing: -2px;
+    color: #000000;
 }
 form h4 {
     font-size: 11px;
@@ -127,7 +128,7 @@ form .yearInput {
     width: 25%;
 }
 
-form .signUpBody {
+.signUpBody {
     background-color: #ffffff;
 }
 

@@ -158,7 +158,8 @@ div.home .popularSongs > table  img {
 
 .artistHeaders h1 {
     font-size: 100px;
-    font-family: CircularSpotifyBook;
+    font-family: CircularSpotifyBold;
+    letter-spacing: -5px;
     white-space: nowrap;
     margin: 0;
 }
@@ -170,6 +171,10 @@ div.home .popularSongs > table  img {
     font-family: CircularSpotifyLight;
     font-size: 16px;
     margin: 0;
+}
+.artistHeaders h4:hover {
+    text-decoration: none;
+    cursor: text;
 }
 .fa-circle-check {
     color: #3D91F4;

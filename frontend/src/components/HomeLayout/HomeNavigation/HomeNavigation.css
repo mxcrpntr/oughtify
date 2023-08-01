@@ -94,6 +94,7 @@
     border-radius: 500px;
     vertical-align: middle;
     color: #FFFFFF;
+    cursor: not-allowed;
 }
 .homeNavigation .profile {
     font-size: 16px;

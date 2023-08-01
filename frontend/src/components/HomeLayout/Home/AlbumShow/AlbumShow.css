@@ -39,6 +39,7 @@ div.home .albumHeaders {
 .albumHeaders h1 {
     font-family: CircularSpotifyMedium;
     font-size: 80px;
+    letter-spacing: -4px;
     white-space: nowrap;
 }
 .albumHeaders h4, a {

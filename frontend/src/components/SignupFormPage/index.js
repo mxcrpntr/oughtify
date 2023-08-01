@@ -86,7 +86,7 @@ export default function SignupFormPage() {
     }
 
         return (
-        <form onSubmit={handleSubmit} noValidate>
+        <form onSubmit={handleSubmit} noValidate className="signUpForm">
             <SpotifyLogoSVG />
             <h1>Sign up for free to start listening.</h1>
             <label>What's your email?

@@ -46,7 +46,7 @@ export default function AlbumShow() {
 
     useEffect(()=> {
         dispatch(fetchAlbum(albumId));
-    },[])
+    },[albumId])
 
     const songsForTracklist = Object.values(songs)
         .sort((a,b) => a.number - b.number)
