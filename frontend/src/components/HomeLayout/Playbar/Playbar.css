@@ -13,6 +13,46 @@
     color: #FDFDFD;
     z-index: 2;
 }
+
+.playbar .leftSide {
+    padding: 12px;
+    height: 75%;
+    width: 31%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+}
+.playbar .leftSide img {
+    height: 56px;
+    width: 56px;
+    border-radius: 4px;
+}
+.playbar .leftSide .trackImage {
+    padding-left: 4px;
+}
+.playbar .leftSide .trackInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 8px;
+}
+.playbar .leftSide h3{
+    font-family: CircularSpotifyLight;
+    color: #FFFFFF;
+    font-size: 14px;
+}
+.playbar .leftSide h4 {
+    font-family: CircularSpotifyLight;
+    color: #B3B3B3;
+    font-size: 11px;
+}
+.playbar .leftSide h3:hover, h4:hover {
+    text-decoration: underline;
+    color: #FFFFFF;
+    cursor: pointer;
+}
 .playbar .middle {
     padding: 12px;
     height: 75%;
@@ -20,6 +60,16 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+}
+
+.playbar .rightSide {
+    padding: 12px;
+    height: 75%;
+    width: 31%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .playbar .middleTop {
@@ -100,4 +150,48 @@
 .playbar .middleBottom > div:last-child {
     width: 40px;
     text-align: left;
+}
+
+.playbar .volumeTrackContainer {
+    width: 93px;
+    height: 12px;
+    margin-left: 8px;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+}
+.playbar .volumeTrack {
+    position: relative;
+    height: 4px;
+    width: 100%;
+    background: #4D4D4D;
+    border-radius: 4px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+.playbar .volumeKnob {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+    margin-top: -1px;
+    transform: translate(-25%, -25%);
+    z-index: 4;
+}
+.playbar .volumeRange {
+    position: absolute;
+    height: 4px;
+    background: #FFFFFF;
+    border-radius: 4px;
+    z-index: 3;
+}
+
+.playbar .volumeSymbol {
+    width: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
 }

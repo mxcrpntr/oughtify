@@ -2,3 +2,12 @@
 div.home:first-child {
     /* padding-top: 66px; */
 }
+
+div.home .artistGridHeader > a {
+    font-family: CircularSpotifyMedium;
+    font-size: 32px;
+}
+
+div.home .artistGrid li {
+    font-family: CircularSpotifyBook;
+}

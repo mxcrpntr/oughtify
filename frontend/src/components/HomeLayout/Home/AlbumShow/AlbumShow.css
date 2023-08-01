@@ -38,13 +38,16 @@ div.home .albumHeaders {
 }
 .albumHeaders h1 {
     font-family: CircularSpotifyMedium;
-    font-size: 60px;
+    font-size: 80px;
+    white-space: nowrap;
 }
 .albumHeaders h4, a {
     font-family: CircularSpotifyBook;
+    font-size: 14px;
 }
 .albumHeaders h5 {
     font-family: CircularSpotifyLight;
+    font-size: 14px;
     vertical-align: middle;
     display: flex;
     flex-direction: row;
@@ -179,4 +182,10 @@ div.home .moreBy ul:hover {
     text-align: left;
     color: #FFFFFF;
     padding-left: 16px;
+}
+
+.moreBy {
+    margin-top: 16px;
+    margin-left: -22px;
+    margin-right: -22px;
 }

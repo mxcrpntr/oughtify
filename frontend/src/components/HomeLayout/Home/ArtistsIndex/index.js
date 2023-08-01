@@ -9,7 +9,6 @@ export default function ArtistsIndex() {
 
     const dispatch = useDispatch();
     const {artists} = useSelector(getArtists);
-    console.log(useSelector(getArtists))
 
     const topPadding = {
         paddingTop: `66px`,
@@ -24,7 +23,7 @@ export default function ArtistsIndex() {
         <>
         {artists && (
             <>
-            <h2 style={topPadding}><Link to="/home">Artists</Link></h2>
+            <h2 style={topPadding} class="artistGridHeader"><Link to="/home">Artists</Link></h2>
             <div className="artistGrid">
                 {
                 Object.values(artists).map(artist => {

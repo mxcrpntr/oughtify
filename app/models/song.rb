@@ -3,5 +3,7 @@ class Song < ApplicationRecord
     validates :title, length: { in: 1..60 }
     validates :number, uniqueness: {scope: :album_id}
 
+    has_one_attached :file
+
     belongs_to :album
 end

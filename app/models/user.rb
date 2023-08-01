@@ -1,8 +1,9 @@
 class User < ApplicationRecord
-    before_validation :ensure_session_token
+    before_validation :ensure_session_token, :ensure_queue
 
     has_secure_password
-    validates :email, :name, :password_digest, :session_token, :birth_date, :queue, presence: true
+    validates :queue, exclusion: { in: [nil] }
+    validates :email, :name, :password_digest, :session_token, :birth_date, presence: true
     validates :email, :name, :session_token, uniqueness: true
     validates :name, length: { in: 1..30 }, format: { without: URI::MailTo::EMAIL_REGEXP, message:  "Name can't be an email" }
     validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
@@ -39,6 +40,10 @@ class User < ApplicationRecord
         self.session_token = generate_unique_session_token
         self.save!
         self.session_token
+    end
+
+    def ensure_queue
+        self.queue ||= [];
     end
 
     # def validate_birth_date

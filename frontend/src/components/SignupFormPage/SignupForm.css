@@ -4,58 +4,58 @@ form {
     width: 450px;
     margin: auto;
 }
-ul {
+form ul {
     list-style-type: none;
     font-family: CircularSpotifyBook;
     /* letter-spacing: .5px; */
 }
-.svg {
+form .svg {
     height: 27px;
 }
-h1, h2, h4, input, label, button, select, option {
+form h1, form h2,form  h4, form input, form label, form button, form select, form option {
     font-family: CircularSpotifyMedium;
 }
-h1, h2, h4 {
+form h1, form h2, form h4 {
     margin: 16px 0;
 }
-label {
+form label {
     font-family: CircularSpotifyBold;
     padding: 8px 0;
 }
-input[type="radio"] {
+form input[type="radio"] {
     margin: 0 6px 0 3px;
     vertical-align: middle;
     height: 16px;
     width: 16px;
 }
-span.radio {
+form span.radio {
     margin: 0 20px 0 0px;
 }
-h1, h2, h4 {
+form h1,form  h2,form  h4 {
     text-align: center;
 }
-h1 {
+form h1 {
     font-size: 32px;
     letter-spacing: -2px;
 }
-h4 {
+form h4 {
     font-size: 11px;
     font-family: CircularSpotifyBook;
 }
-h2 {
+form h2 {
     font-size: 16px;
     font-family: CircularSpotifyBook;
 }
-label, li {
+form label,form  li {
     font-size: 14px;
 }
 form > label {
     padding: 24px 0 0 0 ;
 }
-a {
+form a {
     color: #74E167;
 }
-li {
+form li {
     color: #ff0000;
 }
 button {
@@ -72,10 +72,10 @@ button:hover {
     background-color: #74E167;
     transform: scale(1.03);
 }
-input[type="radio"] {
+form input[type="radio"] {
     color: #74E167;
  }
-.textInput, select {
+ form .textInput, form select {
     -webkit-appearance: none;
     -moz-appearance: none;
     height: 48px;
@@ -87,51 +87,51 @@ input[type="radio"] {
     font-size: 16px;
     width: 100%;
 }
-input:focus {
+form input:focus {
     outline: none;
     border-width: 2px;
     border-color: #000000;
 }
-.red:focus {
+form .red:focus {
     border-color: #ff0000;
 }
-.red {
+form .red {
     border-color: #ff0000;
 }
-.emailError, .passwordError, .nameError, .monthError, .dayError, .yearError {
+form .emailError,form  .passwordError,form  .nameError,form  .monthError,form  .dayError,form  .yearError {
     font-family: CircularSpotifyBook;
     font-size: 14px;
     letter-spacing: -.1px;
     padding-inline: 8px;
     color:#ff0000;
 }
-select:invalid, option[value=""] {
+form select:invalid, form option[value=""] {
     color: gray;
 }
-.birthDate {
+form .birthDate {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
-.birthDate > label {
+form .birthDate > label {
     display: flex;
     flex-direction: column;
 }
-.monthInput {
+form .monthInput {
     width: 45%;
 }
-.dayInput {
+form .dayInput {
     width: 20%;
 }
-.yearInput {
+form .yearInput {
     width: 25%;
 }
 
-.signUpBody {
+form .signUpBody {
     background-color: #ffffff;
 }
 
-.book {
+form .book {
     font-family: CircularSpotifyBook;
     padding-inline: 8px;
     font-size: 14px;

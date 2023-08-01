@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 
 export default function ArtistsIndexItem({artist}) {
     const history = useHistory();
-    console.log(artist)
 
     return (
         <ul onClick={()=> {history.push(`/artists/${artist.id}`)}}>

@@ -14,6 +14,15 @@ export default function AlbumShow() {
 
     const {albumId} = useParams();
 
+    const sessionUser = useSelector(state => state.session.user);
+
+    
+    let currentSong = sessionUser?.queue[0]?.[0]
+
+    useEffect(() => {
+        currentSong = sessionUser?.queue[0]?.[0]
+    }, [sessionUser])
+
     const album = useSelector(getAlbum(albumId));
     const artist = useSelector(getArtist(album.artistId))
     const songs = useSelector(getSongs);
@@ -39,6 +48,17 @@ export default function AlbumShow() {
         dispatch(fetchAlbum(albumId));
     },[])
 
+    const songsForTracklist = Object.values(songs)
+        .sort((a,b) => a.number - b.number)
+
+    const songsForQueue = songsForTracklist
+        .map(song => [song,0])
+
+    for (let i = 0; i < songsForQueue.length; i++) {
+        songsForQueue[i][0].artistName = artist.name;
+        songsForQueue[i][0].artistId = artist.id;
+        songsForQueue[i][0].imageUrl = album.imageUrl;
+    }
     
     return (
         <>
@@ -68,7 +88,20 @@ export default function AlbumShow() {
             <div className='opaqueBkgd-2'>
                 <div className='trackList'>
                 <span className="bigButtons">
-                    <button className="bigPlay"><i class="fa-solid fa-play"></i></button>
+                    <button className="bigPlay" onClick={() => {
+                    if (sessionUser) {
+                        sessionUser.queue = songsForQueue
+                        const audio = document.querySelector("audio")
+                        audio.currentTime = sessionUser.queue?.[0]?.[1] ? sessionUser.queue[0][1] : 0
+                        if (audio.paused) {
+                            document.querySelector(".playPause").click()
+                        }
+                    }
+                    }}>{ currentSong?.albumId === albumId
+                        // && !document.querySelector("audio")?.paused
+                        ?
+                    (<i class="fa-solid fa-pause"></i>) :
+                    (<i class="fa-solid fa-play"></i>)}</button>
                     <span className="bigHeart"><i class="fa-regular fa-heart"></i></span>
                     <span className="bigDots"><i class="fa-solid fa-ellipsis"></i></span>
                 </span>
@@ -84,7 +117,7 @@ export default function AlbumShow() {
                             <td>{invisibleEllipsisSymbol()}</td>
                         </tr>
                         <hr></hr>
-                        {Object.values(songs).map(song => {
+                        {songsForTracklist.map(song => {
                             return (
                                 // <tr>
                                 // <td>{song.number}</td>
@@ -96,12 +129,14 @@ export default function AlbumShow() {
                                 // </td>
                                 //     <td>{song.lenth}</td>
                                 // </tr>
-                                <TrackListItem song={song} artist={artist} />
+                                <TrackListItem
+                                    song={song}
+                                    artist={artist}
+                                    songsForQueue={songsForQueue.filter(entry => entry[0].number >= song.number)} />
                             )
                         })}
 
                     </table>
-                </div>
                 <div className='moreBy'>
                     {Object.keys(moreAlbums).length > 0 && (
                         <>
@@ -109,6 +144,7 @@ export default function AlbumShow() {
                             <AlbumsIndex albums={moreAlbums} />
                         </>
                     )}
+                </div>
                 </div>
             </div>
             </>

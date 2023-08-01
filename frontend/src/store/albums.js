@@ -38,11 +38,18 @@ export const fetchAlbum = (albumId) => async dispatch => {
     const res = await fetch(`api/albums/${albumId}`)
     if (res.ok) {
         const data = await res.json();
-        console.log(data)
         dispatch(receiveAlbum(data.album));
         dispatch(receiveArtist(data.artist));
         dispatch(receiveSongs(data.songs));
         if (data.albums) dispatch(receiveAlbums(data.albums));
+    }
+}
+
+export const fetchAlbums = () => async dispatch => {
+    const res = await fetch(`api/albums/`)
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(receiveAlbums(data));
     }
 }
 

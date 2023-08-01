@@ -99,6 +99,8 @@ div.home .popularSongs > table > tr {
     font-size: 24px;
     text-align: left;
     color: #FFFFFF;
+    padding-top: 12px;
+    padding-bottom: 12px;
 }
 .popularSongs .col1 {
     text-align: right;
@@ -129,6 +131,8 @@ div.home .popularSongs > table > tr:hover {
 
 div.home .popularSongs > table a {
     color: #FFFFFF;
+    font-family: CircularSpotifyLight;
+    font-size: 16px;
     text-decoration: none;
 }
 div.home .popularSongs > table a:hover {
@@ -152,15 +156,18 @@ div.home .popularSongs > table  img {
     box-shadow: none;
 }
 
-h1 {
+.artistHeaders h1 {
     font-size: 100px;
+    font-family: CircularSpotifyBook;
     white-space: nowrap;
     margin: 0;
 }
-h5 {
+.artistHeaders h5 {
     font-size: 14px;
+    font-family: CircularSpotifyLight;
 }
-h4 {
+.artistHeaders h4 {
+    font-family: CircularSpotifyLight;
     font-size: 16px;
     margin: 0;
 }

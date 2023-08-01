@@ -7,7 +7,7 @@ export default function AlbumsIndexItem({album}) {
         <ul onClick={()=> {history.push(`/albums/${album?.id}`)}}>
             <li><img src={album?.imageUrl}></img></li>
             <li className="albumName">{album?.title}</li>
-            <li className="albumYear">{album?.date.substr(0,4)} · Album</li>
+            <li className="albumYear">{album?.date?.substr(0,4)} · Album</li>
         </ul>
     )
 }

@@ -1,4 +1,6 @@
 class Album < ApplicationRecord
+    attr_accessor :length
+
     before_validation :ensure_date
 
     validates :title, length: { in: 1..60 }, presence: true

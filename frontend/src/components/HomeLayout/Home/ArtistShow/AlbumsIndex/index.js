@@ -6,12 +6,7 @@ export default function AlbumsIndex({albums}) {
     // const topPadding = {
     //     paddingTop: `66px`,
     // }
-    console.log(albums)
-    if (albums) {
-        Object.values(albums).map(album => {
-            console.log(album)
-        })
-    }
+
 
     return (
         <>

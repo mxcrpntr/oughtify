@@ -62,7 +62,7 @@
     text-overflow: ellipsis;
 }
 
-.library h3, h4 {
+.library h3, .library h4 {
     max-width: 95%;
     font-family: CircularSpotifyLight;
     font-weight: bold;

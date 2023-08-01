@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { formatTime } from "../../ArtistShow";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 
 const playSymbol = () => {
     return <i class="fa-solid fa-play" style={{color: "#FFFFFF"}}></i>;
 }
 const heartSymbol = () => {
-    return <Link to="/"><i class="fa-regular fa-heart" style={{"font-size": "16px"}}></i></Link>;
+    return <Link to="/"><i class="fa-regular fa-heart" style={{fontSize: "16px"}}></i></Link>;
 }
 const pauseSymbol = () => {
     return <i class="fa-solid fa-pause" style={{color: "#FFFFFF"}}></i>;
@@ -22,16 +23,39 @@ export const invisibleEllipsisSymbol = () => {
     return <i class="fa-solid fa-ellipsis" style={{opacity: 0}}></i>;
 }
 
-export default function TrackListItem({song,artist}) {
+export default function TrackListItem({song,artist,songsForQueue}) {
     const [numberPlay, setNumberPlay] = useState(song.number);
     const [heart, setHeart] = useState("");
-    const [ellipsis,setEllipsis] = useState("");
+    const [ellipsis,setEllipsis] = useState(invisibleEllipsisSymbol());
+    const sessionUser = useSelector(state => state.session.user);
+    const [greenText,setGreenText] = useState({color: "#FFFFFF"});
 
+    let currentSong = sessionUser?.queue?.[0]?.[0]
 
+    useEffect(() => {
+        const audio = document.querySelector("audio");
+        currentSong = sessionUser?.queue?.[0]?.[0]
+        if (song.id === currentSong?.id) {
+            setGreenText({color: "#1ED760"})
+        } else {
+            setGreenText({color: "#FFFFFF"})
+        }
+    }, [sessionUser?.queue?.[0]])
+
+    const handleTrackClick = () => {
+        if (sessionUser) {
+            if (song.id !== currentSong?.id) {
+                sessionUser.queue = songsForQueue;
+                const audio = document.querySelector("audio");
+                audio.currentTime = sessionUser.queue?.[0]?.[1] ? sessionUser.queue[0][1] : 0;
+            }
+            document.querySelector(".playPause").click()
+        }
+    }
 
     return (
         <>
-        { song.id !== 1 && (
+        { song.id !== currentSong?.id && (
             <tr
                 onMouseEnter={() => {
                     setNumberPlay(playSymbol());
@@ -43,10 +67,12 @@ export default function TrackListItem({song,artist}) {
                     setHeart("");
                     setEllipsis(invisibleEllipsisSymbol());
                 }}>
-                <td>{numberPlay}</td>
+                <td style={greenText} onClick={handleTrackClick}>
+                    {numberPlay}
+                </td>
                 <td>
                     <ul>
-                        <li>{song.title}</li>
+                        <li style={greenText}>{song.title}</li>
                         <li><Link to={`/artists/${artist.id}`}>{artist.name}</Link></li>
                     </ul>
                 </td>
@@ -55,7 +81,7 @@ export default function TrackListItem({song,artist}) {
                 <td>{ellipsis}</td>
             </tr>
         )}
-        {song.id === 1 && (
+        {song.id === currentSong?.id && (
             <tr
                 onMouseEnter={() => {
                     setNumberPlay(pauseSymbol());
@@ -67,10 +93,12 @@ export default function TrackListItem({song,artist}) {
                     setHeart("");
                     setEllipsis(invisibleEllipsisSymbol());
                 }}>
-                <td style={{color: "#1ED760"}}>{numberPlay}</td>
+                <td style={greenText} onClick={() => {
+                        document.querySelector(".playPause").click()
+                    }}>{numberPlay}</td>
                 <td>
                     <ul>
-                        <li style={{"font-family": "CircularSpotifyBook","font-size": "16px", color: "#1ED760"}}>{song.title}</li>
+                        <li style={greenText}>{song.title}</li>
                         <li><Link to={`/artists/${artist.id}`}>{artist.name}</Link></li>
                     </ul>
                 </td>

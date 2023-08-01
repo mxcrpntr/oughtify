@@ -66,7 +66,7 @@ export default function ArtistShow() {
                     <h2>Popular</h2>
                     <table>
                         {[1,2,3,4,5].map(i=>{
-                            return <PopularSongItem i={i} songs={songs} albums={albums}/>
+                            return <PopularSongItem i={i} songs={Object.values(songs)} albums={albums}/>
                         })}
 
                     </table>

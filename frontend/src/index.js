@@ -13,7 +13,6 @@ const store = configureStore();
 window.signUpErrors = signUpErrors;
 window.onkeydown = (e) => {
   if (e.keyCode === 32 || e.keyCode === 179)  {
-    console.log('hey')
     e.preventDefault();
     document.querySelector(".playPause").click();
   }
