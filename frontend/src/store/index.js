@@ -5,6 +5,8 @@ import sessionReducer from './session';
 import artistsReducer from './artists';
 import albumsReducer from './albums';
 import songsReducer from './songs';
+import playlistsReducer from './playlists';
+import playlistSongsReducer from './playlistSongs';
 // import configureStore from '@reduxjs/toolkit';
 
 
@@ -13,7 +15,9 @@ const rootReducer = combineReducers({
   session: sessionReducer, 
   artists: artistsReducer, 
   albums: albumsReducer,
-  songs: songsReducer
+  songs: songsReducer,
+  playlists: playlistsReducer,
+  playlistSongs: playlistSongsReducer
 })
 
 let enhancer;

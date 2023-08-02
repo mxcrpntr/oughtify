@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_31_194712) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_01_191202) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,6 +49,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_31_194712) do
     t.date "date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "color", default: "#121212", null: false
     t.index ["artist_id"], name: "index_albums_on_artist_id"
     t.index ["title"], name: "index_albums_on_title"
   end
@@ -59,6 +60,27 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_31_194712) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_artists_on_name"
+  end
+
+  create_table "playlist_songs", force: :cascade do |t|
+    t.bigint "playlist_id", null: false
+    t.bigint "song_id", null: false
+    t.integer "song_number", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["playlist_id", "song_number"], name: "index_playlist_songs_on_playlist_id_and_song_number", unique: true
+    t.index ["playlist_id"], name: "index_playlist_songs_on_playlist_id"
+    t.index ["song_id"], name: "index_playlist_songs_on_song_id"
+  end
+
+  create_table "playlists", force: :cascade do |t|
+    t.string "title", null: false
+    t.bigint "user_id", null: false
+    t.boolean "public", default: true, null: false
+    t.string "color", default: "#121212", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_playlists_on_user_id"
   end
 
   create_table "songs", force: :cascade do |t|

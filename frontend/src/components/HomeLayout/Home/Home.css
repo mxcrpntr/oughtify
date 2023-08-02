@@ -33,17 +33,14 @@ div.home .userGreeting {
     font-size: 32px;
 }
 
-.artistGrid {
-    /* display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start; */
+.artistGrid, .playlistGrid {
     margin: 12px;
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(240px, 1fr));
 }
 
-div.home .artistGrid ul {
-        /* flex: 0 0 auto; */
+
+div.home .artistGrid ul, div.home .playlistGrid ul {
     margin: 8px;
     padding: 16px;
     max-width: 300px;
@@ -51,13 +48,11 @@ div.home .artistGrid ul {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    /* align-items: center; */
     border-radius: 4px;
     cursor: pointer;
 }
 
 div.home .albumGrid ul {
-    /* flex: 0 0 auto; */
     margin: 8px;
     padding: 16px;
     max-width: 260px;
@@ -65,7 +60,6 @@ div.home .albumGrid ul {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    /* align-items: center; */
     border-radius: 4px;
     cursor: pointer;
     gap: 16px;
@@ -73,30 +67,25 @@ div.home .albumGrid ul {
 }
 
 
-div.home li.artistName {
+div.home li.artistName, div.home li.albumName, div.home li.playlistTitle {
     white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis;
 }
-div.home li.albumName {
-    white-space: nowrap; 
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-div.home .artistGrid li + li {
+div.home .artistGrid li + li, div.home .playlistGrid li + li {
     color: #FFFFFF;
     padding-top: 16px;
     padding-bottom: 16px;
     font-size: 16px;
 }
-div.home .artistGrid ul:hover {
+div.home .artistGrid ul:hover, div.home .playlistGrid ul:hover{
     background-color: #282828;
 }
 div.home .albumGrid ul:hover {
     background-color: #282828;
 }
 
-div.home .artistGrid ul img {
+div.home .artistGrid ul img, div.home .playlistGrid ul img {
     border-radius: 4px;
     width: 100%;
     height: auto;

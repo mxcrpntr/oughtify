@@ -18,7 +18,7 @@ ApplicationRecord.transaction do
     # For easy testing, so that after seeding, the first `User` has `id` of 1
     ApplicationRecord.connection.reset_pk_sequence!('users')
   
-    puts "Creating users..."
+    puts "Creating demo user..."
     # Create one user with an easy to remember username, email, and password:
     demo_user = User.create!({
       name: 'Demo-lition', 
@@ -27,8 +27,12 @@ ApplicationRecord.transaction do
       birth_date: Date.new(2020,2,2),
       queue: [""]
     })
-    demo_user.queue = []
+    # demo_user.queue = []
+    # demo_user.save!
     # More users
+
+    puts "Creating dummy users..."
+
     10.times do 
       fake_user = User.create!({
         name: Faker::Internet.unique.username(specifier: 3),
@@ -37,8 +41,11 @@ ApplicationRecord.transaction do
         birth_date: Date.new(2020,2,2),
         queue: [""]
       })
-      fake_user.queue = []
+      # fake_user.queue = []
+      # fake_user.save!
     end
+
+    puts "Creating artists..."
 
     joni_mitchell = Artist.create!({
       name: 'Joni Mitchell',
@@ -52,6 +59,8 @@ ApplicationRecord.transaction do
 
     joni_banner = URI.open("https://americansongwriter.com/wp-content/uploads/2022/07/Joni-Mitchell-by-Norman-Seeff.jpg?fit=2000%2C800")
     joni_mitchell.banner_image.attach(io: joni_banner, filename: 'joni_banner.jpg')
+
+    puts "Creating albums and songs..."
 
     seagull = Album.create!({
       title: 'Song to a Seagull',
@@ -122,6 +131,34 @@ ApplicationRecord.transaction do
       court_song.file.attach(io: court_song_file, filename: "court_and_spark_#{i+1}.mp3")
     end
 
+    puts "Creating five dummy playlists..."
+
+    all_users = User.all
+    all_songs = Song.all
+
+    5.times do
+      random_user = all_users.sample
+      test_playlist = Playlist.create({
+        title: "Untitled Playlist",
+        user_id: random_user.id,
+        public: true
+      })
+      i = 1
+      while i <= 5 do
+        test_playlist_song = PlaylistSong.create({
+          playlist_id: test_playlist.id,
+          song_id: all_songs.sample.id,
+          song_number: i
+        })
+        # if i == 1
+        #   first_song = Song.find(test_playlist_song.song_id)
+        #   first_song_album = Album.find(first_song.album_id)
+        #   test_playlist_image = URI.open(first_song_album.image.url)
+        #   test_playlist.image.attach(io: test_playlist_image, filename: "test_playlist_#{SecureRandom.hex}.jpg")
+        # end
+        i += 1
+      end
+    end
 
     puts "Done!"
   end

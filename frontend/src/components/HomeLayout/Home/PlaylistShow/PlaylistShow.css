@@ -1,0 +1,175 @@
+div.home .playlistShowTop {
+    position: absolute;
+    width: inherit;
+    height: 340px;
+    z-index: 1;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+div.home .playlistImage > img {
+    width: 200px;
+    height: 200px;
+    box-shadow: 0px 0px 30px -5px rgba(0, 0, 0, 1);
+}
+div.home .playlistImage > img:hover {
+    transform: scale(1.03);
+}
+div.home .playlistImage {
+    margin: 0 0 30px 30px;
+}
+div.home .playlistHeaders {
+    margin: 0 0 30px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+.playlistHeaders h4, h5, h1, a {
+    text-decoration: none;
+    color: #FFFFFF;
+    /* box-shadow: 0px 0px 30px -5px rgba(0, 0, 0, 1); */
+    background: transparent;
+}
+.playlistHeaders h1 {
+    font-family: CircularSpotifyMedium;
+    font-size: 80px;
+    letter-spacing: -4px;
+    white-space: nowrap;
+}
+.playlistHeaders h4, a {
+    font-family: CircularSpotifyBook;
+    font-size: 14px;
+}
+.playlistHeaders h5 {
+    font-family: CircularSpotifyLight;
+    font-size: 14px;
+    vertical-align: middle;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.playlistHeaders a:hover {
+    text-decoration: underline;
+}
+.playlistHeaders h5 > img {
+    width: 24px;
+    height: auto;
+    border-radius: 500px;
+    margin-top: -2px;
+    margin-right: 2px;
+}
+.playlistHeaders .playlistLength {
+    font-family: CircularSpotifyLight;
+    color: #FFFFFF;
+}
+div.home .opaqueBkgd-2 {
+    background-image: linear-gradient(to bottom, rgb(247, 193, 121), rgba(18, 18, 18, 1));
+}
+.playlistTrackList {
+    position: relative;
+    width: calc(100% - 44px);
+    padding: 22px;
+    margin: auto;
+    background-color: rgba(18, 18, 18, .85);
+    margin-top: 356px;
+    color: #B3B3B3;
+    font-family: CircularSpotifyLight;
+    font-size: 14px;
+}
+.playlistTrackList span.bigButtons {
+    vertical-align: middle;
+}
+.playlistTrackList button.bigPlay {
+    width: 56px;
+    height: 56px;
+    font-size: 24px;
+    vertical-align: middle;
+}
+.playlistTrackList button.bigPlay > i {
+    padding-left: 2px;
+}
+.playlistTrackList .bigHeart {
+    padding-left: 24px;
+    font-size: 32px;
+    width: 56px;
+    height: 56px;
+    vertical-align: middle;
+}
+.playlistTrackList .bigHeart > i:hover {
+    color: #FFFFFF;
+}
+.playlistTrackList .bigDots {
+    padding-left: 24px;
+    font-size: 24px;
+    vertical-align: middle;
+}
+.playlistTrackList .bigDots > i:hover {
+    color: #FFFFFF;
+}
+.playlistTrackList hr {
+    width: 100%;
+    height: 1px;
+    border: none;
+    background-color: #B3B3B3;
+    opacity: .2;
+}
+.playlistTrackList > table {
+    width: 100%;
+    padding: 16px;
+}
+
+.playlistTrackList > table > tr{
+    width: 100%;
+    display: grid;
+    grid-template-columns: .5fr 6fr 5fr 5fr .5fr 1fr .35fr;
+    align-items: center;
+    gap: 16px;
+    height: 56px;
+    border-radius: 4px;
+}
+.playlistTrackList > table > tr:hover {
+    background-color: #282828;
+}
+.playlistTrackList > table > tr:first-child {
+    background-color: transparent;
+    height: 36px;
+    align-items: flex-end;
+}
+
+.playlistTrackList > table > tr > td:first-child{
+    font-size: 16px;
+    text-align: right;
+}
+.playlistTrackList > table > tr > td:nth-child(4){
+    text-align: right;
+}
+.playlistTrackList > table > tr > td:last-child{
+    text-align: left;
+    padding-right: 16px;
+}
+
+.playlistTrackList > table ul > li:first-child{
+    font-family: CircularSpotifyLight;
+    font-size: 16px;
+    color: #FFFFFF;
+}
+.playlistTrackList > table ul a{
+    font-family: CircularSpotifyLight;
+    font-size: 14px;
+    color: #B3B3B3;
+    text-decoration: none;
+}
+.playlistTrackList > table ul a:hover{
+    text-decoration: underline;
+}
+.playlistTrackList > table ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}

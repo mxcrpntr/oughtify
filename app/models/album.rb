@@ -4,7 +4,8 @@ class Album < ApplicationRecord
     before_validation :ensure_date
 
     validates :title, length: { in: 1..60 }, presence: true
-    validates :year, :date, presence: true 
+    validates :year, :date, :color, presence: true 
+    validates_format_of :color, with: /\A#?(?:[A-F0-9]{3}){1,2}\z/i
 
     has_one_attached :image
 
