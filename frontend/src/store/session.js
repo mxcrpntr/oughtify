@@ -1,4 +1,5 @@
 import csrfFetch from './csrf';
+import { RECEIVE_USER } from './users';
 
 const SET_CURRENT_USER = 'session/SET_CURRENT_USER';
 const REMOVE_CURRENT_USER = 'session/REMOVE_CURRENT_USER';
@@ -17,7 +18,7 @@ const storeCSRFToken = response => {
     if (csrfToken) sessionStorage.setItem("X-CSRF-Token", csrfToken);
 }
   
-const storeCurrentUser = user => {
+export const storeCurrentUser = user => {
     if (user) sessionStorage.setItem("currentUser", JSON.stringify(user));
     else sessionStorage.removeItem("currentUser");
 }
@@ -26,8 +27,10 @@ export const restoreSession = () => async dispatch => {
     const response = await csrfFetch("/api/session");
     storeCSRFToken(response);
     const data = await response.json();
-    storeCurrentUser(data.user);
-    dispatch(setCurrentUser(data.user));
+    const updatedUser = {...data.user}
+    updatedUser.queue = JSON.parse(updatedUser.queue)
+    storeCurrentUser(updatedUser);
+    dispatch(setCurrentUser(updatedUser));
     return response;
  };
 
@@ -37,8 +40,10 @@ export const login = ({ credential, password }) => async dispatch => {
       body: JSON.stringify({ credential, password })
     });
     const data = await response.json();
-    storeCurrentUser(data.user);
-    dispatch(setCurrentUser(data.user));
+    const updatedUser = {...data.user}
+    updatedUser.queue = JSON.parse(updatedUser.queue)
+    storeCurrentUser(updatedUser);
+    dispatch(setCurrentUser(updatedUser));
     return response;
 };
 
@@ -48,8 +53,10 @@ export const signup = ({ email, password, name, birthDate }) => async dispatch =
       body: JSON.stringify({ email, password, name, birthDate })
     });
     const data = await response.json();
-    storeCurrentUser(data.user);
-    dispatch(setCurrentUser(data.user));
+    const updatedUser = {...data.user}
+    updatedUser.queue = JSON.parse(updatedUser.queue)
+    storeCurrentUser(updatedUser);
+    dispatch(setCurrentUser(updatedUser));
     return response;
 };
 
@@ -70,6 +77,11 @@ const sessionReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_CURRENT_USER:
       return { ...state, user: action.payload };
+    case RECEIVE_USER:
+      const updatedUser = {...action.user};
+      updatedUser.queue = JSON.parse(updatedUser.queue)
+      storeCurrentUser(updatedUser);
+      return { ...state, user: updatedUser };
     case REMOVE_CURRENT_USER:
       return { ...state, user: null };
     default:

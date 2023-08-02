@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min"
 import './PlaylistShow.css'
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPlaylist, getPlaylist, getPlaylists } from "../../../../store/playlists";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getSongs } from "../../../../store/songs";
 import { getArtist } from "../../../../store/artists";
 import PlaylistTrackListItem from "./PlaylistTrackListItem";
@@ -16,6 +16,22 @@ export default function PlaylistShow() {
     const {playlistId} = useParams();
 
     const sessionUser = useSelector(state => state.session.user);
+
+    const [rowWidth,setRowWidth] = useState();
+
+    const tableRowRef = useRef();
+
+    useEffect(() => {
+        const getRowWidth = () => {
+            if (tableRowRef.current) {
+                const {width} = tableRowRef.current.getBoundingClientRect();
+                setRowWidth(width);
+            }
+        };
+        getRowWidth();
+        window.addEventListener('resize', getRowWidth);
+        return () => window.removeEventListener('resize', getRowWidth);
+    }, [])
 
     
     let currentSong = sessionUser?.queue[0]?.[0]
@@ -54,7 +70,7 @@ export default function PlaylistShow() {
     },[playlistId])
 
     const songsForTracklist = Object.values(playlistSongs)
-        .sort((a,b) => a.number - b.number)
+        .sort((a,b) => a.songNumber - b.songNumber)
 
     const songsForQueue = songsForTracklist
         .map(song => [song,0])
@@ -79,9 +95,7 @@ export default function PlaylistShow() {
                     <h1>{playlist.title}</h1>
 
                     <h5>
-                        <img src={playlist.imageUrl}></img>
                         <Link to="">{playlist.userName}</Link>
-                        {/* &nbsp;· {album.date.substr(0,4)} */}
                         &nbsp;· {playlist.playlistSongIds.length} song{ playlist.playlistSongIds.length === 1 ? "" : "s" },
                         &nbsp; <span className="playlistLength">{formatRuntime(runtime)}</span>
 
@@ -108,15 +122,15 @@ export default function PlaylistShow() {
                 </span>
 
                     <table>
-                        <tr>
+                        <tr ref={tableRowRef}>
                             <td>#</td>
                             <td>
                                 Title
                             </td>
-                            <td>
+                            <td  hidden={ rowWidth < 500 ? "hidden" : ""} >
                                 Album
                             </td>
-                            <td>
+                            <td hidden={ rowWidth < 710 ? "hidden" : ""} >
                                 Date added
                             </td>
                             <td></td>
@@ -128,7 +142,7 @@ export default function PlaylistShow() {
                             return (
                                 <PlaylistTrackListItem
                                     song={song}
-                                    songsForQueue={songsForQueue.filter(entry => entry[0].number >= song.number)} />
+                                    songsForQueue={songsForQueue.filter(entry => entry[0].songNumber >= song.songNumber)} />
                             )
                         })}
 

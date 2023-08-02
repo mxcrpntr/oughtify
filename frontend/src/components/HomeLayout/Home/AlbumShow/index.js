@@ -97,9 +97,7 @@ export default function AlbumShow() {
                             document.querySelector(".playPause").click()
                         }
                     }
-                    }}>{ currentSong?.albumId === albumId
-                        // && !document.querySelector("audio")?.paused
-                        ?
+                    }}>{ currentSong?.albumId === albumId ?
                     (<i class="fa-solid fa-pause"></i>) :
                     (<i class="fa-solid fa-play"></i>)}</button>
                     <span className="bigHeart"><i class="fa-regular fa-heart"></i></span>
@@ -119,16 +117,6 @@ export default function AlbumShow() {
                         <hr></hr>
                         {songsForTracklist.map(song => {
                             return (
-                                // <tr>
-                                // <td>{song.number}</td>
-                                // <td>
-                                //     <ul>
-                                //         <li>{song.title}</li>
-                                //         <li><Link to={`/artists/${artist.id}`}>{artist.name}</Link></li>
-                                //     </ul>
-                                // </td>
-                                //     <td>{song.lenth}</td>
-                                // </tr>
                                 <TrackListItem
                                     song={song}
                                     artist={artist}

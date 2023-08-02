@@ -1,8 +1,8 @@
 class User < ApplicationRecord
-    before_validation :ensure_session_token, :ensure_queue
+    before_validation :ensure_session_token
 
     has_secure_password
-    validates :queue, exclusion: { in: [nil] }
+    # validates :queue, exclusion: { in: [nil] }
     validates :email, :name, :password_digest, :session_token, :birth_date, presence: true
     validates :email, :name, :session_token, uniqueness: true
     validates :name, length: { in: 1..30 }, format: { without: URI::MailTo::EMAIL_REGEXP, message:  "Name can't be an email" }
@@ -11,6 +11,8 @@ class User < ApplicationRecord
 
     has_one_attached :profile_image
 
+    has_many :playlists,
+        dependent: :destroy
 
     def self.find_by_credentials(credential,password)
         if credential =~ URI::MailTo::EMAIL_REGEXP
@@ -42,9 +44,9 @@ class User < ApplicationRecord
         self.session_token
     end
 
-    def ensure_queue
-        self.queue ||= [];
-    end
+    # def ensure_queue
+    #     self.queue ||= [];
+    # end
 
     # def validate_birth_date
     #     date_arr = self.birth_date.split("-").map{|str| str.to_i}

@@ -25,10 +25,8 @@ ApplicationRecord.transaction do
       email: 'demo@user.io', 
       password: 'password',
       birth_date: Date.new(2020,2,2),
-      queue: [""]
+      queue: ""
     })
-    # demo_user.queue = []
-    # demo_user.save!
     # More users
 
     puts "Creating dummy users..."
@@ -39,10 +37,8 @@ ApplicationRecord.transaction do
         email: Faker::Internet.unique.email,
         password: 'password',
         birth_date: Date.new(2020,2,2),
-        queue: [""]
+        queue: ""
       })
-      # fake_user.queue = []
-      # fake_user.save!
     end
 
     puts "Creating artists..."
@@ -72,7 +68,7 @@ ApplicationRecord.transaction do
     seagull.image.attach(io: seagull_image, filename: 'seagull.jpg')
 
     seagull_array = [
-      ["I Had a King",217,"/Users/aa_student/Documents/Joni Mitchell. mp3@320/1968 - Song To A Seagull/01. I Had A King.mp3"],
+      ["I Had a King",217,"https://oughtify-seed.s3.amazonaws.com/01.+I+Had+A+King.mp3"],
       ["Michael from Mountains",221,"/Users/aa_student/Documents/Joni Mitchell. mp3@320/1968 - Song To A Seagull/02. Michael From Mountains.mp3"],
       ["Night in the City",149,"/Users/aa_student/Documents/Joni Mitchell. mp3@320/1968 - Song To A Seagull/03. Night In The City.mp3"],
       ["Marcie",275,"/Users/aa_student/Documents/Joni Mitchell. mp3@320/1968 - Song To A Seagull/04. Marcie.mp3"],
@@ -91,9 +87,13 @@ ApplicationRecord.transaction do
         number: i + 1,
         length: song_info[1]
       })
-
-      seagull_song_file = File.open(song_info[2])
-      seagull_song.file.attach(io: seagull_song_file, filename: "seagull_#{i+1}.mp3")
+      if i == 0
+        seagull_song_file = URI.open(song_info[2])
+        seagull_song.file.attach(io: seagull_song_file, filename: "seagull_#{i+1}.mp3")
+      else
+        seagull_song_file = File.open(song_info[2])
+        seagull_song.file.attach(io: seagull_song_file, filename: "seagull_#{i+1}.mp3")
+      end
     end
 
     court_and_spark = Album.create!({

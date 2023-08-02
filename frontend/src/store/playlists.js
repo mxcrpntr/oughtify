@@ -36,7 +36,7 @@ export const fetchPlaylist = (playlistId) => async dispatch => {
         const data = await res.json();
         console.log(data)
         dispatch(receivePlaylist(data.playlist));
-        // dispatch(receivePlaylistSongs(data.playlistSongs));
+        dispatch(receivePlaylistSongs(data.playlistSongs));
     }
 }
 

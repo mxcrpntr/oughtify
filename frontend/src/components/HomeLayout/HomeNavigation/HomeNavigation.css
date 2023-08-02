@@ -3,7 +3,7 @@
     height: 64px;
     width: auto;
     min-width: 424px;
-    background-color: rgba(18, 18, 18, 1);
+    background-color: rgba(18, 18, 18, 0);
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     margin: 8px 8px 8px 0;
@@ -17,8 +17,8 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    opacity: .75;
     white-space: nowrap;
+    opacity: .8;
     z-index: 1;
 }
 .homeNavigation button {

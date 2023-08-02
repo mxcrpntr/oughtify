@@ -1,9 +1,10 @@
-
+import csrfFetch from "./csrf"
+import { storeCurrentUser } from "./session"
 
 
 const RECEIVE_USERS = 'users/RECEIVE_USERS'
 
-const RECEIVE_USER = 'users/RECEIVE_USER'
+export const RECEIVE_USER = 'users/RECEIVE_USER'
 
 const receiveUsers = (users) => ({
     type: RECEIVE_USERS,
@@ -53,17 +54,24 @@ const createUser = (user) => async dispatch => {
     }
 }
 
-const updateUser = (user) => async dispatch => {
-    const res = await fetch(`api/users/${user.id}`, {
+export const updateUser = (user) => async dispatch => {
+    const copyUser = {...user};
+    copyUser.queue = JSON.stringify(copyUser.queue);
+    const res = await csrfFetch(`api/users/${user.id}`, {
         method: 'PATCH',
-        body: JSON.stringify(user),
+        body: JSON.stringify(copyUser),
         headers: {
             'Content-Type': 'application/json'
         }
     })
     if (res.ok) {
         const data = await res.json();
-        dispatch(receiveUser(data));
+        const updatedUser = data.user;
+        updatedUser.queue = JSON.parse(updatedUser.queue);
+        // debugger;
+        storeCurrentUser(updatedUser);
+        // storeCurrentUser
+        // dispatch(receiveUser(data.user));
     }
 }
 
@@ -74,7 +82,10 @@ const usersReducer = (state = {}, action) => {
             newState = action.users;
             return newState;
         case RECEIVE_USER:
-            newState[action.user.id] = action.user
+            const updatedUser = {...action.user};
+            // debugger;
+            updatedUser.queue = JSON.parse(updatedUser.queue)
+            newState[updatedUser.id] = updatedUser;
             return newState;
         default:
             return state;

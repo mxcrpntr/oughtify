@@ -33,12 +33,16 @@ div.home .userGreeting {
     font-size: 32px;
 }
 
-.artistGrid, .playlistGrid {
+.artistGrid {
     margin: 12px;
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(240px, 1fr));
 }
-
+.playlistGrid {
+    margin: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(180px, 1fr));
+}
 
 div.home .artistGrid ul, div.home .playlistGrid ul {
     margin: 8px;

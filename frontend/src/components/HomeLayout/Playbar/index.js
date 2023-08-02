@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAlbums, getAlbums } from "../../../store/albums";
 import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { fetchArtists, getArtists } from "../../../store/artists";
+import { updateUser } from "../../../store/users";
 
 export default function Playbar() {
     const sessionUser = useSelector(state => state.session.user);
@@ -15,8 +16,8 @@ export default function Playbar() {
 
     const [paused, setPaused] = useState(true);
     const [durationOrRemainder, setDurationOrRemainder] = useState(true);
-    const [currentSongTime, setCurrentSongTime] = useState(0);
     const [currentSong, setCurrentSong] = useState(sessionUser?.queue[0]?.[0]);
+    const [currentSongTime, setCurrentSongTime] = useState(sessionUser?.queue[0]?.[1] ? sessionUser?.queue[0][1] : 0);
 
     const [knobStyle,setKnobStyle] = useState({
         left: 0
@@ -45,6 +46,8 @@ export default function Playbar() {
 
     const volumeTrackRef = useRef();
     const volumeTrackContainerRef = useRef();
+
+    const counter = useRef(0);
 
     const volumeOffSymbol = () => {
         return <i class="fa-solid fa-volume-xmark"></i>;
@@ -85,18 +88,34 @@ export default function Playbar() {
             if (!isDragging && audioRef.current) {
                 const currentTime = audioRef.current.currentTime;
                 setCurrentSongTime(currentTime);
-                if (sessionUser?.queue?.[0]) sessionUser.queue[0][1] = currentTime;
+                if (sessionUser?.queue?.[0]) {
+                    sessionUser.queue[0][1] = currentTime;
+                }
                 percent = 100 * (currentTime / audioRef.current.duration);
                 setKnobStyle({left: `${percent}%`});
                 setRangeStyle({...rangeStyle, width: `${percent}%`});
             }
-       }
+        }
+
+        const saveUserQueue = async () => {
+            if (sessionUser) {
+                counter.current++;
+                if (counter.current % 1000 === 0) {
+                    console.log(counter.current);
+                    dispatch(updateUser(sessionUser));
+                }
+            }
+        }
 
         if (audioRef.current) {
+            // debugger;
             audioRef.current.addEventListener("timeupdate", updateTime)
+            audioRef.current.addEventListener("timeupdate", saveUserQueue)
            return () => {
             if (audioRef.current) {
+                // debugger;
                 audioRef.current.removeEventListener("timeupdate", updateTime);
+                audioRef.current.removeEventListener("timeupdate", saveUserQueue);
             }
           }
         }
@@ -355,7 +374,7 @@ export default function Playbar() {
                             }}>
                         </i>
                         <i class="fa-solid fa-repeat"></i>
-                        <audio onTimeUpdate={() => {}} src={audioSrc} ref={audioRef} preload="auto" />
+                        <audio src={audioSrc} ref={audioRef} preload="auto" />
                     </div>
                     <div className="middleBottom">
                         <div>{formatTime(currentSongTime)}</div>
