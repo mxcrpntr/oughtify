@@ -50,11 +50,11 @@ ApplicationRecord.transaction do
 
     require "open-uri"
   
-    joni_image = URI.open("https://www.pbs.org/newshour/app/uploads/2015/04/3207326-1024x1015.jpg")
-    joni_mitchell.image.attach(io: joni_image, filename: 'joni_image.jpg')
+    joni_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joni/joni_image.jpeg")
+    joni_mitchell.image.attach(io: joni_image, filename: 'joni_image.jpeg')
 
-    joni_banner = URI.open("https://americansongwriter.com/wp-content/uploads/2022/07/Joni-Mitchell-by-Norman-Seeff.jpg?fit=2000%2C800")
-    joni_mitchell.banner_image.attach(io: joni_banner, filename: 'joni_banner.jpg')
+    joni_banner = URI.open("https://oughtify-seed.s3.amazonaws.com/joni/joni_banner.png")
+    joni_mitchell.banner_image.attach(io: joni_banner, filename: 'joni_banner.png')
 
     puts "Creating albums and songs..."
 
@@ -64,20 +64,20 @@ ApplicationRecord.transaction do
       year: 1968
     })
 
-    seagull_image = URI.open("https://m.media-amazon.com/images/I/A1ta1FmU1OL._UF1000,1000_QL80_.jpg")
+    seagull_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joni/1968+-+Song+To+A+Seagull/seagull.jpg")
     seagull.image.attach(io: seagull_image, filename: 'seagull.jpg')
 
     seagull_array = [
-      ["I Had a King",217,"https://oughtify-seed.s3.amazonaws.com/01.+I+Had+A+King.mp3"],
-      ["Michael from Mountains",221,"/Users/aa_student/Documents/Joni Mitchell. mp3@320/1968 - Song To A Seagull/02. Michael From Mountains.mp3"],
-      ["Night in the City",149,"/Users/aa_student/Documents/Joni Mitchell. mp3@320/1968 - Song To A Seagull/03. Night In The City.mp3"],
-      ["Marcie",275,"/Users/aa_student/Documents/Joni Mitchell. mp3@320/1968 - Song To A Seagull/04. Marcie.mp3"],
-      ["Nathan La Franeer",200,"/Users/aa_student/Documents/Joni Mitchell. mp3@320/1968 - Song To A Seagull/05. Nathan La Franeer.mp3"],
-      ["Sisotowbell Lane",245,"/Users/aa_student/Documents/Joni Mitchell. mp3@320/1968 - Song To A Seagull/06. Sisotowbell Lane.mp3"],
-      ["The Dawntreader",304,"/Users/aa_student/Documents/Joni Mitchell. mp3@320/1968 - Song To A Seagull/07. The Dawntreader.mp3"],
-      ["The Pirate of Penance",164,"/Users/aa_student/Documents/Joni Mitchell. mp3@320/1968 - Song To A Seagull/08. The Pirate Of Penance.mp3"],
-      ["Song to a Seagull",231,"/Users/aa_student/Documents/Joni Mitchell. mp3@320/1968 - Song To A Seagull/09. Song To A Seagull.mp3"],
-      ["Cactus Tree",278,"/Users/aa_student/Documents/Joni Mitchell. mp3@320/1968 - Song To A Seagull/10. Cactus Tree.mp3"]
+      ["I Had a King",217,"https://oughtify-seed.s3.amazonaws.com/joni/1968+-+Song+To+A+Seagull/01.+I+Had+A+King.mp3"],
+      ["Michael from Mountains",221,"https://oughtify-seed.s3.amazonaws.com/joni/1968+-+Song+To+A+Seagull/02.+Michael+From+Mountains.mp3"],
+      ["Night in the City",149,"https://oughtify-seed.s3.amazonaws.com/joni/1968+-+Song+To+A+Seagull/03.+Night+In+The+City.mp3"],
+      ["Marcie",275,"https://oughtify-seed.s3.amazonaws.com/joni/1968+-+Song+To+A+Seagull/04.+Marcie.mp3"],
+      ["Nathan La Franeer",200,"https://oughtify-seed.s3.amazonaws.com/joni/1968+-+Song+To+A+Seagull/05.+Nathan+La+Franeer.mp3"],
+      ["Sisotowbell Lane",245,"https://oughtify-seed.s3.amazonaws.com/joni/1968+-+Song+To+A+Seagull/06.+Sisotowbell+Lane.mp3"],
+      ["The Dawntreader",304,"https://oughtify-seed.s3.amazonaws.com/joni/1968+-+Song+To+A+Seagull/07.+The+Dawntreader.mp3"],
+      ["The Pirate of Penance",164,"https://oughtify-seed.s3.amazonaws.com/joni/1968+-+Song+To+A+Seagull/08.+The+Pirate+Of+Penance.mp3"],
+      ["Song to a Seagull",231,"https://oughtify-seed.s3.amazonaws.com/joni/1968+-+Song+To+A+Seagull/09.+Song+To+A+Seagull.mp3"],
+      ["Cactus Tree",278,"https://oughtify-seed.s3.amazonaws.com/joni/1968+-+Song+To+A+Seagull/10.+Cactus+Tree.mp3"]
     ]
 
     seagull_array.each_with_index do |song_info,i|
@@ -87,13 +87,8 @@ ApplicationRecord.transaction do
         number: i + 1,
         length: song_info[1]
       })
-      if i == 0
-        seagull_song_file = URI.open(song_info[2])
-        seagull_song.file.attach(io: seagull_song_file, filename: "seagull_#{i+1}.mp3")
-      else
-        seagull_song_file = File.open(song_info[2])
-        seagull_song.file.attach(io: seagull_song_file, filename: "seagull_#{i+1}.mp3")
-      end
+      seagull_song_file = URI.open(song_info[2])
+      seagull_song.file.attach(io: seagull_song_file, filename: "seagull_#{i+1}.mp3")
     end
 
     clouds = Album.create!({
@@ -102,19 +97,32 @@ ApplicationRecord.transaction do
       year: 1969
     })
 
+    clouds_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joni/1969+-+Clouds/clouds.jpg")
+    clouds.image.attach(io: clouds_image, filename: 'clouds.jpg')
 
     clouds_array = [
-      ['Tin Angel',249,],
-      ['Chelsea Morning',155,],
-      ["I Don't Know Where I Stand",193,],
-      ['That Song About the Midway',177,],
-      ['Roses Blue',232,],
-      ['The Gallery',252,],
-      ['I Think I Understand',267,],
-      ['Songs to Aging Children Come',190,],
-      ['The Fiddle and the Drum',169,],
-      ['Both Sides, Now',274,]
+      ['Tin Angel',249,"https://oughtify-seed.s3.amazonaws.com/joni/1969+-+Clouds/01.+Tin+Angel.mp3"],
+      ['Chelsea Morning',155,"https://oughtify-seed.s3.amazonaws.com/joni/1969+-+Clouds/02.+Chelsea+Morning.mp3"],
+      ["I Don't Know Where I Stand",193,"https://oughtify-seed.s3.amazonaws.com/joni/1969+-+Clouds/03.+I+Don't+Know+Where+I+Stand.mp3"],
+      ['That Song About the Midway',177,"https://oughtify-seed.s3.amazonaws.com/joni/1969+-+Clouds/04.+That+Song+About+The+Midway.mp3"],
+      ['Roses Blue',232,"https://oughtify-seed.s3.amazonaws.com/joni/1969+-+Clouds/05.+Roses+Blue.mp3"],
+      ['The Gallery',252,"https://oughtify-seed.s3.amazonaws.com/joni/1969+-+Clouds/06.+The+Gallery.mp3"],
+      ['I Think I Understand',267,"https://oughtify-seed.s3.amazonaws.com/joni/1969+-+Clouds/07.+I+Think+I+Understand.mp3"],
+      ['Songs to Aging Children Come',190,"https://oughtify-seed.s3.amazonaws.com/joni/1969+-+Clouds/08.+Songs+To+Aging+Children+Come.mp3"],
+      ['The Fiddle and the Drum',169,"https://oughtify-seed.s3.amazonaws.com/joni/1969+-+Clouds/09.+The+Fiddle+And+The+Drum.mp3"],
+      ['Both Sides, Now',274,"https://oughtify-seed.s3.amazonaws.com/joni/1969+-+Clouds/10.+Both+Sides%2C+Now.mp3"]
     ]
+
+    clouds_array.each_with_index do |song_info,i|
+      clouds_song = Song.create!({
+        title: song_info[0],
+        album_id: clouds.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+      clouds_song_file = URI.open(song_info[2])
+      clouds_song.file.attach(io: clouds_song_file, filename: "clouds_#{i+1}.mp3")
+    end
 
     ladies_of_the_canyon = Album.create!({
       title: 'Ladies of the Canyon',
@@ -122,21 +130,35 @@ ApplicationRecord.transaction do
       year: 1970
     })
 
+    ladies_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joni/1970+-+Ladies+Of+The+Canyon/canyon.jpg")
+    ladies_of_the_canyon.image.attach(io: ladies_image, filename: 'ladies.jpg')
 
     ladies_array = [
-      ['Morning Morgantown',193,],
-      ['For Free',271,],
-      ['Conversation',447,],
-      ['Ladies of the Canyon',213,],
-      ['Willy',180,],
-      ['The Arrangement',214,],
-      ['Rainy Night House',204,],
-      ['The Priest',220,],
-      ['Blue Boy',174,],
-      ['Big Yellow Taxi',135,],
-      ['Woodstock',329,],
-      ['The Circle Game',295,]
+      ['Morning Morgantown',193,"https://oughtify-seed.s3.amazonaws.com/joni/1970+-+Ladies+Of+The+Canyon/01.+Morning+Morgantown.mp3"],
+      ['For Free',271,"https://oughtify-seed.s3.amazonaws.com/joni/1970+-+Ladies+Of+The+Canyon/02.+For+Free.mp3"],
+      ['Conversation',447,"https://oughtify-seed.s3.amazonaws.com/joni/1970+-+Ladies+Of+The+Canyon/03.+Conversation.mp3"],
+      ['Ladies of the Canyon',213,"https://oughtify-seed.s3.amazonaws.com/joni/1970+-+Ladies+Of+The+Canyon/04.+Ladies+Of+The+Canyon.mp3"],
+      ['Willy',180,"https://oughtify-seed.s3.amazonaws.com/joni/1970+-+Ladies+Of+The+Canyon/05.+Willy.mp3"],
+      ['The Arrangement',214,"https://oughtify-seed.s3.amazonaws.com/joni/1970+-+Ladies+Of+The+Canyon/06.+The+Arrangement.mp3"],
+      ['Rainy Night House',204,"https://oughtify-seed.s3.amazonaws.com/joni/1970+-+Ladies+Of+The+Canyon/07.+Rainy+Night+House.mp3"],
+      ['The Priest',220,"https://oughtify-seed.s3.amazonaws.com/joni/1970+-+Ladies+Of+The+Canyon/08.+The+Priest.mp3"],
+      ['Blue Boy',174,"https://oughtify-seed.s3.amazonaws.com/joni/1970+-+Ladies+Of+The+Canyon/09.+Blue+Boy.mp3"],
+      ['Big Yellow Taxi',135,"https://oughtify-seed.s3.amazonaws.com/joni/1970+-+Ladies+Of+The+Canyon/10.+Big+Yellow+Taxi.mp3"],
+      ['Woodstock',329,"https://oughtify-seed.s3.amazonaws.com/joni/1970+-+Ladies+Of+The+Canyon/11.+Woodstock.mp3"],
+      ['The Circle Game',295,"https://oughtify-seed.s3.amazonaws.com/joni/1970+-+Ladies+Of+The+Canyon/12.+The+Circle+Game.mp3"]
     ]
+
+    ladies_array.each_with_index do |song_info,i|
+      ladies_song = Song.create!({
+        title: song_info[0],
+        album_id: ladies_of_the_canyon.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+      ladies_song_file = URI.open(song_info[2])
+      ladies_song.file.attach(io: ladies_song_file, filename: "ladies_#{i+1}.mp3")
+    end
+
 
     blue = Album.create!({
       title: 'Blue',
@@ -144,18 +166,32 @@ ApplicationRecord.transaction do
       year: 1971
     })
 
+    blue_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joni/1971+-+Blue/blue.jpg")
+    blue.image.attach(io: blue_image, filename: 'blue.jpg')
+
     blue_array = [
-      ['All I Want',214,],
-      ['My Old Man',214,],
-      ['Little Green',207,],
-      ['Carey',183,],
-      ['Blue',185,],
-      ['California',230,],
-      ['This Flight Tonight',172,],
-      ['River',245,],
-      ['A Case of You',263,],
-      ['The Last Time I Saw Richard',256,]
+      ['All I Want',214,"https://oughtify-seed.s3.amazonaws.com/joni/1971+-+Blue/01.+All+I+Want.mp3"],
+      ['My Old Man',214,"https://oughtify-seed.s3.amazonaws.com/joni/1971+-+Blue/02.+My+Old+Man.mp3"],
+      ['Little Green',207,"https://oughtify-seed.s3.amazonaws.com/joni/1971+-+Blue/03.+Little+Green.mp3"],
+      ['Carey',183,"https://oughtify-seed.s3.amazonaws.com/joni/1971+-+Blue/04.+Carey.mp3"],
+      ['Blue',185,"https://oughtify-seed.s3.amazonaws.com/joni/1971+-+Blue/05.+Blue.mp3"],
+      ['California',230,"https://oughtify-seed.s3.amazonaws.com/joni/1971+-+Blue/06.+California.mp3"],
+      ['This Flight Tonight',172,"https://oughtify-seed.s3.amazonaws.com/joni/1971+-+Blue/07.+This+Flight+Tonight.mp3"],
+      ['River',245,"https://oughtify-seed.s3.amazonaws.com/joni/1971+-+Blue/08.+River.mp3"],
+      ['A Case of You',263,"https://oughtify-seed.s3.amazonaws.com/joni/1971+-+Blue/09.+A+Case+Of+You.mp3"],
+      ['The Last Time I Saw Richard',256,"https://oughtify-seed.s3.amazonaws.com/joni/1971+-+Blue/10.+The+Last+Time+I+Saw+Richard.mp3"]
     ]
+
+    blue_array.each_with_index do |song_info,i|
+      blue_song = Song.create!({
+        title: song_info[0],
+        album_id: blue.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+      blue_song_file = URI.open(song_info[2])
+      blue_song.file.attach(io: blue_song_file, filename: "blue_#{i+1}.mp3")
+    end
 
     for_the_roses = Album.create!({
       title: 'For the Roses',
@@ -163,20 +199,35 @@ ApplicationRecord.transaction do
       year: 1972
     })
 
+
+    roses_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joni/1972+-+For+The+Roses/roses.jpg")
+    for_the_roses.image.attach(io: roses_image, filename: 'roses.jpg')
+
     roses_array = [
-      ['Banquet',182,],
-      ['Cold Blue Steel and Sweet Fire',257,],
-      ['Barangrill',172,],
-      ['Lesson in Survival',191,],
-      ['Let the Wind Carry Me',236,],
-      ['For the Roses',228,],
-      ['See You Sometime',176,],
-      ['Electricity',181,],
-      ["You Turn Me On, I'm a Radio",159,],
-      ['Blonde on the Bleachers',162,],
-      ['Woman of Heart and Mind',158,],
-      ["Judgement of the Moon and Stars (Ludwig's Tune)",319,]
+      ['Banquet',182,"https://oughtify-seed.s3.amazonaws.com/joni/1972+-+For+The+Roses/01.+Banquet.mp3"],
+      ['Cold Blue Steel and Sweet Fire',257,"https://oughtify-seed.s3.amazonaws.com/joni/1972+-+For+The+Roses/02.+Cold+Blue+Steel+And+Sweet+Fire.mp3"],
+      ['Barangrill',172,"https://oughtify-seed.s3.amazonaws.com/joni/1972+-+For+The+Roses/03.+Barangrill.mp3"],
+      ['Lesson in Survival',191,"https://oughtify-seed.s3.amazonaws.com/joni/1972+-+For+The+Roses/04.+Lesson+In+Survival.mp3"],
+      ['Let the Wind Carry Me',236,"https://oughtify-seed.s3.amazonaws.com/joni/1972+-+For+The+Roses/05.+Let+The+Wind+Carry+Me.mp3"],
+      ['For the Roses',228,"https://oughtify-seed.s3.amazonaws.com/joni/1972+-+For+The+Roses/06.+For+The+Roses.mp3"],
+      ['See You Sometime',176,"https://oughtify-seed.s3.amazonaws.com/joni/1972+-+For+The+Roses/07.+See+You+Sometime.mp3"],
+      ['Electricity',181,"https://oughtify-seed.s3.amazonaws.com/joni/1972+-+For+The+Roses/08.+Electricity.mp3"],
+      ["You Turn Me On, I'm a Radio",159,"https://oughtify-seed.s3.amazonaws.com/joni/1972+-+For+The+Roses/09.+You+Turn+Me+On+I'm+A+Radio.mp3"],
+      ['Blonde on the Bleachers',162,"https://oughtify-seed.s3.amazonaws.com/joni/1972+-+For+The+Roses/10.+Blonde+In+The+Bleachers.mp3"],
+      ['Woman of Heart and Mind',158,"https://oughtify-seed.s3.amazonaws.com/joni/1972+-+For+The+Roses/11.+Woman+Of+Heart+And+Mind.mp3"],
+      ["Judgement of the Moon and Stars (Ludwig's Tune)",319,"https://oughtify-seed.s3.amazonaws.com/joni/1972+-+For+The+Roses/12.+Judgement+Of+The+Moon+And+Stars+(Ludwig's+Tune).mp3"]
     ]
+
+    roses_array.each_with_index do |song_info,i|
+      roses_song = Song.create!({
+        title: song_info[0],
+        album_id: for_the_roses.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+      roses_song_file = URI.open(song_info[2])
+      roses_song.file.attach(io: roses_song_file, filename: "roses_#{i+1}.mp3")
+    end
 
     court_and_spark = Album.create!({
       title: 'Court and Spark',
@@ -184,21 +235,21 @@ ApplicationRecord.transaction do
       year: 1974
     })
 
-    court_image = URI.open("https://m.media-amazon.com/images/I/81oSoxCQKeL._UF1000,1000_QL80_.jpg")
+    court_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joni/1974+-+Court+And+Spark/court.jpg")
     court_and_spark.image.attach(io: court_image, filename: 'court_and_spark.jpg')
 
     court_array = [
-      ["Court and Spark",166,"/Users/aa_student/Documents/Joni\ Mitchell.\ mp3@320/1974\ -\ Court\ And\ Spark/01.\ Court\ And\ Spark.mp3"],
-      ["Help Me",222,"/Users/aa_student/Documents/Joni\ Mitchell.\ mp3@320/1974\ -\ Court\ And\ Spark/02.\ Help\ Me.mp3"],
-      ["Free Man in Paris",183,"/Users/aa_student/Documents/Joni\ Mitchell.\ mp3@320/1974\ -\ Court\ And\ Spark/03.\ Free\ Man\ In\ Paris.mp3"],
-      ["People's Parties",135,"/Users/aa_student/Documents/Joni\ Mitchell.\ mp3@320/1974\ -\ Court\ And\ Spark/04.\ People\'s\ Parties.mp3"],
-      ["Same Situation",177,"/Users/aa_student/Documents/Joni\ Mitchell.\ mp3@320/1974\ -\ Court\ And\ Spark/05.\ Same\ Situation.mp3"],
-      ["Car on a Hill",182,"/Users/aa_student/Documents/Joni\ Mitchell.\ mp3@320/1974\ -\ Court\ And\ Spark/06.\ Car\ On\ A\ Hill.mp3"],
-      ["Down to You",338,"/Users/aa_student/Documents/Joni\ Mitchell.\ mp3@320/1974\ -\ Court\ And\ Spark/07.\ Down\ To\ You.mp3"],
-      ["Just Like This Train",264,"/Users/aa_student/Documents/Joni\ Mitchell.\ mp3@320/1974\ -\ Court\ And\ Spark/08.\ Just\ Like\ This\ Train.mp3"],
-      ["Raised on Robbery",186,"/Users/aa_student/Documents/Joni\ Mitchell.\ mp3@320/1974\ -\ Court\ And\ Spark/09.\ Raised\ On\ Robbery.mp3"],
-      ["Trouble Child",240,"/Users/aa_student/Documents/Joni\ Mitchell.\ mp3@320/1974\ -\ Court\ And\ Spark/10.\ Trouble\ Child.mp3"],
-      ["Twisted",141,"/Users/aa_student/Documents/Joni\ Mitchell.\ mp3@320/1974\ -\ Court\ And\ Spark/11.\ Twisted.mp3"]
+      ["Court and Spark",166,"https://oughtify-seed.s3.amazonaws.com/joni/1974+-+Court+And+Spark/01.+Court+And+Spark.mp3"],
+      ["Help Me",222,"https://oughtify-seed.s3.amazonaws.com/joni/1974+-+Court+And+Spark/02.+Help+Me.mp3"],
+      ["Free Man in Paris",183,"https://oughtify-seed.s3.amazonaws.com/joni/1974+-+Court+And+Spark/03.+Free+Man+In+Paris.mp3"],
+      ["People's Parties",135,"https://oughtify-seed.s3.amazonaws.com/joni/1974+-+Court+And+Spark/04.+People's+Parties.mp3"],
+      ["Same Situation",177,"https://oughtify-seed.s3.amazonaws.com/joni/1974+-+Court+And+Spark/05.+Same+Situation.mp3"],
+      ["Car on a Hill",182,"https://oughtify-seed.s3.amazonaws.com/joni/1974+-+Court+And+Spark/06.+Car+On+A+Hill.mp3"],
+      ["Down to You",338,"https://oughtify-seed.s3.amazonaws.com/joni/1974+-+Court+And+Spark/07.+Down+To+You.mp3"],
+      ["Just Like This Train",264,"https://oughtify-seed.s3.amazonaws.com/joni/1974+-+Court+And+Spark/08.+Just+Like+This+Train.mp3"],
+      ["Raised on Robbery",186,"https://oughtify-seed.s3.amazonaws.com/joni/1974+-+Court+And+Spark/09.+Raised+On+Robbery.mp3"],
+      ["Trouble Child",240,"https://oughtify-seed.s3.amazonaws.com/joni/1974+-+Court+And+Spark/10.+Trouble+Child.mp3"],
+      ["Twisted",141,"https://oughtify-seed.s3.amazonaws.com/joni/1974+-+Court+And+Spark/11.+Twisted.mp3"]
     ]
 
     court_array.each_with_index do |song_info,i|
@@ -209,7 +260,7 @@ ApplicationRecord.transaction do
         length: song_info[1]
       })
 
-      court_song_file = File.open(song_info[2])
+      court_song_file = URI.open(song_info[2])
       court_song.file.attach(io: court_song_file, filename: "court_and_spark_#{i+1}.mp3")
     end
 
@@ -219,18 +270,33 @@ ApplicationRecord.transaction do
       year: 1975
     })
 
+    hissing_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joni/1975+-+The+Hissing+Of+Summer+Lawns/hissing.jpg")
+    hissing_of_summer.image.attach(io: hissing_image, filename: 'hissing.jpg')
+
     hissing_array = [
-      ['In France They Kiss on Main Street',199,],
-      ['The Jungle Line',266,],
-      ['Edith and the Kingpin',217,],
-      ["Don't Interrupt the Sorrow",245,],
-      ['Shades of Scarlett Conquering',299,],
-      ['The Hissing of Summer Lawns',181,],
-      ['The Boho Dance',230,],
-      ["Harry's House / Centerpiece",408,],
-      ['Sweet Bird',252,],
-      ['Shadows and Light',257,]
+      ['In France They Kiss on Main Street',199,"https://oughtify-seed.s3.amazonaws.com/joni/1975+-+The+Hissing+Of+Summer+Lawns/01.+In+France+They+Kiss+On+Main+Street.mp3"],
+      ['The Jungle Line',266,"https://oughtify-seed.s3.amazonaws.com/joni/1975+-+The+Hissing+Of+Summer+Lawns/02.+The+Jungle+Line.mp3"],
+      ['Edith and the Kingpin',217,"https://oughtify-seed.s3.amazonaws.com/joni/1975+-+The+Hissing+Of+Summer+Lawns/03.+Edith+And+The+Kingpin.mp3"],
+      ["Don't Interrupt the Sorrow",245,"https://oughtify-seed.s3.amazonaws.com/joni/1975+-+The+Hissing+Of+Summer+Lawns/04.+Don't+Interrupt+The+Sorrow.mp3"],
+      ['Shades of Scarlett Conquering',299,"https://oughtify-seed.s3.amazonaws.com/joni/1975+-+The+Hissing+Of+Summer+Lawns/05.+Shades+Of+Scarlett+Conquering.mp3"],
+      ['The Hissing of Summer Lawns',181,"https://oughtify-seed.s3.amazonaws.com/joni/1975+-+The+Hissing+Of+Summer+Lawns/06.+The+Hissing+Of+Summer+Lawns.mp3"],
+      ['The Boho Dance',230,"https://oughtify-seed.s3.amazonaws.com/joni/1975+-+The+Hissing+Of+Summer+Lawns/07.+The+Boho+Dance.mp3"],
+      ["Harry's House / Centerpiece",408,"https://oughtify-seed.s3.amazonaws.com/joni/1975+-+The+Hissing+Of+Summer+Lawns/08.+Harry's+House+-+Centerpiece.mp3"],
+      ['Sweet Bird',252,"https://oughtify-seed.s3.amazonaws.com/joni/1975+-+The+Hissing+Of+Summer+Lawns/09.+Sweet+Bird.mp3"],
+      ['Shadows and Light',257,"https://oughtify-seed.s3.amazonaws.com/joni/1975+-+The+Hissing+Of+Summer+Lawns/10.+Shadows+And+Light.mp3"]
     ]
+
+    hissing_array.each_with_index do |song_info,i|
+      hissing_song = Song.create!({
+        title: song_info[0],
+        album_id: hissing_of_summer.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+
+      hissing_song_file = URI.open(song_info[2])
+      hissing_song.file.attach(io: hissing_song_file, filename: "hissing_#{i+1}.mp3")
+    end
 
     hejira = Album.create!({
       title: 'Hejira',
@@ -238,22 +304,43 @@ ApplicationRecord.transaction do
       year: 1976
     })
 
+    hejira_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joni/1976+-+Hejira/hejira.jpg")
+    hejira.image.attach(io: hejira_image, filename: 'hejira.jpg')
+
     hejira_array = [
-      ['Coyote',301,],
-      ['Amelia',361,],
-      ['Furry Sings the Blues',307,],
-      ['A Strange Boy',259,],
-      ['Hejira',401,],
-      ['Song for Sharon',518,],
-      ['Black Crow',462,],
-      ['Blue Motel Room',304,],
-      ['Refuge of the Roads',398,]
+      ['Coyote',301,"https://oughtify-seed.s3.amazonaws.com/joni/1976+-+Hejira/01.+Coyote.mp3"],
+      ['Amelia',361,"https://oughtify-seed.s3.amazonaws.com/joni/1976+-+Hejira/02.+Amelia.mp3"],
+      ['Furry Sings the Blues',307,"https://oughtify-seed.s3.amazonaws.com/joni/1976+-+Hejira/03.+Furry+Sings+The+Blues.mp3"],
+      ['A Strange Boy',259,"https://oughtify-seed.s3.amazonaws.com/joni/1976+-+Hejira/04.+A+Strange+Boy.mp3"],
+      ['Hejira',401,"https://oughtify-seed.s3.amazonaws.com/joni/1976+-+Hejira/05.+Hejira.mp3"],
+      ['Song for Sharon',518,"https://oughtify-seed.s3.amazonaws.com/joni/1976+-+Hejira/06.+Song+For+Sharon.mp3"],
+      ['Black Crow',462,"https://oughtify-seed.s3.amazonaws.com/joni/1976+-+Hejira/07.+Black+Crow.mp3"],
+      ['Blue Motel Room',304,"https://oughtify-seed.s3.amazonaws.com/joni/1976+-+Hejira/08.+Blue+Motel+Room.mp3"],
+      ['Refuge of the Roads',398,"https://oughtify-seed.s3.amazonaws.com/joni/1976+-+Hejira/09.+Refuge+Of+The+Roads.mp3"]
     ]
+
+    hejira_array.each_with_index do |song_info,i|
+      hejira_song = Song.create!({
+        title: song_info[0],
+        album_id: hejira.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+
+      hejira_song_file = URI.open(song_info[2])
+      hejira_song.file.attach(io: hejira_song_file, filename: "hejira_#{i+1}.mp3")
+    end
 
     neil_young = Artist.create!({
       name: 'Neil Young',
       bio: 'Neil Percival Young (November 12, 1945) is a Canadian and American singer and songwriter. After embarking on a music career in Winnipeg in the 1960s, Young moved to Los Angeles, joining the folk-rock group Buffalo Springfield. Since the beginning of his solo career, often with backing by the band Crazy Horse, he has released critically acclaimed albums such as Everybody Knows This Is Nowhere (1969), After the Gold Rush (1970), Harvest (1972), On the Beach (1974), and Rust Never Sleeps (1979). He was also a part-time member of Crosby, Stills, Nash & Young, with whom he recorded the chart-topping 1970 album Déjà Vu.'
     })
+
+    neil_image = URI.open("https://oughtify-seed.s3.amazonaws.com/neil/neil_image.jpeg")
+    neil_young.image.attach(io: neil_image, filename: 'neil_image.jpeg')
+
+    neil_banner = URI.open("https://oughtify-seed.s3.amazonaws.com/neil/neil_banner.jpeg")
+    neil_young.banner_image.attach(io: neil_banner, filename: 'neil_banner.jpeg')
 
     neil_young_album = Album.create!({
       title: 'Neil Young',
@@ -261,18 +348,34 @@ ApplicationRecord.transaction do
       year: 1968
     })
 
+    young_album_image = URI.open("https://oughtify-seed.s3.amazonaws.com/neil/1968+-+Neil+Young/young_album.jpeg")
+    neil_young_album.image.attach(io: young_album_image, filename: 'young_album.jpeg')
+
     young_album_array = [
-      ['The Emperor of Wyoming',140,],
-      ['The Loner',233,],
-      ['If I Could Have Her Tonight',142,],
-      ["I've Been Waiting for You",155,],
-      ['The Old Laughing Lady',358,],
-      ['String Quartet from Whiskey Boot Hill',58,],
-      ['Here We Are in the Years',207,],
-      ['What Did You Do to My Life?',148,],
-      ["I've Loved Her So Long",161,],
-      ['The Last Trip to Tulsa',567,]
+      ['The Emperor of Wyoming',140,"https://oughtify-seed.s3.amazonaws.com/neil/1968+-+Neil+Young/01+-+The+Emperor+Of+Wyoming.mp3"],
+      ['The Loner',233,"https://oughtify-seed.s3.amazonaws.com/neil/1968+-+Neil+Young/02+-+The+Loner.mp3"],
+      ['If I Could Have Her Tonight',142,"https://oughtify-seed.s3.amazonaws.com/neil/1968+-+Neil+Young/03+-+If+I+Could+Have+Her+Tonight.mp3"],
+      ["I've Been Waiting for You",155,"https://oughtify-seed.s3.amazonaws.com/neil/1968+-+Neil+Young/04+-+I've+Been+Waiting+For+You.mp3"],
+      ['The Old Laughing Lady',358,"https://oughtify-seed.s3.amazonaws.com/neil/1968+-+Neil+Young/05+-+The+Old+Laughing+Lady.mp3"],
+      ['String Quartet from Whiskey Boot Hill',58,"https://oughtify-seed.s3.amazonaws.com/neil/1968+-+Neil+Young/06+-+String+Quartet+From+Whiskey+Boot+Hill.mp3"],
+      ['Here We Are in the Years',207,"https://oughtify-seed.s3.amazonaws.com/neil/1968+-+Neil+Young/07+-+Here+We+Are+In+The+Years.mp3"],
+      ['What Did You Do to My Life?',148,"https://oughtify-seed.s3.amazonaws.com/neil/1968+-+Neil+Young/08+-+What+Did+You+Do+To+My+Life.mp3"],
+      ["I've Loved Her So Long",161,"https://oughtify-seed.s3.amazonaws.com/neil/1968+-+Neil+Young/09+-+I've+Loved+Her+So+Long.mp3"],
+      ['The Last Trip to Tulsa',567,"https://oughtify-seed.s3.amazonaws.com/neil/1968+-+Neil+Young/10+-+The+Last+Trip+To+Tulsa.mp3"]
     ]
+
+
+    young_album_array.each_with_index do |song_info,i|
+      young_song = Song.create!({
+        title: song_info[0],
+        album_id: neil_young_album.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+
+      young_song_file = URI.open(song_info[2])
+      young_song.file.attach(io: young_song_file, filename: "young_#{i+1}.mp3")
+    end
 
     everybody_knows = Album.create!({
       title: 'Everybody Knows This Is Nowhere',
@@ -280,15 +383,31 @@ ApplicationRecord.transaction do
       year: 1969
     })
 
+
+    everybody_image = URI.open("https://oughtify-seed.s3.amazonaws.com/neil/1968+-+Neil+Young/young_album.jpeg")
+    everybody_knows.image.attach(io: everybody_image, filename: 'everybody.jpeg')
+
     everybody_array = [
-      ['Cinnamon Girl',180,],
-      ['Everybody Knows This Is Nowhere',148,],
-      ["Round & Round (It Won't Be Long)",353,],
-      ['Down by the River',556,],
-      ["The Losing End (When You're On)",247,],
-      ['Running Dry (Requiem for the Rockets)',336,],
-      ['Cowgirl in the Sand',607,]
+      ['Cinnamon Girl',180,"https://oughtify-seed.s3.amazonaws.com/neil/1969+-+Everybody+Knows+This+Is+Nowhere/01+-+Cinnamon+Girl.mp3"],
+      ['Everybody Knows This Is Nowhere',148,"https://oughtify-seed.s3.amazonaws.com/neil/1969+-+Everybody+Knows+This+Is+Nowhere/02+-+Everybody+Knows+This+Is+Nowhere.mp3"],
+      ["Round & Round (It Won't Be Long)",353,"https://oughtify-seed.s3.amazonaws.com/neil/1969+-+Everybody+Knows+This+Is+Nowhere/03+-+Round+%26+Round+(It+Won't+Be+Long).mp3"],
+      ['Down by the River',556,"https://oughtify-seed.s3.amazonaws.com/neil/1969+-+Everybody+Knows+This+Is+Nowhere/04+-+Down+By+The+River.mp3"],
+      ["The Losing End (When You're On)",247,"https://oughtify-seed.s3.amazonaws.com/neil/1969+-+Everybody+Knows+This+Is+Nowhere/05+-+The+Losing+End+(When+You're+On).mp3"],
+      ['Running Dry (Requiem for the Rockets)',336,"https://oughtify-seed.s3.amazonaws.com/neil/1969+-+Everybody+Knows+This+Is+Nowhere/06+-+Running+Dry+(Requiem+For+The+Rockets).mp3"],
+      ['Cowgirl in the Sand',607,"https://oughtify-seed.s3.amazonaws.com/neil/1969+-+Everybody+Knows+This+Is+Nowhere/07+-+Cowgirl+In+The+Sand.mp3"]
     ]
+
+    everybody_array.each_with_index do |song_info,i|
+      everybody_song = Song.create!({
+        title: song_info[0],
+        album_id: everybody_knows.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+
+      everybody_song_file = URI.open(song_info[2])
+      everybody_song.file.attach(io: everybody_song_file, filename: "everybody_#{i+1}.mp3")
+    end
 
     after_the_gold_rush = Album.create!({
       title: 'After the Gold Rush',
@@ -296,19 +415,34 @@ ApplicationRecord.transaction do
       year: 1970
     })
 
+    gold_rush_image = URI.open("https://oughtify-seed.s3.amazonaws.com/neil/1970+-+After+the+Gold+Rush/after_gold.jpg")
+    after_the_gold_rush.image.attach(io: gold_rush_image, filename: 'gold_rush.jpg')
+
     gold_rush_array = [
-      ['Tell Me Why',178,],
-      ['After the Gold Rush',226,],
-      ['Only Love Can Break Your Heart',188,],
-      ['Southern Man',332,],
-      ['Till the Morning Comes',80,],
-      ['Oh, Lonesome Me',230,],
-      ["Don't Let It Bring You Down",177,],
-      ['Birds',153,],
-      ['When You Dance I Can Really Love',245,],
-      ['I Believe in You',207,],
-      ['Cripple Creek Ferry',93,]
+      ['Tell Me Why',178,"https://oughtify-seed.s3.amazonaws.com/neil/1970+-+After+the+Gold+Rush/01+-+Tell+Me+Why.mp3"],
+      ['After the Gold Rush',226,"https://oughtify-seed.s3.amazonaws.com/neil/1970+-+After+the+Gold+Rush/02+-+After+the+Gold+Rush.mp3"],
+      ['Only Love Can Break Your Heart',188,"https://oughtify-seed.s3.amazonaws.com/neil/1970+-+After+the+Gold+Rush/03+-+Only+Love+Can+Break+Your+Heart.mp3"],
+      ['Southern Man',332,"https://oughtify-seed.s3.amazonaws.com/neil/1970+-+After+the+Gold+Rush/04+-+Southern+Man.mp3"],
+      ['Till the Morning Comes',80,"https://oughtify-seed.s3.amazonaws.com/neil/1970+-+After+the+Gold+Rush/05+-+Till+the+Morning+Comes.mp3"],
+      ['Oh, Lonesome Me',230,"https://oughtify-seed.s3.amazonaws.com/neil/1970+-+After+the+Gold+Rush/06+-+Oh%2C+Lonesome+Me.mp3"],
+      ["Don't Let It Bring You Down",177,"https://oughtify-seed.s3.amazonaws.com/neil/1970+-+After+the+Gold+Rush/07+-+Don't+Let+it+Bring+You+Down.mp3"],
+      ['Birds',153,"https://oughtify-seed.s3.amazonaws.com/neil/1970+-+After+the+Gold+Rush/08+-+Birds.mp3"],
+      ['When You Dance I Can Really Love',245,"https://oughtify-seed.s3.amazonaws.com/neil/1970+-+After+the+Gold+Rush/09+-+When+You+Dance+You+Can+Really+Love.mp3"],
+      ['I Believe in You',207,"https://oughtify-seed.s3.amazonaws.com/neil/1970+-+After+the+Gold+Rush/10+-+I+Believe+in+You.mp3"],
+      ['Cripple Creek Ferry',93,"https://oughtify-seed.s3.amazonaws.com/neil/1970+-+After+the+Gold+Rush/11+-+Cripple+Creek+Ferry.mp3"]
     ]
+
+    gold_rush_array.each_with_index do |song_info,i|
+      gold_rush_song = Song.create!({
+        title: song_info[0],
+        album_id: after_the_gold_rush.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+
+      gold_rush_song_file = URI.open(song_info[2])
+      gold_rush_song.file.attach(io: gold_rush_song_file, filename: "gold_rush_#{i+1}.mp3")
+    end
 
     harvest = Album.create!({
       title: 'Harvest',
@@ -316,18 +450,34 @@ ApplicationRecord.transaction do
       year: 1972
     })
 
+    harvest_image = URI.open("https://oughtify-seed.s3.amazonaws.com/neil/1972+-+Harvest/harvest.jpg")
+    harvest.image.attach(io: harvest_image, filename: 'harvest.jpg')
+
+  
     harvest_array = [
-      ['Out on the Weekend',274,],
-      ['Harvest',191,],
-      ['A Man Needs a Maid',245,],
-      ['Heart of Gold',187,],
-      ['Are You Ready for the Country?',203,],
-      ['Old Man',204,],
-      ["There's a World",179,],
-      ['Alabama',242,],
-      ['The Needle and the Damage Done',123,],
-      ['Words (Between the Lines of Age)',400,]
+      ['Out on the Weekend',274,"https://oughtify-seed.s3.amazonaws.com/neil/1972+-+Harvest/01+-+Out+On+The+Weekend.mp3"],
+      ['Harvest',191,"https://oughtify-seed.s3.amazonaws.com/neil/1972+-+Harvest/02+-+Harvest.mp3"],
+      ['A Man Needs a Maid',245,"https://oughtify-seed.s3.amazonaws.com/neil/1972+-+Harvest/03+-+A+Man+Needs+A+Maid.mp3"],
+      ['Heart of Gold',187,"https://oughtify-seed.s3.amazonaws.com/neil/1972+-+Harvest/04+-+Heart+Of+Gold.mp3"],
+      ['Are You Ready for the Country?',203,"https://oughtify-seed.s3.amazonaws.com/neil/1972+-+Harvest/05+-+Are+You+Ready+For+The+Country.mp3"],
+      ['Old Man',204,"https://oughtify-seed.s3.amazonaws.com/neil/1972+-+Harvest/06+-+Old+Man.mp3"],
+      ["There's a World",179,"https://oughtify-seed.s3.amazonaws.com/neil/1972+-+Harvest/07+-+There's+A+World.mp3"],
+      ['Alabama',242,"https://oughtify-seed.s3.amazonaws.com/neil/1972+-+Harvest/08+-+Alabama.mp3"],
+      ['The Needle and the Damage Done',123,"https://oughtify-seed.s3.amazonaws.com/neil/1972+-+Harvest/09+-+The+Needle+And+The+Damage+Done.mp3"],
+      ['Words (Between the Lines of Age)',400,"https://oughtify-seed.s3.amazonaws.com/neil/1972+-+Harvest/10+-+Words+(Between+The+Lines+Of+Age).mp3"]
     ]
+
+    harvest_array.each_with_index do |song_info,i|
+      harvest_song = Song.create!({
+        title: song_info[0],
+        album_id: harvest.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+
+      harvest_song_file = URI.open(song_info[2])
+      harvest_song.file.attach(io: harvest_song_file, filename: "harvest_#{i+1}.mp3")
+    end
 
     on_the_beach = Album.create!({
       title: 'On the Beach',
@@ -335,22 +485,42 @@ ApplicationRecord.transaction do
       year: 1974
     })
 
+    on_the_beach_image = URI.open("https://oughtify-seed.s3.amazonaws.com/neil/1974+-+On+The+Beach/on_the_beach.jpg")
+    on_the_beach.image.attach(io: on_the_beach_image, filename: 'beach.jpg')
 
     beach_array = [
-      ['Walk On',162,],
-      ['See the Sky About to Rain',302,],
-      ['Revolution Blues',243,],
-      ['For the Turnstiles',195,],
-      ['Vampire Blues',254,],
-      ['On the Beach',419,],
-      ['Motion Pictures',263,],
-      ['Ambulance Blues',446,]
+      ['Walk On',162,"https://oughtify-seed.s3.amazonaws.com/neil/1974+-+On+The+Beach/01+-+Walk+On.mp3"],
+      ['See the Sky About to Rain',302,"https://oughtify-seed.s3.amazonaws.com/neil/1974+-+On+The+Beach/02+-+See+The+Sky+About+To+Rain.mp3"],
+      ['Revolution Blues',243,"https://oughtify-seed.s3.amazonaws.com/neil/1974+-+On+The+Beach/03+-+Revolution+Blues.mp3"],
+      ['For the Turnstiles',195,"https://oughtify-seed.s3.amazonaws.com/neil/1974+-+On+The+Beach/04+-+For+The+Turnstiles.mp3"],
+      ['Vampire Blues',254,"https://oughtify-seed.s3.amazonaws.com/neil/1974+-+On+The+Beach/05+-+Vampire+Blues.mp3"],
+      ['On the Beach',419,"https://oughtify-seed.s3.amazonaws.com/neil/1974+-+On+The+Beach/06+-+On+The+Beach.mp3"],
+      ['Motion Pictures',263,"https://oughtify-seed.s3.amazonaws.com/neil/1974+-+On+The+Beach/07+-+Motion+Pictures.mp3"],
+      ['Ambulance Blues',446,"https://oughtify-seed.s3.amazonaws.com/neil/1974+-+On+The+Beach/08+-+Ambulance+Blues.mp3"]
     ]
+
+    beach_array.each_with_index do |song_info,i|
+      beach_song = Song.create!({
+        title: song_info[0],
+        album_id: on_the_beach.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+
+      beach_song_file = URI.open(song_info[2])
+      beach_song.file.attach(io: beach_song_file, filename: "beach_#{i+1}.mp3")
+    end
 
     joanna_newsom = Artist.create!({
       name: 'Joanna Newsom',
       bio: 'Joanna Caroline Newsom (born January 18, 1982) is an American singer-songwriter and actress. Born and raised in Northern California, Newsom was classically trained on the harp in her youth and began her musical career as a keyboardist in the San Francisco-based indie band the Pleased. After recording and self-releasing two EPs in 2002, Newsom was signed to the independent label Drag City. Her debut album, The Milk-Eyed Mender, was released in 2004 to critical acclaim and garnered Newsom an underground following. She would receive wider exposure with the release of Ys (2006), which charted at number 134 on the Billboard 200 and was nominated for a 2007 Shortlist Music Prize. She released two further albums: Have One on Me (2010), and Divers (2015), the latter of which outsold all of her previous albums. Newsom has been noted by critics for her unique musical style, sometimes characterized as progressive folk, and for her prominent use of harp instrumentation. She has also appeared as an actress with roles in the television series Portlandia and in the 2014 film Inherent Vice.'
     })
+
+    joanna_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joanna/joanna_image.png")
+    joanna_newsom.image.attach(io: joanna_image, filename: 'joanna_image.png')
+
+    joanna_banner = URI.open("https://oughtify-seed.s3.amazonaws.com/joanna/joanna_banner.jpeg")
+    joanna_newsom.banner_image.attach(io: joanna_banner, filename: 'joanna_banner.jpeg')
 
     milk_eyed_mender = Album.create!({
       title: 'The Milk-Eyed Mender',
@@ -464,19 +634,66 @@ ApplicationRecord.transaction do
       year: 1974
     })
 
+    guitar_array = [
+      ['Hello Music',90,],
+      ["Glass c/w Steel",334,],
+      ["Ghosts",192,],
+      ["Out of Their Heads (On Locoweed)",503,],
+      ["Not Forgotten",115,],
+      ["Hollow Music",163,],
+      ["Heat c/w Moment",103,],
+      ["No Birds",766,]
+    ]
 
-    
     gravity = Album.create!({
       title: 'Gravity',
       artist_id: fred_frith.id,
       year: 1980
     })
 
+    gravity_array = [
+      ["The Boy Beats the Rams",294,],
+      ["Spring Any Day Now",184,],
+      ["Don't Cry for Me",208,],
+      ["Hands of the Juggler",331,],
+      ["Norrgarden Nyvla",174,],
+      ["Year of the Monkey",245,],
+      ["What a Dilemma",190,],
+      ["Crack in the Concrete",84,],
+      ["Come Across",167,],
+      ["Dancing in the Street / My Enemy is a Bad Man",279,],
+      ["Slap Dance",150,],
+      ["A Career in Real Estate",280,],
+      ["Dancing in Rockville, Maryland",170,],
+      ["Waking Against Sleep",124,],
+      ["Terrain",228,],
+      ["Moeris Dancing",299,],
+      ["Geistige Nacht",316,],
+      ["Life at the Top",100,],
+      ["Oh Wie Schön Ist Panama!",302,]
+    ]
+
     speechless = Album.create!({
       title: 'Speechless',
       artist_id: fred_frith.id,
       year: 1981
     })
+
+    speechless_array = [
+      ["Kick the Can (Part 1)",142,],
+      ["Carnival on Wall Street",172,],
+      ["Ahead in the Sand",197,],
+      ["Laughing Matter / Esperanza",466,],
+      ["Women Speak to Men; Men Speak to Women",343,],
+      ["A Spit in the Ocean",137,],
+      ["Navajo",184,],
+      ["Balance",307,],
+      ["Saving Grace",116,],
+      ["Speechless",187,],
+      ["Conversations with White Arc",75,],
+      ["Domaine de Planousset",181,],
+      ["Kick the Can (Part 2)",140,]
+    ]
 
     puts "Creating five dummy playlists..."
 
