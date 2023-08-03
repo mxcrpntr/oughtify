@@ -95,7 +95,7 @@ export default function PlaylistShow() {
                     <h1>{playlist.title}</h1>
 
                     <h5>
-                        <Link to="">{playlist.userName}</Link>
+                        <Link to="" onClick={(e) => {e.preventDefault()}}>{playlist.userName}</Link>
                         &nbsp;· {playlist.playlistSongIds.length} song{ playlist.playlistSongIds.length === 1 ? "" : "s" },
                         &nbsp; <span className="playlistLength">{formatRuntime(runtime)}</span>
 
@@ -124,13 +124,13 @@ export default function PlaylistShow() {
                     <table>
                         <tr ref={tableRowRef}>
                             <td>#</td>
-                            <td>
+                            <td className="titleColumn">
                                 Title
                             </td>
-                            <td  hidden={ rowWidth < 500 ? "hidden" : ""} >
+                            <td className="albumColumn"  hidden={ rowWidth < 500 ? "hidden" : ""} >
                                 Album
                             </td>
-                            <td hidden={ rowWidth < 710 ? "hidden" : ""} >
+                            <td className="dateAddedColumn" hidden={ rowWidth < 710 ? "hidden" : ""} >
                                 Date added
                             </td>
                             <td></td>

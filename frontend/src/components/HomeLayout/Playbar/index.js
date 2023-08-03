@@ -16,8 +16,8 @@ export default function Playbar() {
 
     const [paused, setPaused] = useState(true);
     const [durationOrRemainder, setDurationOrRemainder] = useState(true);
-    const [currentSong, setCurrentSong] = useState(sessionUser?.queue[0]?.[0]);
-    const [currentSongTime, setCurrentSongTime] = useState(sessionUser?.queue[0]?.[1] ? sessionUser?.queue[0][1] : 0);
+    const [currentSong, setCurrentSong] = useState(sessionUser?.queue?.[0]?.[0]);
+    const [currentSongTime, setCurrentSongTime] = useState(sessionUser?.queue?.[0]?.[1] ? sessionUser?.queue[0][1] : 0);
 
     const [knobStyle,setKnobStyle] = useState({
         left: 0
@@ -70,6 +70,32 @@ export default function Playbar() {
     const [audioSrc,setAudioSrc] = useState(currentSong?.fileUrl ? currentSong.fileUrl : "");
 
     useEffect(() => {
+        if (audioRef.current && currentSongTime) {
+            audioRef.current.currentTime = currentSongTime
+            percent = 100 * (currentSongTime / audioRef.current.duration);
+            setKnobStyle({left: `${percent}%`});
+            setRangeStyle({...rangeStyle, width: `${percent}%`});
+            if (!audioRef.current.paused) audioRef.current.pause();
+        }
+
+        const handleLoadedMetadata = () => {
+            if (audioRef.current && !audioRef.current.paused) {
+              audioRef.current.pause();
+            }
+          };
+        if (audioRef.current) {
+            audioRef.current.addEventListener('loadedmetadata', handleLoadedMetadata);
+        }
+        
+        return () => {
+            if (audioRef.current) {
+                audioRef.current.removeEventListener('loadedmetadata', handleLoadedMetadata);
+            }
+        };
+    }, [])
+
+
+    useEffect(() => {
         if (sessionUser?.queue?.[0]) {
             setCurrentSong(sessionUser?.queue?.[0]?.[0]);
             setAudioSrc(sessionUser?.queue?.[0]?.[0]?.fileUrl);
@@ -100,7 +126,7 @@ export default function Playbar() {
         const saveUserQueue = async () => {
             if (sessionUser) {
                 counter.current++;
-                if (counter.current % 1000 === 0) {
+                if (counter.current % 20 === 0) {
                     console.log(counter.current);
                     dispatch(updateUser(sessionUser));
                 }

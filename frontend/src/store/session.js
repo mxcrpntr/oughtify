@@ -40,6 +40,7 @@ export const login = ({ credential, password }) => async dispatch => {
       body: JSON.stringify({ credential, password })
     });
     const data = await response.json();
+    console.log(data)
     const updatedUser = {...data.user}
     updatedUser.queue = JSON.parse(updatedUser.queue)
     storeCurrentUser(updatedUser);

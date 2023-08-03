@@ -43,7 +43,7 @@ export default function HomeNavigation() {
     })
 
     return (
-        <div className="homeNavigation" style={opacityStyle}>
+        <div className="homeNavigation" style={ sessionUser ? opacityStyle : {backgroundColor: "rgba(18, 18, 18, 1)", opacity: 1}}>
             {!sessionStorage["currentUser"] && (
                 <>
                     <span>
