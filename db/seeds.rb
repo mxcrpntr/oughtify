@@ -528,20 +528,36 @@ ApplicationRecord.transaction do
       year: 2004
     })
 
+    milk_eyed_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/milkeyed.jpg")
+    milk_eyed_mender.image.attach(io: milk_eyed_image, filename: 'milk_eyed.jpg')
+
     milk_eyed_array = [
-      ['Bridges and Balloons',222,],
-      ['Sprout and the Bean',272,],
-      ['The Book of Right-On',269,],
-      ['Sadie',362,],
-      ['Inflammatory Writ',170,],
-      ['This Side of the Blue',321,],
-      [`"En Gallop"`,307,],
-      ['Cassiopeia',200,],
-      ['Peach, Plum, Pear',214,],
-      ['Swansea',305,],
-      ['Three Little Babes',222,],
-      ['Clam, Crab, Cockle, Cowrie',261,]
+      ['Bridges and Balloons',222,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/01+-+Bridges+And+Balloons.mp3"],
+      ['Sprout and the Bean',272,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/02+-+Sprout+And+The+Bean.mp3"],
+      ['The Book of Right-On',269,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/03+-+The+Book+Of+Right-On.mp3"],
+      ['Sadie',362,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/04+-+Sadie.mp3"],
+      ['Inflammatory Writ',170,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/05+-+Inflammatory+Writ.mp3"],
+      ['This Side of the Blue',321,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/06+-+This+Side+Of+The+Blue.mp3"],
+      [`"En Gallop"`,307,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/07+-+'En+Gallop'.mp3"],
+      ['Cassiopeia',200,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/08+-+Cassiopeia.mp3"],
+      ['Peach, Plum, Pear',214,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/09+-+Peach%2C+Plum%2C+Pear.mp3"],
+      ['Swansea',305,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/10+-+Swansea.mp3"],
+      ['Three Little Babes',222,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/11+-+Three+Little+Babes.mp3"],
+      ['Clam, Crab, Cockle, Cowrie',261,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/12+-+Clam%2C+Crab%2C+Cockle%2C+Cowrie.mp3"]
     ]
+
+
+    milk_eyed_array.each_with_index do |song_info,i|
+      milk_eyed_song = Song.create!({
+        title: song_info[0],
+        album_id: milk_eyed_mender.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+
+      milk_eyed_song_file = URI.open(song_info[2])
+      milk_eyed_song.file.attach(io: milk_eyed_song_file, filename: "milk_eyed_#{i+1}.mp3")
+    end
 
     ys = Album.create!({
       title: 'Ys',
@@ -549,13 +565,29 @@ ApplicationRecord.transaction do
       year: 2006
     })
 
+    ys_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joanna/2006+-+Ys/ys.jpeg")
+    ys.image.attach(io: ys_image, filename: 'ys.jpeg')
+
     ys_array = [
-      ['Emily',728,],
-      ['Monkey & Bear',568,],
-      ['Sawdust & Diamonds',595,],
-      ['Only Skin',1013,],
-      ["Cosmia",437,]
+      ['Emily',728,"https://oughtify-seed.s3.amazonaws.com/joanna/2006+-+Ys/01+-+Emily.mp3"],
+      ['Monkey & Bear',568,"https://oughtify-seed.s3.amazonaws.com/joanna/2006+-+Ys/02+-+Monkey+%26+Bear.mp3"],
+      ['Sawdust & Diamonds',595,"https://oughtify-seed.s3.amazonaws.com/joanna/2006+-+Ys/03+-+Sawdust+%26+Diamonds.mp3"],
+      ['Only Skin',1013,"https://oughtify-seed.s3.amazonaws.com/joanna/2006+-+Ys/04+-+Only+Skin.mp3"],
+      ["Cosmia",437,"https://oughtify-seed.s3.amazonaws.com/joanna/2006+-+Ys/05+-+Cosmia.mp3"]
     ]
+
+
+    ys_array.each_with_index do |song_info,i|
+      ys_song = Song.create!({
+        title: song_info[0],
+        album_id: ys.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+
+      ys_song_file = URI.open(song_info[2])
+      ys_song.file.attach(io: ys_song_file, filename: "ys_#{i+1}.mp3")
+    end
 
     have_one_on_me = Album.create!({
       title: 'Have One on Me',
@@ -563,31 +595,52 @@ ApplicationRecord.transaction do
       year: 2010
     })
 
+    have_one_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/have_one.jpg")
+    have_one_on_me.image.attach(io: have_one_image, filename: 'have_one.jpg')
+
     have_one_array = [
-      ["Easy",364,],
-      ["Have One on Me",662,],
-      ["'81",231,],
-      ["Good Intentions Paving Co.",422,],
-      ["No Provenance",385,],
-      ["Baby Birch",570,],
-      ["On a Good Day",108,],
-      ["You and Me, Bess",432,],
-      ["In California",521,],
-      ["Jackrabbits",263,],
-      ["Go Long",482,],
-      ["Occident",331,],
-      ["Soft as Chalk",389,],
-      ["Esme",476,],
-      ["Autumn",481,],
-      ["Ribbon Bows",370,],
-      ["Kingfisher",551,],
-      ["Does Not Suffice",404,]
+      ["Easy",364,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/01+-+Easy.mp3"],
+      ["Have One on Me",662,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/02+-+Have+One+On+Me.mp3"],
+      ["'81",231,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/03+-+'81.mp3"],
+      ["Good Intentions Paving Co.",422,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/04+-+Good+Intentions+Paving+Company.mp3"],
+      ["No Provenance",385,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/05+-+No+Provenance.mp3"],
+      ["Baby Birch",570,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/06+-+Baby+Birch.mp3"],
+      ["On a Good Day",108,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/07+-+On+A+Good+Day.mp3"],
+      ["You and Me, Bess",432,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/08+-+You+And+Me%2C+Bess.mp3"],
+      ["In California",521,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/09+-+In+California.mp3"],
+      ["Jackrabbits",263,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/10+-+Jackrabbits.mp3"],
+      ["Go Long",482,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/11+-+Go+Long.mp3"],
+      ["Occident",331,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/12+-+Occident.mp3"],
+      ["Soft as Chalk",389,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/13+-+Soft+As+Chalk.mp3"],
+      ["Esme",476,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/14+-+Esme.mp3"],
+      ["Autumn",481,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/15+-+Autumn.mp3"],
+      ["Ribbon Bows",370,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/16+-+Ribbon+Bows.mp3"],
+      ["Kingfisher",551,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/17+-+Kingfisher.mp3"],
+      ["Does Not Suffice",404,"https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/18+-+Does+Not+Suffice.mp3"]
     ]
+
+    have_one_array.each_with_index do |song_info,i|
+      have_one_song = Song.create!({
+        title: song_info[0],
+        album_id: have_one_on_me.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+
+      have_one_song_file = URI.open(song_info[2])
+      have_one_song.file.attach(io: have_one_song_file, filename: "have_one_#{i+1}.mp3")
+    end
 
     jeff_mills = Artist.create!({
       name: 'Jeff Mills',
       bio: 'Jeff Mills is a leading figure in the history of electronic music. Born in Detroit in 1963, he was not even twenty when he started airing six radio shows a week in his hometown. At that time he mixed New Wave, Industrial Music, Electro-Pop, Detroit Techno and Chicago House. In 1988, he entered into music production when, together with Tony Srock, he founded Final Cut. He left in 1990 and along with Mike Banks – another leading figure on the Detroit scene- set up the mythic label and collective: Underground Resistance. However wanting to go in his own direction and develop a more personal esthetic experience, he created his own label Axis Records in 1992 and also collaborated with Tresor in Berlin.'
     })
+
+    jeff_image = URI.open("https://oughtify-seed.s3.amazonaws.com/jeff/jeff_image.jpg")
+    jeff_mills.image.attach(io: jeff_image, filename: 'jeff_image.jpg')
+
+    jeff_banner = URI.open("https://oughtify-seed.s3.amazonaws.com/jeff/jeff_banner.jpeg")
+    jeff_mills.banner_image.attach(io: jeff_banner, filename: 'jeff_banner.jpeg')
 
     waveform_one = Album.create!({
       title: 'Waveform Transmission Vol. 1',
@@ -595,16 +648,32 @@ ApplicationRecord.transaction do
       year: 1993
     })
 
+    wave_one_image = URI.open("https://oughtify-seed.s3.amazonaws.com/jeff/1992+Jeff+Mills+-+Waveform+Transmission+Vol.+1+%5BTresor+11%5D+CD/waveform_one.jpg")
+    waveform_one.image.attach(io: wave_one_image, filename: 'wave_one.jpg')
+
     wave_one_array = [
-      ['Phase 4',287,],
-      ['Jerical',327,],
-      ['Changes of Life',291,],
-      ['Berlin',355,],
-      ['The Hacker',261,],
-      ['Late Night',286,],
-      ['DNA',248,],
-      ['Man-Like',289,]
+      ['Phase 4',287,"https://oughtify-seed.s3.amazonaws.com/jeff/1992+Jeff+Mills+-+Waveform+Transmission+Vol.+1+%5BTresor+11%5D+CD/01+Jeff+Mills+-+Phase+4.mp3"],
+      ['Jerical',327,"https://oughtify-seed.s3.amazonaws.com/jeff/1992+Jeff+Mills+-+Waveform+Transmission+Vol.+1+%5BTresor+11%5D+CD/02+Jeff+Mills+-+Jerical.mp3"],
+      ['Changes of Life',291,"https://oughtify-seed.s3.amazonaws.com/jeff/1992+Jeff+Mills+-+Waveform+Transmission+Vol.+1+%5BTresor+11%5D+CD/03+Jeff+Mills+-+Changes+Of+Life.mp3"],
+      ['Berlin',355,"https://oughtify-seed.s3.amazonaws.com/jeff/1992+Jeff+Mills+-+Waveform+Transmission+Vol.+1+%5BTresor+11%5D+CD/04+Jeff+Mills+-+Berlin.mp3"],
+      ['The Hacker',261,"https://oughtify-seed.s3.amazonaws.com/jeff/1992+Jeff+Mills+-+Waveform+Transmission+Vol.+1+%5BTresor+11%5D+CD/05+Jeff+Mills+-+The+Hacker.mp3"],
+      ['Late Night',286,"https://oughtify-seed.s3.amazonaws.com/jeff/1992+Jeff+Mills+-+Waveform+Transmission+Vol.+1+%5BTresor+11%5D+CD/06+Jeff+Mills+-+Late+Night.mp3"],
+      ['DNA',248,"https://oughtify-seed.s3.amazonaws.com/jeff/1992+Jeff+Mills+-+Waveform+Transmission+Vol.+1+%5BTresor+11%5D+CD/07+Jeff+Mills+-+DNA.mp3"],
+      ['Man-Like',289,"https://oughtify-seed.s3.amazonaws.com/jeff/1992+Jeff+Mills+-+Waveform+Transmission+Vol.+1+%5BTresor+11%5D+CD/08+Jeff+Mills+-+Man-Like.mp3"]
     ]
+
+
+    wave_one_array.each_with_index do |song_info,i|
+      wave_one_song = Song.create!({
+        title: song_info[0],
+        album_id: waveform_one.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+
+      wave_one_song_file = URI.open(song_info[2])
+      wave_one_song.file.attach(io: wave_one_song_file, filename: "wave_one_#{i+1}.mp3")
+    end
 
     waveform_three = Album.create!({
       title: 'Waveform Transmission Vol. 3',
@@ -612,21 +681,43 @@ ApplicationRecord.transaction do
       year: 1994
     })
 
+    wave_three_image = URI.open("https://oughtify-seed.s3.amazonaws.com/jeff/1994+Jeff+Mills+-+Waveform+Transmission+Vol.+3+%5BTresor+25%5D+CD/waveform_three.jpg")
+    waveform_three.image.attach(io: wave_three_image, filename: 'wave_three.jpg')
+
     wave_three_array = [
-      ['The Extremist',255,],
-      ['Solid Sleep',227,],
-      ['Life Cycle',233,],
-      ['Workers',198,],
-      ['Wrath of the Punisher',229,],
-      ['DNA',218,],
-      ['Condor to Mallorca',340,],
-      ['Basic Human Design',352,]
+      ['The Extremist',255,"https://oughtify-seed.s3.amazonaws.com/jeff/1994+Jeff+Mills+-+Waveform+Transmission+Vol.+3+%5BTresor+25%5D+CD/01+Jeff+Mills+-+The+Extremist.mp3"],
+      ['Solid Sleep',227,"https://oughtify-seed.s3.amazonaws.com/jeff/1994+Jeff+Mills+-+Waveform+Transmission+Vol.+3+%5BTresor+25%5D+CD/02+Jeff+Mills+-+Solid+Sleep.mp3"],
+      ['Life Cycle',233,"https://oughtify-seed.s3.amazonaws.com/jeff/1994+Jeff+Mills+-+Waveform+Transmission+Vol.+3+%5BTresor+25%5D+CD/03+Jeff+Mills+-+Life+Cycle.mp3"],
+      ['Workers',198,"https://oughtify-seed.s3.amazonaws.com/jeff/1994+Jeff+Mills+-+Waveform+Transmission+Vol.+3+%5BTresor+25%5D+CD/04+Jeff+Mills+-+Workers.mp3"],
+      ['Wrath of the Punisher',229,"https://oughtify-seed.s3.amazonaws.com/jeff/1994+Jeff+Mills+-+Waveform+Transmission+Vol.+3+%5BTresor+25%5D+CD/05+Jeff+Mills+-+Wrath+Of+The+Punisher.mp3"],
+      ['DNA',218,"https://oughtify-seed.s3.amazonaws.com/jeff/1994+Jeff+Mills+-+Waveform+Transmission+Vol.+3+%5BTresor+25%5D+CD/06+Jeff+Mills+-+DNA.mp3"],
+      ['Condor to Mallorca',340,"https://oughtify-seed.s3.amazonaws.com/jeff/1994+Jeff+Mills+-+Waveform+Transmission+Vol.+3+%5BTresor+25%5D+CD/07+Jeff+Mills+-+Condor+To+Mallorca.mp3"],
+      ['Basic Human Design',352,"https://oughtify-seed.s3.amazonaws.com/jeff/1994+Jeff+Mills+-+Waveform+Transmission+Vol.+3+%5BTresor+25%5D+CD/08+Jeff+Mills+-+Basic+Human+Design.mp3"]
     ]
+
+    wave_three_array.each_with_index do |song_info,i|
+      wave_three_song = Song.create!({
+        title: song_info[0],
+        album_id: waveform_three.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+
+      wave_three_song_file = URI.open(song_info[2])
+      wave_three_song.file.attach(io: wave_three_song_file, filename: "wave_three_#{i+1}.mp3")
+    end
+
 
     fred_frith = Artist.create!({
       name: 'Fred Frith',
       bio: 'Jeremy Webster "Fred" Frith (born 17 February 1949) is an English multi-instrumentalist, composer, and improviser. Probably best known for his guitar work, Frith first came to attention as one of the founding members of the English avant-rock group Henry Cow. He was also a member of the groups Art Bears, Massacre, and Skeleton Crew. He has collaborated with a number of prominent musicians, including Robert Wyatt, Derek Bailey, the Residents, Lol Coxhill, John Zorn, Brian Eno, Mike Patton, Lars Hollmer, Bill Laswell, Iva Bittová, Jad Fair, Kramer, the ARTE Quartett, and Bob Ostertag. He has also composed several long works, including Traffic Continues (1996, performed 1998 by Frith and Ensemble Modern) and Freedom in Fragments (1993, performed 1999 by Rova Saxophone Quartet). Frith produces most of his own music, and has also produced many albums by other musicians, including Curlew, the Muffins, Etron Fou Leloublan, and Orthotonics.'
     })
+
+    fred_image = URI.open("https://oughtify-seed.s3.amazonaws.com/fred/fred_image.jpeg")
+    fred_frith.image.attach(io: fred_image, filename: 'fred_image.jpeg')
+
+    fred_banner = URI.open("https://oughtify-seed.s3.amazonaws.com/fred/fred_banner.jpeg")
+    fred_frith.banner_image.attach(io: fred_banner, filename: 'fred_banner.jpeg')
 
     guitar_solos = Album.create!({
       title: 'Guitar Solos',
@@ -634,16 +725,31 @@ ApplicationRecord.transaction do
       year: 1974
     })
 
+    guitar_image = URI.open("https://oughtify-seed.s3.amazonaws.com/fred/1974+-+1988+-+Guitar+Solos+-+224/guitar.jpg")
+    guitar_solos.image.attach(io: guitar_image, filename: 'guitar.jpg')
+
     guitar_array = [
-      ['Hello Music',90,],
-      ["Glass c/w Steel",334,],
-      ["Ghosts",192,],
-      ["Out of Their Heads (On Locoweed)",503,],
-      ["Not Forgotten",115,],
-      ["Hollow Music",163,],
-      ["Heat c/w Moment",103,],
-      ["No Birds",766,]
+      ['Hello Music',90,"https://oughtify-seed.s3.amazonaws.com/fred/1974+-+1988+-+Guitar+Solos+-+224/01.+Hello+Music.mp3"],
+      ["Glass c/w Steel",334,"https://oughtify-seed.s3.amazonaws.com/fred/1974+-+1988+-+Guitar+Solos+-+224/02.+Glass+c-w+Steel.mp3"],
+      ["Ghosts",192,"https://oughtify-seed.s3.amazonaws.com/fred/1974+-+1988+-+Guitar+Solos+-+224/03.+Ghosts.mp3"],
+      ["Out of Their Heads (On Locoweed)",503,"https://oughtify-seed.s3.amazonaws.com/fred/1974+-+1988+-+Guitar+Solos+-+224/04.+Out+Of+Their+Heads+(On+Locoweed).mp3"],
+      ["Not Forgotten",115,"https://oughtify-seed.s3.amazonaws.com/fred/1974+-+1988+-+Guitar+Solos+-+224/05.+Not+Forgotten.mp3"],
+      ["Hollow Music",163,"https://oughtify-seed.s3.amazonaws.com/fred/1974+-+1988+-+Guitar+Solos+-+224/06.+Hollow+Music.mp3"],
+      ["Heat c/w Moment",103,"https://oughtify-seed.s3.amazonaws.com/fred/1974+-+1988+-+Guitar+Solos+-+224/07.+Heat+c-w+Moment.mp3"],
+      ["No Birds",766,"https://oughtify-seed.s3.amazonaws.com/fred/1974+-+1988+-+Guitar+Solos+-+224/08.+No+Birds.mp3"]
     ]
+
+    guitar_array.each_with_index do |song_info,i|
+      guitar_song = Song.create!({
+        title: song_info[0],
+        album_id: guitar_solos.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+
+      guitar_song_file = URI.open(song_info[2])
+      guitar_song.file.attach(io: guitar_song_file, filename: "guitar_#{i+1}.mp3")
+    end
 
     gravity = Album.create!({
       title: 'Gravity',
@@ -651,27 +757,42 @@ ApplicationRecord.transaction do
       year: 1980
     })
 
+    gravity_image = URI.open("https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/gravity.jpg")
+    gravity.image.attach(io: gravity_image, filename: 'gravity.jpg')
+
     gravity_array = [
-      ["The Boy Beats the Rams",294,],
-      ["Spring Any Day Now",184,],
-      ["Don't Cry for Me",208,],
-      ["Hands of the Juggler",331,],
-      ["Norrgarden Nyvla",174,],
-      ["Year of the Monkey",245,],
-      ["What a Dilemma",190,],
-      ["Crack in the Concrete",84,],
-      ["Come Across",167,],
-      ["Dancing in the Street / My Enemy is a Bad Man",279,],
-      ["Slap Dance",150,],
-      ["A Career in Real Estate",280,],
-      ["Dancing in Rockville, Maryland",170,],
-      ["Waking Against Sleep",124,],
-      ["Terrain",228,],
-      ["Moeris Dancing",299,],
-      ["Geistige Nacht",316,],
-      ["Life at the Top",100,],
-      ["Oh Wie Schön Ist Panama!",302,]
+      ["The Boy Beats the Rams",294,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/01+-+The+Boy+Beats+the+Rams.mp3"],
+      ["Spring Any Day Now",184,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/02+-+Spring+Any+Day+Now.mp3"],
+      ["Don't Cry for Me",208,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/03+-+Don't+Cry+For+Me.mp3"],
+      ["Hands of the Juggler",331,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/04+-+Hands+of+the+Juggler.mp3"],
+      ["Norrgarden Nyvla",174,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/05+-+Norrgarden+Nyvla.mp3"],
+      ["Year of the Monkey",245,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/06+-+Year+of+the+Monkey.mp3"],
+      ["What a Dilemma",190,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/07+-+What+a+Dilemma.mp3"],
+      ["Crack in the Concrete",84,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/08+-+Crack+in+the+Concrete.mp3"],
+      ["Come Across",167,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/09+-+Come+Across.mp3"],
+      ["Dancing in the Street / My Enemy is a Bad Man",279,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/10+-+Dancing+in+the+Street+-+My+Enemy+Is+a+Bad+Man.mp3"],
+      ["Slap Dance",150,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/11+-+Slap+Dance.mp3"],
+      ["A Career in Real Estate",280,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/12+-+A+Career+in+Real+Estate.mp3"],
+      ["Dancing in Rockville, Maryland",170,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/13+-+Dancing+in+Rockville%2C+Maryland.mp3"],
+      ["Waking Against Sleep",124,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/14+-+Waking+Against+Sleep.mp3"],
+      ["Terrain",228,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/15+-+Terrain.mp3"],
+      ["Moeris Dancing",299,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/16+-+Moeris+Dancing.mp3"],
+      ["Geistige Nacht",316,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/17+-+Geistige+Nacht.mp3"],
+      ["Life at the Top",100,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/18+-+Life+at+the+Top.mp3"],
+      ["Oh Wie Schön Ist Panama!",302,"https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/19+-+Oh+Wie+Schon+Ist+Panama!.mp3"]
     ]
+
+    gravity_array.each_with_index do |song_info,i|
+      gravity_song = Song.create!({
+        title: song_info[0],
+        album_id: gravity.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+
+      gravity_song_file = URI.open(song_info[2])
+      gravity_song.file.attach(io: gravity_song_file, filename: "gravity_#{i+1}.mp3")
+    end
 
     speechless = Album.create!({
       title: 'Speechless',
@@ -679,21 +800,36 @@ ApplicationRecord.transaction do
       year: 1981
     })
 
+    speechless_image = URI.open("https://oughtify-seed.s3.amazonaws.com/fred/1981+-+Speechless+-+VBR/speechless.jpg")
+    speechless.image.attach(io: speechless_image, filename: 'speechless.jpg')
+
     speechless_array = [
-      ["Kick the Can (Part 1)",142,],
-      ["Carnival on Wall Street",172,],
-      ["Ahead in the Sand",197,],
-      ["Laughing Matter / Esperanza",466,],
-      ["Women Speak to Men; Men Speak to Women",343,],
-      ["A Spit in the Ocean",137,],
-      ["Navajo",184,],
-      ["Balance",307,],
-      ["Saving Grace",116,],
-      ["Speechless",187,],
-      ["Conversations with White Arc",75,],
-      ["Domaine de Planousset",181,],
-      ["Kick the Can (Part 2)",140,]
+      ["Kick the Can (Part 1)",142,"https://oughtify-seed.s3.amazonaws.com/fred/1981+-+Speechless+-+VBR/01.+Kick+the+Can+(part+1).mp3"],
+      ["Carnival on Wall Street",172,"https://oughtify-seed.s3.amazonaws.com/fred/1981+-+Speechless+-+VBR/02.+Carnival+On+Wall+Street.mp3"],
+      ["Ahead in the Sand",197,"https://oughtify-seed.s3.amazonaws.com/fred/1981+-+Speechless+-+VBR/03.+Ahead+In+The+Sand.mp3"],
+      ["Laughing Matter / Esperanza",466,"https://oughtify-seed.s3.amazonaws.com/fred/1981+-+Speechless+-+VBR/04.+Laughing+Matter+-+Esperanza.mp3"],
+      ["Women Speak to Men; Men Speak to Women",343,"https://oughtify-seed.s3.amazonaws.com/fred/1981+-+Speechless+-+VBR/05.+Women+Speak+To+Men+-+Men+Speak+To+Women.mp3"],
+      ["A Spit in the Ocean",137,"https://oughtify-seed.s3.amazonaws.com/fred/1981+-+Speechless+-+VBR/06.+A+Spit+In+The+Ocean.mp3"],
+      ["Navajo",184,"https://oughtify-seed.s3.amazonaws.com/fred/1981+-+Speechless+-+VBR/07.+Navajo.mp3"],
+      ["Balance",307,"https://oughtify-seed.s3.amazonaws.com/fred/1981+-+Speechless+-+VBR/08.+Balance.mp3"],
+      ["Saving Grace",116,"https://oughtify-seed.s3.amazonaws.com/fred/1981+-+Speechless+-+VBR/09.+Saving+Grace.mp3"],
+      ["Speechless",187,"https://oughtify-seed.s3.amazonaws.com/fred/1981+-+Speechless+-+VBR/10.+Speechless.mp3"],
+      ["Conversations with White Arc",75,"https://oughtify-seed.s3.amazonaws.com/fred/1981+-+Speechless+-+VBR/11.+Conversations+With+White+Arc.mp3"],
+      ["Domaine de Planousset",181,"https://oughtify-seed.s3.amazonaws.com/fred/1981+-+Speechless+-+VBR/12.+Domaine+De+Planousset.mp3"],
+      ["Kick the Can (Part 2)",140,"https://oughtify-seed.s3.amazonaws.com/fred/1981+-+Speechless+-+VBR/13.+Kick+The+Can+(Part+2).mp3"]
     ]
+
+    speechless_array.each_with_index do |song_info,i|
+      speechless_song = Song.create!({
+        title: song_info[0],
+        album_id: speechless.id,
+        number: i + 1,
+        length: song_info[1]
+      })
+
+      speechless_song_file = URI.open(song_info[2])
+      speechless_song.file.attach(io: speechless_song_file, filename: "speechless_#{i+1}.mp3")
+    end
 
     puts "Creating five dummy playlists..."
 
@@ -709,7 +845,8 @@ ApplicationRecord.transaction do
         color: "##{SecureRandom.hex(3)}"
       })
       i = 1
-      while i <= 5 do
+      num = rand(3..18)
+      while i <= num do
         test_playlist_song = PlaylistSong.create({
           playlist_id: test_playlist.id,
           song_id: all_songs.sample.id,
