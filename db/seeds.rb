@@ -261,6 +261,18 @@ ApplicationRecord.transaction do
       year: 1968
     })
 
+    young_album_array = [
+      ['The Emperor of Wyoming',140,],
+      ['The Loner',233,],
+      ['If I Could Have Her Tonight',142,],
+      ["I've Been Waiting for You",155,],
+      ['The Old Laughing Lady',358,],
+      ['String Quartet from Whiskey Boot Hill',58,],
+      ['Here We Are in the Years',207,],
+      ['What Did You Do to My Life?',148,],
+      ["I've Loved Her So Long",161,],
+      ['The Last Trip to Tulsa',567,]
+    ]
 
     everybody_knows = Album.create!({
       title: 'Everybody Knows This Is Nowhere',
@@ -268,11 +280,35 @@ ApplicationRecord.transaction do
       year: 1969
     })
 
+    everybody_array = [
+      ['Cinnamon Girl',180,],
+      ['Everybody Knows This Is Nowhere',148,],
+      ["Round & Round (It Won't Be Long)",353,],
+      ['Down by the River',556,],
+      ["The Losing End (When You're On)",247,],
+      ['Running Dry (Requiem for the Rockets)',336,],
+      ['Cowgirl in the Sand',607,]
+    ]
+
     after_the_gold_rush = Album.create!({
       title: 'After the Gold Rush',
       artist_id: neil_young.id,
       year: 1970
     })
+
+    gold_rush_array = [
+      ['Tell Me Why',178,],
+      ['After the Gold Rush',226,],
+      ['Only Love Can Break Your Heart',188,],
+      ['Southern Man',332,],
+      ['Till the Morning Comes',80,],
+      ['Oh, Lonesome Me',230,],
+      ["Don't Let It Bring You Down",177,],
+      ['Birds',153,],
+      ['When You Dance I Can Really Love',245,],
+      ['I Believe in You',207,],
+      ['Cripple Creek Ferry',93,]
+    ]
 
     harvest = Album.create!({
       title: 'Harvest',
@@ -280,12 +316,36 @@ ApplicationRecord.transaction do
       year: 1972
     })
 
+    harvest_array = [
+      ['Out on the Weekend',274,],
+      ['Harvest',191,],
+      ['A Man Needs a Maid',245,],
+      ['Heart of Gold',187,],
+      ['Are You Ready for the Country?',203,],
+      ['Old Man',204,],
+      ["There's a World",179,],
+      ['Alabama',242,],
+      ['The Needle and the Damage Done',123,],
+      ['Words (Between the Lines of Age)',400,]
+    ]
+
     on_the_beach = Album.create!({
       title: 'On the Beach',
       artist_id: neil_young.id,
       year: 1974
     })
 
+
+    beach_array = [
+      ['Walk On',162,],
+      ['See the Sky About to Rain',302,],
+      ['Revolution Blues',243,],
+      ['For the Turnstiles',195,],
+      ['Vampire Blues',254,],
+      ['On the Beach',419,],
+      ['Motion Pictures',263,],
+      ['Ambulance Blues',446,]
+    ]
 
     joanna_newsom = Artist.create!({
       name: 'Joanna Newsom',
@@ -298,11 +358,34 @@ ApplicationRecord.transaction do
       year: 2004
     })
 
+    milk_eyed_array = [
+      ['Bridges and Balloons',222,],
+      ['Sprout and the Bean',272,],
+      ['The Book of Right-On',269,],
+      ['Sadie',362,],
+      ['Inflammatory Writ',170,],
+      ['This Side of the Blue',321,],
+      [`"En Gallop"`,307,],
+      ['Cassiopeia',200,],
+      ['Peach, Plum, Pear',214,],
+      ['Swansea',305,],
+      ['Three Little Babes',222,],
+      ['Clam, Crab, Cockle, Cowrie',261,]
+    ]
+
     ys = Album.create!({
       title: 'Ys',
       artist_id: joanna_newsom.id,
       year: 2006
     })
+
+    ys_array = [
+      ['Emily',728,],
+      ['Monkey & Bear',568,],
+      ['Sawdust & Diamonds',595,],
+      ['Only Skin',1013,],
+      ["Cosmia",437,]
+    ]
 
     have_one_on_me = Album.create!({
       title: 'Have One on Me',
@@ -310,6 +393,26 @@ ApplicationRecord.transaction do
       year: 2010
     })
 
+    have_one_array = [
+      ["Easy",364,],
+      ["Have One on Me",662,],
+      ["'81",231,],
+      ["Good Intentions Paving Co.",422,],
+      ["No Provenance",385,],
+      ["Baby Birch",570,],
+      ["On a Good Day",108,],
+      ["You and Me, Bess",432,],
+      ["In California",521,],
+      ["Jackrabbits",263,],
+      ["Go Long",482,],
+      ["Occident",331,],
+      ["Soft as Chalk",389,],
+      ["Esme",476,],
+      ["Autumn",481,],
+      ["Ribbon Bows",370,],
+      ["Kingfisher",551,],
+      ["Does Not Suffice",404,]
+    ]
 
     jeff_mills = Artist.create!({
       name: 'Jeff Mills',
@@ -322,12 +425,33 @@ ApplicationRecord.transaction do
       year: 1993
     })
 
+    wave_one_array = [
+      ['Phase 4',287,],
+      ['Jerical',327,],
+      ['Changes of Life',291,],
+      ['Berlin',355,],
+      ['The Hacker',261,],
+      ['Late Night',286,],
+      ['DNA',248,],
+      ['Man-Like',289,]
+    ]
+
     waveform_three = Album.create!({
       title: 'Waveform Transmission Vol. 3',
       artist_id: jeff_mills.id,
       year: 1994
     })
 
+    wave_three_array = [
+      ['The Extremist',255,],
+      ['Solid Sleep',227,],
+      ['Life Cycle',233,],
+      ['Workers',198,],
+      ['Wrath of the Punisher',229,],
+      ['DNA',218,],
+      ['Condor to Mallorca',340,],
+      ['Basic Human Design',352,]
+    ]
 
     fred_frith = Artist.create!({
       name: 'Fred Frith',
@@ -340,6 +464,8 @@ ApplicationRecord.transaction do
       year: 1974
     })
 
+
+    
     gravity = Album.create!({
       title: 'Gravity',
       artist_id: fred_frith.id,
