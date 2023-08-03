@@ -32,8 +32,11 @@ function App() {
       <Route path="/signup">
         <SignupFormPage />
       </Route>
+      <Route path="/search">
+        <HomeLayout searching={true}/>   
+      </Route>
       <Route path="">
-        <HomeLayout />   
+        <HomeLayout searching={false}/>   
       </Route>
     </Switch>
     </>

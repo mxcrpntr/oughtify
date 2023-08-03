@@ -38,13 +38,13 @@ div.home .userGreeting {
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(240px, 1fr));
 }
-.playlistGrid {
+.playlistGrid, .searchGrid {
     margin: 12px;
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(180px, 1fr));
 }
 
-div.home .artistGrid ul, div.home .playlistGrid ul {
+div.home .artistGrid ul, div.home .playlistGrid ul, div.home .searchGrid ul {
     margin: 8px;
     padding: 16px;
     max-width: 300px;
@@ -76,20 +76,20 @@ div.home li.artistName, div.home li.albumName, div.home li.playlistTitle {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-div.home .artistGrid li + li, div.home .playlistGrid li + li {
+div.home .artistGrid li + li, div.home .playlistGrid li + li,  div.home .searchGrid li + li{
     color: #FFFFFF;
     padding-top: 16px;
     padding-bottom: 16px;
     font-size: 16px;
 }
-div.home .artistGrid ul:hover, div.home .playlistGrid ul:hover{
+div.home .artistGrid ul:hover, div.home .playlistGrid ul:hover, div.home .searchGrid ul:hover{
     background-color: #282828;
 }
 div.home .albumGrid ul:hover {
     background-color: #282828;
 }
 
-div.home .artistGrid ul img, div.home .playlistGrid ul img {
+div.home .artistGrid ul img, div.home .playlistGrid ul img, div.home .searchGrid ul img {
     border-radius: 4px;
     width: 100%;
     height: auto;

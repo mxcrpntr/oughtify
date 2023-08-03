@@ -1,0 +1,16 @@
+
+div.home .playlistGridHeader > a {
+    font-family: CircularSpotifyMedium;
+    font-size: 32px;
+}
+
+div.home .searchGrid li {
+    font-family: CircularSpotifyBook;
+    width: inherit;
+}
+
+div.home .searchGrid .imageStandIn {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 4px;
+}

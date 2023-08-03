@@ -3,8 +3,9 @@ import "./HomeNavigation.css"
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../store/session";
 import { useEffect, useState } from "react";
+import SearchBar from "./SearchBar";
 
-export default function HomeNavigation() {
+export default function HomeNavigation({searching}) {
     const history = useHistory();
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
@@ -14,6 +15,7 @@ export default function HomeNavigation() {
         opacity: .8
     });
 
+    console.log(searching)
     useEffect(() => {
         const setOpacity = (homeWindow) => () => {
             const scrollTop = homeWindow.scrollTop;
@@ -65,7 +67,9 @@ export default function HomeNavigation() {
                     <span>
                         <button className="fa-solid circle loggedOut"><i class="fa-solid fa-chevron-left"></i></button>
                         <button className="fa-solid circle loggedOut"><i class="fa-solid fa-chevron-right"></i></button>
+                        {searching && (<SearchBar />)}
                     </span>
+                    
                     <span>
                         <button className="installApp"><i class="fa-regular fa-circle-down"></i> Install App</button>
                         <button className="profile" onClick={(e)=> {e.preventDefault(); dispatch(logout());}}><i className="fa-solid fa-user-circle" /></button>

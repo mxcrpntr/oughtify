@@ -18,8 +18,12 @@
     justify-content: space-between;
     align-items: center;
     white-space: nowrap;
-    opacity: .8;
+    opacity: .75;
     z-index: 1;
+}
+.homeNavigation > span:first-child {
+    display: flex;
+    flex-direction: row;
 }
 .homeNavigation button {
     font-family: CircularSpotifyBook;
@@ -104,4 +108,25 @@
     border-radius: 50%;
     vertical-align: middle;
     color: #FFFFFF;
+}
+
+.homeNavigation .searchBarContainer {
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 30px;
+    width: 300px;
+    position: relative;
+}
+.homeNavigation #searchInput, .homeNavigation #searchInput:focus {
+    border: 0;
+    outline: none;
+}
+
+.homeNavigation .searchBarContainer ul {
+    position: absolute;
 }

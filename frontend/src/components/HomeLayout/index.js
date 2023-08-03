@@ -7,8 +7,8 @@ import Playbar from "./Playbar";
 import "./HomeLayout.css"
 import LibraryNavigation from "./LibraryNavigation";
 
-export default function HomeLayout() {
-    
+export default function HomeLayout({searching}) {
+    console.log(searching)
     return (
         <div className="homeLayout">
             <div className="homeTop">
@@ -19,8 +19,8 @@ export default function HomeLayout() {
                 </section>
                 <Divider />
                 <section className="right">
-                    <Home />
-                    <HomeNavigation />
+                    <Home searching={searching} />
+                    <HomeNavigation searching={searching} />
                 </section>
             </div>
             <Playbar />

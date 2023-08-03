@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   namespace :api, defaults: { format: :json } do
+    get 'songs/search', to: "songs#search"
     resources :users, only: [:create, :update]
     resource :session, only: [:show, :create, :destroy]
     resources :artists, only: [:index, :show]

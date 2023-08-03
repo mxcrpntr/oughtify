@@ -9,6 +9,7 @@ import { getAlbum } from "../../../store/albums";
 import { useEffect } from "react";
 import PlaylistsIndex from "./PlaylistsIndex";
 import PlaylistShow from "./PlaylistShow";
+import SearchIndex from "./SearchIndex";
 
 export default function Home() {
     const history = useHistory();
@@ -29,6 +30,9 @@ export default function Home() {
                 </Route>
                 <Route path="/playlists/:playlistId">
                     <PlaylistShow  />
+                </Route>
+                <Route path="/search">
+                    <SearchIndex />
                 </Route>
             </Switch>
   

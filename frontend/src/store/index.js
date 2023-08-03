@@ -7,6 +7,7 @@ import albumsReducer from './albums';
 import songsReducer from './songs';
 import playlistsReducer from './playlists';
 import playlistSongsReducer from './playlistSongs';
+import searchReducer from './search';
 // import configureStore from '@reduxjs/toolkit';
 
 
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   albums: albumsReducer,
   songs: songsReducer,
   playlists: playlistsReducer,
-  playlistSongs: playlistSongsReducer
+  playlistSongs: playlistSongsReducer,
+  search: searchReducer
 })
 
 let enhancer;
