@@ -17,10 +17,10 @@ export default function AlbumShow() {
     const sessionUser = useSelector(state => state.session.user);
 
     
-    let currentSong = sessionUser?.queue[0]?.[0]
+    let currentSong = sessionUser?.queue?.[0]?.[0]
 
     useEffect(() => {
-        currentSong = sessionUser?.queue[0]?.[0]
+        currentSong = sessionUser?.queue?.[0]?.[0]
     }, [sessionUser])
 
     const album = useSelector(getAlbum(albumId));
@@ -86,7 +86,9 @@ export default function AlbumShow() {
                     </h5>
                 </div>
             </div>
-            <div className='opaqueBkgd-2'>
+            <div className='opaqueBkgd-2' style={{
+                backgroundImage: `linear-gradient(to bottom, ${album.color}, rgba(18, 18, 18, 1))`
+            }}>
                 <div className='trackList'>
                 <span className="bigButtons">
                     <button className="bigPlay" onClick={() => {

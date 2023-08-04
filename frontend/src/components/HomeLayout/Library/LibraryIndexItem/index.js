@@ -14,7 +14,8 @@ export default function LibraryIndexItem({playlist, album}) {
                         history.push(`/albums/${album.id}`)
                     }}}>
                     <div className="albumImage">
-                        <img src={ playlist ? playlist.imageUrl : album.imageUrl}></img>
+                        <div className="playlistImageStandin" style={{backgroundColor: `${playlist.color}`}}></div>
+                        {/* <img src={ playlist ? playlist.imageUrl : album.imageUrl}></img> */}
                     </div>
                     <div className="albumInfo">
                         <h3>{playlist ? playlist.title : album.title}</h3>

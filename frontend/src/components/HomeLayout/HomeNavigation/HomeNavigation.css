@@ -112,21 +112,39 @@
 
 .homeNavigation .searchBarContainer {
     padding: 5px;
-    border: 1px solid black;
+    border: none;
     border-radius: 30px;
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    height: 30px;
-    width: 300px;
+    height: 48px;
+    width: 364px;
     position: relative;
 }
-.homeNavigation #searchInput, .homeNavigation #searchInput:focus {
+.homeNavigation #searchInput {
+    width: 332px;
+    height: 100%;
     border: 0;
+    background-color: #242424;
+    border-radius: 500px;
     outline: none;
+    padding-left: 36px;
+    color: #FFFFFF;
+    font-size: ;
+    font-family: CircularSpotifyLight;
+}
+.homeNavigation #searchInput:focus {
+    border: 2px solid #FFFFFF;
+}
+.homeNavigation #searchInput:hover {
+    background-color: #2A2A2A;
 }
 
-.homeNavigation .searchBarContainer ul {
-    position: absolute;
+.searchBarContainer i {
+    position:absolute;
+    left: 18px;
+    top: 22px;
+    font-size: 16px;
 }
+

@@ -45,7 +45,7 @@ export default function SearchBar() {
                     }
                 }}
                 onChange={handleSearch}></input>
-
+                <i class="fa-solid fa-magnifying-glass"></i>
 
         </span>
     )

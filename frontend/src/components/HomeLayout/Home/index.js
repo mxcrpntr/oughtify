@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import PlaylistsIndex from "./PlaylistsIndex";
 import PlaylistShow from "./PlaylistShow";
 import SearchIndex from "./SearchIndex";
+import WelcomeMessage from "./WelcomeMessage";
 
 export default function Home() {
     const history = useHistory();
@@ -33,6 +34,9 @@ export default function Home() {
                 </Route>
                 <Route path="/search">
                     <SearchIndex />
+                </Route>
+                <Route path="">
+                    <WelcomeMessage />
                 </Route>
             </Switch>
   

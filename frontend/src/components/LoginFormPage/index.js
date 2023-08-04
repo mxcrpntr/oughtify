@@ -38,6 +38,10 @@ export default function LoginFormPage() {
     // document.querySelector("body").className = "logInBody"
 
     return(
+        <>
+        <div className="logInTopBar">
+            <span className="oughtifyLogo"><i class="fa-solid fa-compact-disc fa-spin"></i>&nbsp;Oughtify</span>
+        </div>
         <form onSubmit={handleSubmit} id="logIn">
             <h1>Log in to Oughtify</h1>
             <ul>
@@ -69,10 +73,11 @@ export default function LoginFormPage() {
             Remember me</label>
             <button type="submit" >Log In</button>
             <button onClick={handleDemoLogin} >Demo Log In</button>
-            <Link to="">Forgot your password?</Link>
+            <Link to="" onClick={e => e.preventDefault()}>Forgot your password?</Link>
             <hr />
             <h3>Don't have an account? <Link to="/signup">Sign up for Oughtify</Link></h3>
 
         </form>
+        </>
     )
 }

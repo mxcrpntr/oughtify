@@ -54,7 +54,7 @@ export default function ArtistShow() {
                 <h5><i class="fa-solid fa-circle-check" color="#3D91F4"></i> Verified Artist</h5>
                 <h1>{artist?.name}</h1>
 
-                <h4>5,090,991,345 monthly listeners</h4>
+                <h4>1,234,567,890 monthly listeners</h4>
             </div>
             <div className='opaqueBkgd'>
                 <div className='popularSongs'>
@@ -67,7 +67,10 @@ export default function ArtistShow() {
                     <h2>Popular</h2>
                     <table>
                         {[1,2,3,4,5].map(i=>{
-                            return <PopularSongItem i={i} songs={Object.values(songs)} albums={albums}/>
+                            return <PopularSongItem i={i} songs={
+                                Object.values(songs)
+                                    .sort((a,b) => b.plays - a.plays)
+                            } albums={albums}/>
                         })}
 
                     </table>

@@ -61,7 +61,8 @@ ApplicationRecord.transaction do
     seagull = Album.create!({
       title: 'Song to a Seagull',
       artist_id: joni_mitchell.id,
-      year: 1968
+      year: 1968,
+      color: "#e5b824"
     })
 
     seagull_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joni/1968+-+Song+To+A+Seagull/seagull.jpg")
@@ -94,7 +95,8 @@ ApplicationRecord.transaction do
     clouds = Album.create!({
       title: 'Clouds',
       artist_id: joni_mitchell.id,
-      year: 1969
+      year: 1969,
+      color: "#fadd67"
     })
 
     clouds_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joni/1969+-+Clouds/clouds.jpg")
@@ -127,7 +129,8 @@ ApplicationRecord.transaction do
     ladies_of_the_canyon = Album.create!({
       title: 'Ladies of the Canyon',
       artist_id: joni_mitchell.id,
-      year: 1970
+      year: 1970,
+      color: "#6c7f30"
     })
 
     ladies_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joni/1970+-+Ladies+Of+The+Canyon/canyon.jpg")
@@ -163,7 +166,8 @@ ApplicationRecord.transaction do
     blue = Album.create!({
       title: 'Blue',
       artist_id: joni_mitchell.id,
-      year: 1971
+      year: 1971,
+      color: "#000c82"
     })
 
     blue_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joni/1971+-+Blue/blue.jpg")
@@ -196,7 +200,8 @@ ApplicationRecord.transaction do
     for_the_roses = Album.create!({
       title: 'For the Roses',
       artist_id: joni_mitchell.id,
-      year: 1972
+      year: 1972,
+      color: "#3fc3af"
     })
 
 
@@ -232,7 +237,8 @@ ApplicationRecord.transaction do
     court_and_spark = Album.create!({
       title: 'Court and Spark',
       artist_id: joni_mitchell.id,
-      year: 1974
+      year: 1974,
+      color: "#bdad72"
     })
 
     court_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joni/1974+-+Court+And+Spark/court.jpg")
@@ -267,7 +273,8 @@ ApplicationRecord.transaction do
     hissing_of_summer = Album.create!({
       title: 'The Hissing of Summer Lawns',
       artist_id: joni_mitchell.id,
-      year: 1975
+      year: 1975,
+      color: "#9dab00"
     })
 
     hissing_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joni/1975+-+The+Hissing+Of+Summer+Lawns/hissing.jpg")
@@ -301,7 +308,8 @@ ApplicationRecord.transaction do
     hejira = Album.create!({
       title: 'Hejira',
       artist_id: joni_mitchell.id,
-      year: 1976
+      year: 1976,
+      color: "#26251f"
     })
 
     hejira_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joni/1976+-+Hejira/hejira.jpg")
@@ -345,7 +353,8 @@ ApplicationRecord.transaction do
     neil_young_album = Album.create!({
       title: 'Neil Young',
       artist_id: neil_young.id,
-      year: 1968
+      year: 1968,
+      color: "#694547"
     })
 
     young_album_image = URI.open("https://oughtify-seed.s3.amazonaws.com/neil/1968+-+Neil+Young/young_album.jpeg")
@@ -380,7 +389,8 @@ ApplicationRecord.transaction do
     everybody_knows = Album.create!({
       title: 'Everybody Knows This Is Nowhere',
       artist_id: neil_young.id,
-      year: 1969
+      year: 1969,
+      color: "#644b40"
     })
 
 
@@ -412,7 +422,8 @@ ApplicationRecord.transaction do
     after_the_gold_rush = Album.create!({
       title: 'After the Gold Rush',
       artist_id: neil_young.id,
-      year: 1970
+      year: 1970,
+      color: "#070808"
     })
 
     gold_rush_image = URI.open("https://oughtify-seed.s3.amazonaws.com/neil/1970+-+After+the+Gold+Rush/after_gold.jpg")
@@ -447,7 +458,8 @@ ApplicationRecord.transaction do
     harvest = Album.create!({
       title: 'Harvest',
       artist_id: neil_young.id,
-      year: 1972
+      year: 1972,
+      color: "#8e5021"
     })
 
     harvest_image = URI.open("https://oughtify-seed.s3.amazonaws.com/neil/1972+-+Harvest/harvest.jpg")
@@ -482,7 +494,8 @@ ApplicationRecord.transaction do
     on_the_beach = Album.create!({
       title: 'On the Beach',
       artist_id: neil_young.id,
-      year: 1974
+      year: 1974,
+      color: "#9f7922"
     })
 
     on_the_beach_image = URI.open("https://oughtify-seed.s3.amazonaws.com/neil/1974+-+On+The+Beach/on_the_beach.jpg")
@@ -525,7 +538,8 @@ ApplicationRecord.transaction do
     milk_eyed_mender = Album.create!({
       title: 'The Milk-Eyed Mender',
       artist_id: joanna_newsom.id,
-      year: 2004
+      year: 2004,
+      color: "#ecc231"
     })
 
     milk_eyed_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/milkeyed.jpg")
@@ -563,7 +577,8 @@ ApplicationRecord.transaction do
     ys = Album.create!({
       title: 'Ys',
       artist_id: joanna_newsom.id,
-      year: 2006
+      year: 2006,
+      color: "#4f1a14"
     })
 
     ys_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joanna/2006+-+Ys/ys.jpeg")
@@ -593,7 +608,8 @@ ApplicationRecord.transaction do
     have_one_on_me = Album.create!({
       title: 'Have One on Me',
       artist_id: joanna_newsom.id,
-      year: 2010
+      year: 2010,
+      color: "#0d1110"
     })
 
     have_one_image = URI.open("https://oughtify-seed.s3.amazonaws.com/joanna/2010+-+Have+One+On+Me/have_one.jpg")
@@ -646,7 +662,8 @@ ApplicationRecord.transaction do
     waveform_one = Album.create!({
       title: 'Waveform Transmission Vol. 1',
       artist_id: jeff_mills.id,
-      year: 1993
+      year: 1993,
+      color: "#0e0d13"
     })
 
     wave_one_image = URI.open("https://oughtify-seed.s3.amazonaws.com/jeff/1992+Jeff+Mills+-+Waveform+Transmission+Vol.+1+%5BTresor+11%5D+CD/waveform_one.jpg")
@@ -679,7 +696,8 @@ ApplicationRecord.transaction do
     waveform_three = Album.create!({
       title: 'Waveform Transmission Vol. 3',
       artist_id: jeff_mills.id,
-      year: 1994
+      year: 1994,
+      color: "#0c1f4b"
     })
 
     wave_three_image = URI.open("https://oughtify-seed.s3.amazonaws.com/jeff/1994+Jeff+Mills+-+Waveform+Transmission+Vol.+3+%5BTresor+25%5D+CD/waveform_three.jpg")
@@ -723,7 +741,8 @@ ApplicationRecord.transaction do
     guitar_solos = Album.create!({
       title: 'Guitar Solos',
       artist_id: fred_frith.id,
-      year: 1974
+      year: 1974,
+      color: "#a3a0b4"
     })
 
     guitar_image = URI.open("https://oughtify-seed.s3.amazonaws.com/fred/1974+-+1988+-+Guitar+Solos+-+224/guitar.jpg")
@@ -755,7 +774,8 @@ ApplicationRecord.transaction do
     gravity = Album.create!({
       title: 'Gravity',
       artist_id: fred_frith.id,
-      year: 1980
+      year: 1980,
+      color: "#06b3fb"
     })
 
     gravity_image = URI.open("https://oughtify-seed.s3.amazonaws.com/fred/1980+-+Gravity/gravity.jpg")
@@ -798,7 +818,8 @@ ApplicationRecord.transaction do
     speechless = Album.create!({
       title: 'Speechless',
       artist_id: fred_frith.id,
-      year: 1981
+      year: 1981,
+      color: "#978990"
     })
 
     speechless_image = URI.open("https://oughtify-seed.s3.amazonaws.com/fred/1981+-+Speechless+-+VBR/speechless.jpg")
@@ -835,7 +856,7 @@ ApplicationRecord.transaction do
     puts "adding some plays to songs"
 
     Song.all.each do |song|
-      song.plays = rand(900..5000000000)
+      song.plays = rand(900..2000000000)
       song.save!
     end
 
@@ -844,7 +865,7 @@ ApplicationRecord.transaction do
     all_users = User.all
     all_songs = Song.all
 
-    5.times do
+    13.times do
       random_user = all_users.sample
       test_playlist = Playlist.create({
         title: "Untitled Playlist",

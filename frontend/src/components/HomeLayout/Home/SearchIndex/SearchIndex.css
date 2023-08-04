@@ -14,3 +14,21 @@ div.home .searchGrid .imageStandIn {
     aspect-ratio: 1;
     border-radius: 4px;
 }
+
+div.home .searchGrid .artistName,
+div.home .searchGrid .playlistTitle,
+div.home .searchGrid .albumTitle,
+div.home .searchGrid .songTitle {
+    font-size: 20px;
+}
+
+div.home .searchGrid .songArtistName,
+div.home .searchGrid .albumArtistName,
+div.home .searchGrid .playlistUserName {
+    font-size: 14px;
+    color: #B3B3B3;
+}
+
+div.home .searchGrid .fourth {
+    margin-top: -15px;
+}

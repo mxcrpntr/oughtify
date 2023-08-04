@@ -30,7 +30,7 @@ div.home .albumHeaders {
     align-items: flex-start;
     gap: 16px;
 }
-.albumHeaders h4, h5, h1, a {
+.albumHeaders h4, h5, h1, .albumHeaders a {
     text-decoration: none;
     color: #FFFFFF;
     /* box-shadow: 0px 0px 30px -5px rgba(0, 0, 0, 1); */
@@ -42,7 +42,7 @@ div.home .albumHeaders {
     letter-spacing: -4px;
     white-space: nowrap;
 }
-.albumHeaders h4, a {
+.albumHeaders h4, .albumHeaders a {
     font-family: CircularSpotifyBook;
     font-size: 14px;
 }

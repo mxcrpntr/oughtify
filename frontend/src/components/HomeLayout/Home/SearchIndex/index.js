@@ -20,6 +20,8 @@ export default function SearchIndex() {
                 {searchResults.songs && Object.values(searchResults.songs).map(song => {
                     return (
                         <ul onClick={()=> {history.push(`/albums/${song.albumId}`)}}>
+                            <div>
+
                             <li>{ song.imageUrl ? (
                                 <img src={`${song.imageUrl}`}></img>
                             ) : (
@@ -27,7 +29,13 @@ export default function SearchIndex() {
                             )}
                             </li>
                             <li className="songTitle">{song.title}</li>
-                            <li className="artistName">{song.artistName}</li>
+
+                            </div>
+                            <div>
+
+                            <li className="songArtistName">Song</li>
+                            <li className="songArtistName fourth">{song.artistName}</li>
+                            </div>
                         </ul>
                     )
                 })}
@@ -35,6 +43,7 @@ export default function SearchIndex() {
                 {searchResults.albums && Object.values(searchResults.albums).map(album => {
                     return (
                         <ul onClick={()=> {history.push(`/albums/${album.id}`)}}>
+                            <div>
                             <li>{ album.imageUrl ? (
                                 <img src={`${album.imageUrl}`}></img>
                             ) : (
@@ -42,7 +51,11 @@ export default function SearchIndex() {
                             )}
                             </li>
                             <li className="albumTitle">{album.title}</li>
-                            <li className="artistName">{album.artistName}</li>
+                            </div>
+                            <div>
+                            <li className="albumArtistName">Album</li>
+                            <li className="albumArtistName fourth">{album.artistName}</li>
+                            </div>
                         </ul>
                     )
                 })}
@@ -50,6 +63,7 @@ export default function SearchIndex() {
                 {searchResults.artists && Object.values(searchResults.artists).map(artist => {
                     return (
                         <ul onClick={()=> {history.push(`/artists/${artist.id}`)}}>
+                            <div>
                             <li>{ artist.imageUrl ? (
                                 <img src={`${artist.imageUrl}`}></img>
                             ) : (
@@ -57,6 +71,8 @@ export default function SearchIndex() {
                             )}
                             </li>
                             <li className="artistName">{artist.name}</li>
+                            </div>
+                            <div></div>
                             {/* <li className="playlistUserName">{playlist.userName}</li> */}
                         </ul>
                         )
@@ -65,6 +81,7 @@ export default function SearchIndex() {
                 {searchResults.playlists && Object.values(searchResults.playlists).map(playlist => {
                     return (
                     <ul onClick={()=> {history.push(`/playlists/${playlist.id}`)}}>
+                        <div>
                         <li>{ playlist.imageUrl ? (
                             <img src={`${playlist.imageUrl}`}></img>
                         ) : (
@@ -72,7 +89,11 @@ export default function SearchIndex() {
                         )}
                         </li>
                         <li className="playlistTitle">{playlist.title}</li>
-                        <li className="playlistUserName">{playlist.userName}</li>
+                        </div>
+                        <div>
+                        <li className="playlistUserName">Playlist</li>
+                        <li className="playlistUserName fourth">{playlist.userName}</li>
+                        </div>
                     </ul>
                     )
                 })}

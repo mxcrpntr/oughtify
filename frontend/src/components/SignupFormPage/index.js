@@ -87,7 +87,7 @@ export default function SignupFormPage() {
 
         return (
         <form onSubmit={handleSubmit} noValidate className="signUpForm">
-            <SpotifyLogoSVG />
+            <span className="oughtifyLogo"><i class="fa-solid fa-compact-disc"></i>&nbsp;Oughtify</span>
             <h1>Sign up for free to start listening.</h1>
             <label>What's your email?
                 <input
@@ -218,9 +218,10 @@ export default function SignupFormPage() {
             <span className="monthError"></span>
             <span className="dayError"></span>
             <span className="yearError"></span>
-            <label>What's your gender?
+            <label className="genderLabel">What's your gender?
+                <div></div>
                 <br />
-                <label>
+                <label className="firstRadio">
                     <input type="radio" name="gender" value="Male" />
                 <span className="book radio">Male</span></label>
                 <label>
@@ -239,8 +240,8 @@ export default function SignupFormPage() {
             <label>
                 <input type="checkbox" />
             Share my registration data with Oughtify's content providers for marketing purposes.</label>
-            <h4>By clicking on sign-up, you agree to Oughtify's <Link to="">Terms and Conditions of Use</Link>.</h4>
-            <h4>To learn more about how Oughtify collects, uses, shares and protects your personal data, please see <Link to="">Oughtify's Privacy Policy</Link>.</h4>
+            <h4>By clicking on sign-up, you agree to Oughtify's <Link to="" onClick={e => e.preventDefault()}>Terms and Conditions of Use</Link>.</h4>
+            <h4>To learn more about how Oughtify collects, uses, shares and protects your personal data, please see <Link to="" onClick={e => e.preventDefault()}>Oughtify's Privacy Policy</Link>.</h4>
             <button type="submit">Sign Up</button>
             <h2>Have an account? <Link to="/login">Log in</Link>.</h2>
         </form>

@@ -4,6 +4,9 @@ form {
     width: 450px;
     margin: auto;
 }
+form .signUpForm h2:first-child {
+    padding-top: 32px;
+}
 form ul {
     list-style-type: none;
     font-family: CircularSpotifyBook;
@@ -23,7 +26,7 @@ form label {
     padding: 8px 0;
 }
 form input[type="radio"] {
-    margin: 0 6px 0 3px;
+    margin: 4px 6px 7px 3px;
     vertical-align: middle;
     height: 16px;
     width: 16px;
@@ -87,6 +90,8 @@ form input[type="radio"] {
     padding-inline: 14px;
     font-size: 16px;
     width: 100%;
+    margin-top: 8px;
+    margin-bottom: 4px;
 }
 form input:focus {
     outline: none;
@@ -137,3 +142,27 @@ form .book {
     padding-inline: 8px;
     font-size: 14px;
 }
+
+form .oughtifyLogo {
+    font-family: CircularSpotifyMedium;
+    font-size: 28px;
+    color: #000000;
+    letter-spacing: -2px;
+    margin: auto;
+    padding-top: 40px;
+    padding-bottom: 32px;
+    display: flex;
+    align-items: center;
+}
+form .oughtifyLogo i {
+    font-size: 32px;
+    color: #000000;
+}
+
+
+form.signUpForm h4:hover {
+    color: #000000;
+    text-decoration: none;
+    cursor: default;
+}
+

@@ -28,7 +28,7 @@ export const restoreSession = () => async dispatch => {
     storeCSRFToken(response);
     const data = await response.json();
     const updatedUser = {...data.user}
-    updatedUser.queue = JSON.parse(updatedUser.queue)
+    if (updatedUser.queue) updatedUser.queue = JSON.parse(updatedUser.queue)
     storeCurrentUser(updatedUser);
     dispatch(setCurrentUser(updatedUser));
     return response;
@@ -42,7 +42,7 @@ export const login = ({ credential, password }) => async dispatch => {
     const data = await response.json();
     console.log(data)
     const updatedUser = {...data.user}
-    updatedUser.queue = JSON.parse(updatedUser.queue)
+    if (updatedUser.queue) updatedUser.queue = JSON.parse(updatedUser.queue);
     storeCurrentUser(updatedUser);
     dispatch(setCurrentUser(updatedUser));
     return response;
@@ -55,7 +55,7 @@ export const signup = ({ email, password, name, birthDate }) => async dispatch =
     });
     const data = await response.json();
     const updatedUser = {...data.user}
-    updatedUser.queue = JSON.parse(updatedUser.queue)
+    if (updatedUser.queue) updatedUser.queue = JSON.parse(updatedUser.queue)
     storeCurrentUser(updatedUser);
     dispatch(setCurrentUser(updatedUser));
     return response;
@@ -80,7 +80,7 @@ const sessionReducer = (state = initialState, action) => {
       return { ...state, user: action.payload };
     case RECEIVE_USER:
       const updatedUser = {...action.user};
-      updatedUser.queue = JSON.parse(updatedUser.queue)
+      if (updatedUser.queue) updatedUser.queue = JSON.parse(updatedUser.queue)
       storeCurrentUser(updatedUser);
       return { ...state, user: updatedUser };
     case REMOVE_CURRENT_USER:
