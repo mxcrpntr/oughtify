@@ -41,7 +41,7 @@ export const fetchAlbum = (albumId) => async dispatch => {
         dispatch(receiveAlbum(data.album));
         dispatch(receiveArtist(data.artist));
         dispatch(receiveSongs(data.songs));
-        if (data.albums) dispatch(receiveAlbums(data.albums));
+        if (data.moreAlbums) dispatch(receiveAlbums(data.moreAlbums));
     }
 }
 
@@ -57,8 +57,8 @@ const albumsReducer = (state = {}, action) => {
     let newState = {...Object.freeze(state)};
     switch(action.type) {
         case RECEIVE_ALBUMS:
-            newState = action.albums
-            return newState;
+            // newState = action.albums
+            return {...newState, ...action.albums};
         case RECEIVE_ALBUM:
             newState[action.album.id] = action.album
             return newState;

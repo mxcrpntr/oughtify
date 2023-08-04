@@ -6,6 +6,10 @@ export default function AlbumsIndex({albums}) {
     // const topPadding = {
     //     paddingTop: `66px`,
     // }
+    // if (albums) {
+    //     debugger;
+    // }
+    
 
 
     return (
@@ -13,22 +17,7 @@ export default function AlbumsIndex({albums}) {
             {/* <h2 style={topPadding}><Link to="">Artists</Link></h2> */}
             {albums && (
                 <div className="albumGrid">
-                    {Object.values(albums).map(album => {
-                        return <AlbumsIndexItem album={album} />
-                    })}
-                    {Object.values(albums).map(album => {
-                        return <AlbumsIndexItem album={album} />
-                    })}
-                    {Object.values(albums).map(album => {
-                        return <AlbumsIndexItem album={album} />
-                    })}
-                    {Object.values(albums).map(album => {
-                        return <AlbumsIndexItem album={album} />
-                    })}
-                    {Object.values(albums).map(album => {
-                        return <AlbumsIndexItem album={album} />
-                    })}
-                    {Object.values(albums).map(album => {
+                    {albums.map(album => {
                         return <AlbumsIndexItem album={album} />
                     })}
                 </div>

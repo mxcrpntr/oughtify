@@ -33,6 +33,7 @@ export default function PlaylistShow() {
         return () => window.removeEventListener('resize', getRowWidth);
     }, [])
 
+
     
     let currentSong = sessionUser?.queue[0]?.[0]
 
@@ -102,7 +103,9 @@ export default function PlaylistShow() {
                     </h5>
                 </div>
             </div>
-            <div className='opaqueBkgd-2' style={opaqueBkgdStyle}>
+            <div className='opaqueBkgd-2' style={{
+                backgroundImage: `linear-gradient(to bottom, ${playlist.color}, rgba(18, 18, 18, 1))`
+            }}>
                 <div className='playlistTrackList'>
                 <span className="bigButtons">
                     <button className="bigPlay" onClick={() => {

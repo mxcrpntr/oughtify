@@ -36,11 +36,12 @@ export default function ArtistShow() {
 
     let artistBannerStyle = {}
 
-    if (artist) {
+    if (artist?.bannerUrl) {
         artistBannerStyle = {
             backgroundImage: `url(${artist.bannerUrl})`
         }
     }
+
     const topPadding = {
         paddingTop: `88px`,
     }

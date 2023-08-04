@@ -28,11 +28,11 @@ export default function AlbumShow() {
     const songs = useSelector(getSongs);
     const albums = useSelector(getAlbums);
 
-    const moreAlbums = {};
+    const moreAlbums = Object.values(albums).filter(album => album.id !== Number(albumId) && album.artistId === artist.id);
     
-    Object.values(albums)
-        .filter(album => album.id != albumId)
-        .forEach(album => moreAlbums[album.id] = album);
+    // Object.values(albums)
+    //     .filter(album => album.id != albumId)
+    //     .forEach(album => moreAlbums[album.id] = album);
 
     let runtime = 0;
 
@@ -59,7 +59,8 @@ export default function AlbumShow() {
         songsForQueue[i][0].artistId = artist.id;
         songsForQueue[i][0].imageUrl = album.imageUrl;
     }
-    
+
+
     return (
         <>
             {Object.keys(album).length > 0
@@ -118,6 +119,7 @@ export default function AlbumShow() {
                         {songsForTracklist.map(song => {
                             return (
                                 <TrackListItem
+                                    key={song.id}
                                     song={song}
                                     artist={artist}
                                     songsForQueue={songsForQueue.filter(entry => entry[0].number >= song.number)} />
@@ -126,7 +128,7 @@ export default function AlbumShow() {
 
                     </table>
                 <div className='moreBy'>
-                    {Object.keys(moreAlbums).length > 0 && (
+                    {moreAlbums.length > 0 && (
                         <>
                             <h2>More by {artist.name}</h2>
                             <AlbumsIndex albums={moreAlbums} />

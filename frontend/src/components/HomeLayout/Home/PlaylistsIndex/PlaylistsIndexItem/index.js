@@ -6,14 +6,14 @@ export default function PlaylistsIndexItem({playlist}) {
 
     return (
         <ul onClick={()=> {history.push(`/playlists/${playlist.id}`)}}>
-            <li>{ playlist.imageUrl ? (
+            <li key={playlist.id}>{ playlist.imageUrl ? (
                 <img src={`${playlist.imageUrl}`}></img>
             ) : (
                 <div className="imageStandIn" style={{backgroundColor: playlist.color}}></div>
             )}
             </li>
-            <li className="playlistTitle">{playlist.title}</li>
-            <li className="playlistUserName">{playlist.userName}</li>
+            <li  key={playlist.id} className="playlistTitle">{playlist.title}</li>
+            <li  key={playlist.id} className="playlistUserName">{playlist.userName}</li>
         </ul>
     )
 }

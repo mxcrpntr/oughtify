@@ -17,7 +17,7 @@ json.albums do
     albums.each do |album_id|
         json.set! album_id do
             album = Album.find(album_id)
-            json.extract! album, :id, :title, :date, :song_ids
+            json.extract! album, :id, :title, :date, :song_ids, :artist_id
             json.image_url album.image.url
             album.song_ids.each { |song_id| songs << song_id }
         end

@@ -384,8 +384,8 @@ ApplicationRecord.transaction do
     })
 
 
-    everybody_image = URI.open("https://oughtify-seed.s3.amazonaws.com/neil/1968+-+Neil+Young/young_album.jpeg")
-    everybody_knows.image.attach(io: everybody_image, filename: 'everybody.jpeg')
+    everybody_image = URI.open("https://oughtify-seed.s3.amazonaws.com/neil/1969+-+Everybody+Knows+This+Is+Nowhere/everybody.jpg")
+    everybody_knows.image.attach(io: everybody_image, filename: 'everybody.jpg')
 
     everybody_array = [
       ['Cinnamon Girl',180,"https://oughtify-seed.s3.amazonaws.com/neil/1969+-+Everybody+Knows+This+Is+Nowhere/01+-+Cinnamon+Girl.mp3"],
@@ -538,7 +538,7 @@ ApplicationRecord.transaction do
       ['Sadie',362,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/04+-+Sadie.mp3"],
       ['Inflammatory Writ',170,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/05+-+Inflammatory+Writ.mp3"],
       ['This Side of the Blue',321,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/06+-+This+Side+Of+The+Blue.mp3"],
-      [`"En Gallop"`,307,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/07+-+'En+Gallop'.mp3"],
+      ["'En Gallop'",307,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/07+-+'En+Gallop'.mp3"],
       ['Cassiopeia',200,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/08+-+Cassiopeia.mp3"],
       ['Peach, Plum, Pear',214,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/09+-+Peach%2C+Plum%2C+Pear.mp3"],
       ['Swansea',305,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/10+-+Swansea.mp3"],
@@ -546,6 +546,7 @@ ApplicationRecord.transaction do
       ['Clam, Crab, Cockle, Cowrie',261,"https://oughtify-seed.s3.amazonaws.com/joanna/2004+-+The+Milk-Eyed+Mender/12+-+Clam%2C+Crab%2C+Cockle%2C+Cowrie.mp3"]
     ]
 
+    puts "we're past gallop! :)"
 
     milk_eyed_array.each_with_index do |song_info,i|
       milk_eyed_song = Song.create!({
@@ -829,6 +830,13 @@ ApplicationRecord.transaction do
 
       speechless_song_file = URI.open(song_info[2])
       speechless_song.file.attach(io: speechless_song_file, filename: "speechless_#{i+1}.mp3")
+    end
+
+    puts "adding some plays to songs"
+
+    Song.all.each do |song|
+      song.plays = rand(900..5000000000)
+      song.save!
     end
 
     puts "Creating five dummy playlists..."

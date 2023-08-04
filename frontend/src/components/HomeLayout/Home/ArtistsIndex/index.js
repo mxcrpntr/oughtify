@@ -8,7 +8,7 @@ import { fetchArtists, getArtists } from "../../../../store/artists"
 export default function ArtistsIndex() {
 
     const dispatch = useDispatch();
-    const {artists} = useSelector(getArtists);
+    const artists = useSelector(getArtists);
 
     const sessionUser = useSelector(state => state.session.user);
 

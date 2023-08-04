@@ -109,7 +109,7 @@ export default function PlaylistTrackListItem({song,songsForQueue}) {
     return (
         <>
         { song.id !== currentSong?.id && (
-            <tr  ref={tableRowRef}
+            <tr ref={tableRowRef}
                 onMouseEnter={() => {
                     setNumberPlay(playSymbol());
                     setHeart(heartSymbol());

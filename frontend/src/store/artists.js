@@ -17,7 +17,7 @@ export const receiveArtist = (artist) => ({
 })
 
 export const getArtists = (store) => {
-    return store?.artists ? store.artists : [];
+    return store?.artists ? store.artists : {};
 }
 
 export const getArtist = (artistId) => (store) => {
@@ -25,9 +25,9 @@ export const getArtist = (artistId) => (store) => {
 }
 
 export const getArtistWithExtras = (artistId) => (store) => {
-    return {artist: store?.artists?.[artistId] ? store.artists[artistId] : {},
-            albums: store?.albums ? store.albums : [],
-            songs: store?.songs ? store.songs : []
+    return {artist: store?.artists[artistId] ? store.artists[artistId] : {},
+            albums: store?.albums ? Object.values(store.albums).filter(album => album.artistId === Number(artistId)) : [],
+            songs: store?.songs ? store.songs : {}
     };
 }
 
@@ -36,7 +36,10 @@ export const fetchArtists = () => async dispatch => {
     const res = await fetch('api/artists')
     if (res.ok) {
         const data = await res.json();
-        dispatch(receiveArtists(data));
+        // debugger;
+        dispatch(receiveArtists(data.artists));
+        dispatch(receiveAlbums(data.albums));
+        dispatch(receiveSongs(data.songs));
     }
 }
 
@@ -54,9 +57,11 @@ const artistsReducer = (state = {}, action) => {
     let newState = {...Object.freeze(state)};
     switch(action.type) {
         case RECEIVE_ARTISTS:
+            // debugger;
             newState = action.artists;
             return newState;
         case RECEIVE_ARTIST:
+            // debugger;
             newState[action.artist.id] = action.artist
             return newState;
         default:
