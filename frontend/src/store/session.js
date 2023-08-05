@@ -27,8 +27,21 @@ export const restoreSession = () => async dispatch => {
     const response = await csrfFetch("/api/session");
     storeCSRFToken(response);
     const data = await response.json();
-    const updatedUser = {...data.user}
-    if (updatedUser.queue) updatedUser.queue = JSON.parse(updatedUser.queue)
+    let updatedUser = null;
+    if (data.user) {
+      updatedUser = {...data.user};
+      updatedUser.queue = JSON.parse(updatedUser.queue);
+      // if (updatedUser.queue?.[0]?.[0]) {
+      //   const firstSong = updatedUser.queue[0][0];
+      //   const fileUrl = firstSong.fileUrl;
+      //   try {
+      //     await fetch(fileUrl, { method: "HEAD" });
+      //   } catch (error) {
+      //     debugger
+      //     updatedUser.queue = [];
+      //   }
+      // }
+    }
     storeCurrentUser(updatedUser);
     dispatch(setCurrentUser(updatedUser));
     return response;
@@ -41,8 +54,11 @@ export const login = ({ credential, password }) => async dispatch => {
     });
     const data = await response.json();
     console.log(data)
-    const updatedUser = {...data.user}
-    if (updatedUser.queue) updatedUser.queue = JSON.parse(updatedUser.queue);
+    let updatedUser = null;
+    if (data.user) {
+      updatedUser = {...data.user};
+      updatedUser.queue = [];
+    }
     storeCurrentUser(updatedUser);
     dispatch(setCurrentUser(updatedUser));
     return response;
@@ -55,7 +71,7 @@ export const signup = ({ email, password, name, birthDate }) => async dispatch =
     });
     const data = await response.json();
     const updatedUser = {...data.user}
-    if (updatedUser.queue) updatedUser.queue = JSON.parse(updatedUser.queue)
+    // if (updatedUser.queue) updatedUser.queue = JSON.parse(updatedUser.queue)
     storeCurrentUser(updatedUser);
     dispatch(setCurrentUser(updatedUser));
     return response;

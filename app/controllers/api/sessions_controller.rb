@@ -1,11 +1,15 @@
+require 'byebug'
+
 class Api::SessionsController < ApplicationController
 
 
     def show
         if logged_in?
+
             @user = current_user
             render 'api/users/show'
         else
+
             render json: {user: nil}
         end
     end
