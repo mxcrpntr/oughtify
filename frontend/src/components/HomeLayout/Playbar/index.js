@@ -127,7 +127,6 @@ export default function Playbar() {
             if (sessionUser) {
                 counter.current++;
                 if (counter.current % 20 === 0) {
-                    console.log(counter.current);
                     dispatch(updateUser(sessionUser));
                 }
             }

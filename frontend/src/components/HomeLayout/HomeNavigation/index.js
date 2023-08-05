@@ -15,7 +15,6 @@ export default function HomeNavigation({searching}) {
         opacity: .8
     });
 
-    console.log(searching)
     useEffect(() => {
         const setOpacity = (homeWindow) => () => {
             const scrollTop = homeWindow.scrollTop;

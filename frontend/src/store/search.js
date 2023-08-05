@@ -25,10 +25,8 @@ const searchReducer = (state = {}, action) => {
 
     switch (action.type) {
         case GET_SEARCH_RESULTS:
-            console.log(action.searchResults)
             return {...action.searchResults};
         case CLEAR_SEARCH_RESULTS:
-            console.log("whoops")
             return {};
         default:
             return newState;

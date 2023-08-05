@@ -53,7 +53,6 @@ export const login = ({ credential, password }) => async dispatch => {
       body: JSON.stringify({ credential, password })
     });
     const data = await response.json();
-    console.log(data)
     let updatedUser = null;
     if (data.user) {
       updatedUser = {...data.user};

@@ -8,7 +8,6 @@ import "./HomeLayout.css"
 import LibraryNavigation from "./LibraryNavigation";
 
 export default function HomeLayout({searching}) {
-    console.log(searching)
     return (
         <div className="homeLayout">
             <div className="homeTop">

@@ -12,7 +12,6 @@ export default function SearchIndex() {
     const [query,setQuery] = useState(params.get("query"));
     const searchResults = useSelector(state => state.search)
 
-    console.log(params.get("query"))
 
 
     return (

@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 
 export default function PopularSongItem({i,songs,albums}) {
     const album = useSelector(({albums}) => songs[0]?.albumId ? albums[songs[i].albumId]: {});
-    console.log(songs[i])
     return (
         <tr>
             <td className='col1'>{i}</td>

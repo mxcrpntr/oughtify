@@ -11,7 +11,6 @@ export default function SearchBar() {
 
     const searchResults = useSelector(state => state.search)
 
-    console.log(searchResults.songs)
 
     useEffect(() => {
         dispatch(clearSearchResults());

@@ -43,7 +43,6 @@ export default function PlaylistShow() {
 
     const playlist = useSelector(getPlaylist(playlistId));
     const playlistSongs = useSelector(getPlaylistSongs);
-    console.log(useSelector(getPlaylist(playlistId)))
 
     let opaqueBkgdStyle = {};
 
