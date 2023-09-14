@@ -1,3 +1,4 @@
+import csrfFetch from "./csrf"
 import { receivePlaylistSongs } from "./playlistSongs"
 
 const RECEIVE_PLAYLISTS = 'playlists/RECEIVE_PLAYLISTS'
@@ -26,7 +27,8 @@ export const fetchPlaylists = () => async dispatch => {
     const res = await fetch('api/playlists')
     if (res.ok) {
         const data = await res.json();
-        dispatch(receivePlaylists(data));
+        console.log(data)
+        dispatch(receivePlaylists(data.playlists));
     }
 }
 
@@ -35,12 +37,15 @@ export const fetchPlaylist = (playlistId) => async dispatch => {
     if (res.ok) {
         const data = await res.json();
         dispatch(receivePlaylist(data.playlist));
-        dispatch(receivePlaylistSongs(data.playlistSongs));
+        data.playlistSongs ?
+            dispatch(receivePlaylistSongs(data.playlistSongs)) :
+            dispatch(receivePlaylistSongs({}))
+
     }
 }
 
 export const createPlaylist = (playlist) => async dispatch => {
-    const res = await fetch(`api/playlists`, {
+    const res = await csrfFetch(`api/playlists`, {
         method: 'POST',
         body: JSON.stringify(playlist),
         headers: {
@@ -49,6 +54,7 @@ export const createPlaylist = (playlist) => async dispatch => {
     })
     if (res.ok) {
         const data = await res.json();
+        console.log(data)
         dispatch(receivePlaylist(data));
     }
 }
@@ -72,6 +78,7 @@ const playlistsReducer = (state = {}, action) => {
     switch(action.type) {
         case RECEIVE_PLAYLISTS:
             newState = action.playlists;
+            // console.log(action)
             return newState;
         case RECEIVE_PLAYLIST:
             newState[action.playlist.id] = action.playlist

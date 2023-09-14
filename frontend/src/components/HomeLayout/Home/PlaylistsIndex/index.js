@@ -8,7 +8,7 @@ import './PlaylistsIndex.css'
 
 export default function PlaylistsIndex() {
     const dispatch = useDispatch();
-    const {playlists} = useSelector(getPlaylists);
+    const playlists = useSelector(getPlaylists);
 
     useEffect(() => {
         dispatch(fetchPlaylists());
@@ -24,7 +24,7 @@ export default function PlaylistsIndex() {
                 <div className="playlistGrid">
                     {
                     Object.values(playlists).map(playlist => {
-                        return <PlaylistsIndexItem playlist={playlist} />
+                        return <PlaylistsIndexItem playlist={playlist} key={playlist.id}/>
                     })
                     }
                 </div>

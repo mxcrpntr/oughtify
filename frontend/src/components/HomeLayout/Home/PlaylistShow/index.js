@@ -83,7 +83,7 @@ export default function PlaylistShow() {
     
     return (
         <>
-            {playlist && Object.keys(playlist).length > 0
+            {playlist && Object.keys(playlist).length > 0 && playlistSongs
                 && (
             <>
             <div className="playlistShowTop">
@@ -96,7 +96,7 @@ export default function PlaylistShow() {
 
                     <h5>
                         <Link to="" onClick={(e) => {e.preventDefault()}}>{playlist.userName}</Link>
-                        &nbsp;· {playlist.playlistSongIds.length} song{ playlist.playlistSongIds.length === 1 ? "" : "s" },
+                        &nbsp;· {playlist.playlistSongIds?.length > 0 ? playlist.playlistSongIds.length : 0} song{ playlist.playlistSongIds?.length === 1 ? "" : "s" },
                         &nbsp; <span className="playlistLength">{formatRuntime(runtime)}</span>
 
                     </h5>

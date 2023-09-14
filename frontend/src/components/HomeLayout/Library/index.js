@@ -9,7 +9,7 @@ export default function Library() {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const {playlists} = useSelector(getPlaylists);
+    const playlists = useSelector(getPlaylists);
 
     useEffect(() => {
         dispatch(fetchPlaylists());
