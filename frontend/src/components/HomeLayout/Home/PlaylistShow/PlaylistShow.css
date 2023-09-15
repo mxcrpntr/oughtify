@@ -213,6 +213,8 @@ div.home .opaqueBkgd-2 {
 
 .playlistTrackList .hiddenUl {
     position: absolute;
+    background-color: #282828;
+    width: 185.84px;
 }
 
 .playlistTrackList > table > tr > td:last-child{

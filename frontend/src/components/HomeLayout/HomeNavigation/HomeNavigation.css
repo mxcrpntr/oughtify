@@ -61,7 +61,38 @@
     color: #A7A7A7;
     transform: none;
 }
-
+.homeNavigation button.canGoBack {
+    font-size: 16px;
+    height: 32px;
+    width: 32px;
+    background-color: #0A0A0A;
+    margin-left: 12px;
+    margin-right: 0;
+    border-radius: 50%;
+    vertical-align: middle;
+    cursor: pointer;
+    color: #A7A7A7;
+    transform: none;
+}
+.homeNavigation button.canGoBack:hover {
+    color: #FFFFFF;
+}
+.homeNavigation button.canGoForward {
+    font-size: 16px;
+    height: 32px;
+    width: 32px;
+    background-color: #0A0A0A;
+    margin-left: 12px;
+    margin-right: 0;
+    border-radius: 50%;
+    vertical-align: middle;
+    cursor: pointer;
+    color: #A7A7A7;
+    transform: none;
+}
+.homeNavigation button.canGoForward:hover {
+    color: #FFFFFF;
+}
 .homeNavigation .vl, .vl:hover {
     color: #FFFFFF;
     border-left: solid 1px #FFFFFF;

@@ -43,6 +43,17 @@ export default function HomeNavigation({searching}) {
         }
     })
 
+    const handleBack = (e) => {
+        e.preventDefault();
+        history.goBack();
+    }
+    const handleForward = (e) => {
+        e.preventDefault();
+        console.log(`history index is ${history.index}`)
+        console.log(`history length is ${history.length}`)
+        history.goForward();
+    }
+
     return (
         <div className="homeNavigation" style={ sessionUser ? opacityStyle : {backgroundColor: "rgba(18, 18, 18, 1)", opacity: 1}}>
             {!sessionStorage["currentUser"] && (
@@ -64,8 +75,10 @@ export default function HomeNavigation({searching}) {
             {sessionUser && (
                 <>
                     <span>
-                        <button className="fa-solid circle loggedOut"><i class="fa-solid fa-chevron-left"></i></button>
-                        <button className="fa-solid circle loggedOut"><i class="fa-solid fa-chevron-right"></i></button>
+                        <button className={`fa-solid circle ${
+                            history.length > 1 ? "canGoBack" : "loggedOut"
+                            }`} onClick={handleBack}><i class="fa-solid fa-chevron-left"></i></button>
+                        <button className={`fa-solid circle canGoForward`} onClick={handleForward}><i class="fa-solid fa-chevron-right"></i></button>
                         {searching && (<SearchBar />)}
                     </span>
                     

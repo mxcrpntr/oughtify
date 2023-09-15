@@ -43,6 +43,7 @@ export default function PlaylistShow() {
 
     const playlist = useSelector(getPlaylist(playlistId));
     const playlistSongs = useSelector(getPlaylistSongs);
+    console.log(playlistSongs)
 
     let opaqueBkgdStyle = {};
 
@@ -144,6 +145,7 @@ export default function PlaylistShow() {
                             return (
                                 <PlaylistTrackListItem
                                     song={song}
+                                    key={song.id}
                                     songsForQueue={songsForQueue.filter(entry => entry[0].songNumber >= song.songNumber)} />
                             )
                         })}
