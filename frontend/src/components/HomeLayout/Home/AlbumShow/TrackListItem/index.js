@@ -29,23 +29,64 @@ export default function TrackListItem({song,artist,songsForQueue}) {
     const [ellipsis,setEllipsis] = useState(invisibleEllipsisSymbol());
     const sessionUser = useSelector(state => state.session.user);
     const [greenText,setGreenText] = useState({color: "#FFFFFF"});
+    const [currentSong, setCurrentSong] = useState(sessionUser?.queue?.[0]?.[0]);
+    const [isCurrentSong, setIsCurrentSong] = useState(false);
+    const [hiddenUlHidden, setHiddenUlHidden] = useState(true);
+    const [isPlaying,setIsPlaying] = useState(!document.querySelector("audio")?.paused)
+    const [numOrDisc, setNumOrDisc] = useState(song.number)
+    const [isOver,setIsOver] = useState(false)
 
-    let currentSong = sessionUser?.queue?.[0]?.[0]
+    // let currentSong = sessionUser?.queue?.[0]?.[0]
 
     useEffect(() => {
         const audio = document.querySelector("audio");
-        currentSong = sessionUser?.queue?.[0]?.[0]
-        if (song.id === currentSong?.id) {
-            setGreenText({color: "#1ED760"})
-        } else {
-            setGreenText({color: "#FFFFFF"})
+        if (audio) {
+            const handleAudioChange = (e) => {
+                setIsPlaying(!audio.paused)
+                setCurrentSong(sessionUser?.queue?.[0]?.[0])
+                if (song.id === sessionUser?.queue?.[0]?.[0]?.id) {
+                    !audio.paused ? setNumOrDisc(spinningDiscSymbol()) : setNumOrDisc(song.number)
+                } else {
+                    setNumOrDisc(song.number)
+                }
+            }
+            audio.addEventListener("play", handleAudioChange)
+            audio.addEventListener("playing", handleAudioChange)
+            audio.addEventListener("pause", handleAudioChange)
+            audio.addEventListener("timeUpdate", handleAudioChange)
+            return () => {
+                audio.removeEventListener('play', handleAudioChange);
+                audio.removeEventListener('playing', handleAudioChange);
+                audio.removeEventListener('pause', handleAudioChange);
+                audio.removeEventListener('timeUpdate', handleAudioChange);
+            };
         }
-    }, [sessionUser?.queue?.[0]])
+    }, [])
+
+    // useEffect(() => {
+    //     const audio = document.querySelector("audio");
+    //     currentSong = sessionUser?.queue?.[0]?.[0]
+    //     if (song.id === currentSong?.id) {
+    //         setGreenText({color: "#1ED760"})
+    //     } else {
+    //         setGreenText({color: "#FFFFFF"})
+    //     }
+    // }, [sessionUser?.queue?.[0]])
+
+    useEffect(() => {
+        setCurrentSong(sessionUser?.queue?.[0]?.[0])
+        if (song.id === currentSong?.id) {
+            setIsCurrentSong(true)
+        } else {
+            setIsCurrentSong(false)
+        }
+    }, [sessionUser?.queue?.[0]?.[0],document.querySelector("audio")?.paused])
+
 
     const handleTrackClick = () => {
         if (sessionUser) {
             if (song.id !== currentSong?.id) {
-                sessionUser.queue = songsForQueue;
+                sessionUser.queue = [...songsForQueue];
                 const audio = document.querySelector("audio");
                 audio.currentTime = sessionUser.queue?.[0]?.[1] ? sessionUser.queue[0][1] : 0;
             }
@@ -53,39 +94,55 @@ export default function TrackListItem({song,artist,songsForQueue}) {
         }
     }
 
-    const displayNumberPlay = () => {
-        if (song.id === currentSong?.id) {
-            const audio = document.querySelector("audio");
-            if (audio.paused) {
-                return numberPlay;
-            } else {
-                return spinningDiscSymbol();
-            }
-        } else {
-            return numberPlay;
-        }
+    // const displayNumberPlay = () => {
+    //     if (song.id === currentSong?.id) {
+    //         const audio = document.querySelector("audio");
+    //         if (audio.paused) {
+    //             return numberPlay;
+    //         } else {
+    //             return spinningDiscSymbol();
+    //         }
+    //     } else {
+    //         return numberPlay;
+    //     }
+    // }
+
+    const hiddenUl = () => {
+        return (
+            <ul className="hiddenUl">
+                <li>Add to queue</li>
+                <hr />
+                <li>Go to artist</li>
+                <li>Go to album</li>
+                <hr />
+                <li>Remove from this playlist</li>
+                <li>Add to playlist</li>
+            </ul>
+        )
     }
 
     return (
         <>
         { song.id !== currentSong?.id && (
             <tr
-                onMouseEnter={() => {
+                onMouseOver={() => {
+                    setIsOver(true);
                     setNumberPlay(playSymbol());
                     setHeart(heartSymbol());
                     setEllipsis(ellipsisSymbol());
                 }}
                 onMouseLeave={() => {
-                    setNumberPlay(song.number);
+                    setIsOver(false);
+                    setNumberPlay(numOrDisc);
                     setHeart("");
                     setEllipsis(invisibleEllipsisSymbol());
                 }}>
-                <td style={greenText} onClick={handleTrackClick}>
-                    {numberPlay}
+                <td style={{color: "#FFFFFF"}} onClick={handleTrackClick}>
+                    {isOver ? numberPlay : numOrDisc}
                 </td>
                 <td>
                     <ul>
-                        <li style={greenText}>{song.title}</li>
+                        <li style={{color: "#FFFFFF"}}>{song.title}</li>
                         <li><Link to={`/artists/${artist.id}`}>{artist.name}</Link></li>
                     </ul>
                 </td>
@@ -96,22 +153,29 @@ export default function TrackListItem({song,artist,songsForQueue}) {
         )}
         {song.id === currentSong?.id && (
             <tr
-                onMouseEnter={() => {
-                    setNumberPlay(pauseSymbol());
+                onMouseOver={() => {
+                    const audio = document.querySelector("audio");
+                    let actionSymbol = pauseSymbol
+                    if (audio?.paused) {
+                        actionSymbol = playSymbol
+                    }
+                    setIsOver(true);
+                    setNumberPlay(actionSymbol());
                     setHeart(heartSymbol());
                     setEllipsis(ellipsisSymbol());
                 }}
                 onMouseLeave={() => {
-                    setNumberPlay(spinningDiscSymbol());
+                    setIsOver(false);
+                    setNumberPlay(numOrDisc);
                     setHeart("");
                     setEllipsis(invisibleEllipsisSymbol());
                 }}>
-                <td style={greenText} onClick={() => {
+                <td style={{color: "#1ED760"}} onClick={() => {
                         document.querySelector(".playPause").click()
-                    }}>{numberPlay}</td>
+                    }}>{isOver ? numberPlay : numOrDisc}</td>
                 <td>
                     <ul>
-                        <li style={greenText}>{song.title}</li>
+                        <li style={{color: "#1ED760"}}>{song.title}</li>
                         <li><Link to={`/artists/${artist.id}`}>{artist.name}</Link></li>
                     </ul>
                 </td>

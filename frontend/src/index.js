@@ -40,15 +40,15 @@ const root = createRoot(document.getElementById('root'))
 
 const renderApplication = () => {
   root.render(
-    <React.StrictMode>
+    // <React.StrictMode>
       <Root />
-    </React.StrictMode>
+    // </React.StrictMode>
   );
 }
 
 if (
-  sessionStorage.getItem("currentUser") === null ||
-  sessionStorage.getItem("X-CSRF-Token") === null 
+  !sessionStorage.getItem("currentUser") ||
+  !sessionStorage.getItem("X-CSRF-Token") 
 ) {
   store.dispatch(sessionActions.restoreSession()).then(renderApplication());
 } else {
