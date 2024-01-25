@@ -19,8 +19,12 @@ const storeCSRFToken = response => {
 }
   
 export const storeCurrentUser = user => {
-    if (user) sessionStorage.setItem("currentUser", JSON.stringify(user));
-    else sessionStorage.removeItem("currentUser");
+    if (user) {
+      sessionStorage.setItem("currentUser", JSON.stringify(user));
+    }
+    else {
+      sessionStorage.removeItem("currentUser");
+    }
 }
 
 export const restoreSession = () => async dispatch => {

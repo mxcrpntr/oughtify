@@ -71,13 +71,14 @@ div.home .playlistHeaders {
 }
 div.home .opaqueBkgd-2 {
     background-image: linear-gradient(to bottom, rgb(247, 193, 121), rgba(18, 18, 18, 1));
+    background-size: 300px;
 }
 .playlistTrackList {
     position: relative;
     width: calc(100% - 44px);
     padding: 22px;
     margin: auto;
-    background-color: rgba(18, 18, 18, .85);
+    background-color: rgba(18, 18, 18, .5);
     margin-top: 340px;
     color: #B3B3B3;
     font-family: CircularSpotifyLight;

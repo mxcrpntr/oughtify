@@ -21,6 +21,8 @@ export default function PlaylistShow() {
 
     const tableRowRef = useRef();
 
+    const [isLiked, setIsLiked] = useState(false);
+
     useEffect(() => {
         const getRowWidth = () => {
             if (tableRowRef.current) {
@@ -76,6 +78,10 @@ export default function PlaylistShow() {
     const songsForQueue = songsForTracklist
         .map(song => [song,0])
 
+    const handleLikeClick = () => {
+        setIsLiked(!isLiked);
+    }
+
     // for (let i = 0; i < songsForQueue.length; i++) {
     //     songsForQueue[i][0].artistName = artist.name;
     //     songsForQueue[i][0].artistId = artist.id;
@@ -120,7 +126,9 @@ export default function PlaylistShow() {
                     }}>{ currentSong?.playlistId === playlistId ?
                     (<i class="fa-solid fa-pause"></i>) :
                     (<i class="fa-solid fa-play"></i>)}</button>
-                    <span className="bigHeart"><i class="fa-regular fa-heart"></i></span>
+                    <span className="bigHeart" onClick={handleLikeClick}>{isLiked ?
+                    (<i class="fa-solid fa-heart"style={{color: "#1ED760"}}></i>) :
+                    (<i class="fa-regular fa-heart"></i>)}</span>
                     <span className="bigDots"><i class="fa-solid fa-ellipsis"></i></span>
                 </span>
 

@@ -3,7 +3,7 @@ import AlbumsIndex from "../ArtistShow/AlbumsIndex"
 import './AlbumShow.css'
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAlbum, getAlbum, getAlbums } from "../../../../store/albums";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getSongs } from "../../../../store/songs";
 import { getArtist } from "../../../../store/artists";
 import TrackListItem, { invisibleEllipsisSymbol } from "./TrackListItem";
@@ -16,6 +16,7 @@ export default function AlbumShow() {
 
     const sessionUser = useSelector(state => state.session.user);
 
+    const [isLiked,setIsLiked] = useState(false);
     
     let currentSong = sessionUser?.queue?.[0]?.[0]
 
@@ -58,6 +59,10 @@ export default function AlbumShow() {
         songsForQueue[i][0].artistName = artist.name;
         songsForQueue[i][0].artistId = artist.id;
         songsForQueue[i][0].imageUrl = album.imageUrl;
+    }
+
+    const handleLikeClick = () => {
+        setIsLiked(!isLiked);
     }
 
 
@@ -103,7 +108,9 @@ export default function AlbumShow() {
                     }}>{ currentSong?.albumId === albumId ?
                     (<i class="fa-solid fa-pause"></i>) :
                     (<i class="fa-solid fa-play"></i>)}</button>
-                    <span className="bigHeart"><i class="fa-regular fa-heart"></i></span>
+                    <span className="bigHeart" onClick={handleLikeClick}>{isLiked ?
+                    (<i class="fa-solid fa-heart"style={{color: "#1ED760"}}></i>) :
+                    (<i class="fa-regular fa-heart"></i>)}</span>
                     <span className="bigDots"><i class="fa-solid fa-ellipsis"></i></span>
                 </span>
 

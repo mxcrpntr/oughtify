@@ -8,7 +8,10 @@ const playSymbol = () => {
     return <i class="fa-solid fa-play" style={{color: "#FFFFFF"}}></i>;
 }
 const heartSymbol = () => {
-    return <Link to="/"><i class="fa-regular fa-heart" style={{fontSize: "16px"}}></i></Link>;
+    return <i class="fa-regular fa-heart" style={{fontSize: "16px"}}></i>;
+}
+const heartSymbolFilled = () => {
+    return <i class="fa-solid fa-heart"style={{fontSize: "16px", color: "#1ED760"}}></i>;
 }
 const pauseSymbol = () => {
     return <i class="fa-solid fa-pause" style={{color: "#FFFFFF"}}></i>;
@@ -29,6 +32,7 @@ export default function TrackListItem({song,artist,songsForQueue}) {
     const [ellipsis,setEllipsis] = useState(invisibleEllipsisSymbol());
     const sessionUser = useSelector(state => state.session.user);
     const [greenText,setGreenText] = useState({color: "#FFFFFF"});
+    const [isLiked,setIsLiked] = useState(false);
     const [currentSong, setCurrentSong] = useState(sessionUser?.queue?.[0]?.[0]);
     const [isCurrentSong, setIsCurrentSong] = useState(false);
     const [hiddenUlHidden, setHiddenUlHidden] = useState(true);
@@ -94,6 +98,14 @@ export default function TrackListItem({song,artist,songsForQueue}) {
         }
     }
 
+    const handleLikeClick = () => {
+        if (sessionUser) {
+            if (!isLiked) setHeart(heartSymbolFilled());
+            else setHeart(heartSymbol());
+            setIsLiked(!isLiked);
+        }
+    }
+
     // const displayNumberPlay = () => {
     //     if (song.id === currentSong?.id) {
     //         const audio = document.querySelector("audio");
@@ -128,13 +140,13 @@ export default function TrackListItem({song,artist,songsForQueue}) {
                 onMouseOver={() => {
                     setIsOver(true);
                     setNumberPlay(playSymbol());
-                    setHeart(heartSymbol());
+                    if (!isLiked) setHeart(heartSymbol());
                     setEllipsis(ellipsisSymbol());
                 }}
                 onMouseLeave={() => {
                     setIsOver(false);
                     setNumberPlay(numOrDisc);
-                    setHeart("");
+                    if (!isLiked) setHeart("");
                     setEllipsis(invisibleEllipsisSymbol());
                 }}>
                 <td style={{color: "#FFFFFF"}} onClick={handleTrackClick}>
@@ -146,7 +158,7 @@ export default function TrackListItem({song,artist,songsForQueue}) {
                         <li><Link to={`/artists/${artist.id}`}>{artist.name}</Link></li>
                     </ul>
                 </td>
-                <td>{heart}</td>
+                <td onClick={handleLikeClick}>{heart}</td>
                 <td>{formatTime(song.length)}</td>
                 <td>{ellipsis}</td>
             </tr>
@@ -161,13 +173,13 @@ export default function TrackListItem({song,artist,songsForQueue}) {
                     }
                     setIsOver(true);
                     setNumberPlay(actionSymbol());
-                    setHeart(heartSymbol());
+                    if (!isLiked) setHeart(heartSymbol());
                     setEllipsis(ellipsisSymbol());
                 }}
                 onMouseLeave={() => {
                     setIsOver(false);
                     setNumberPlay(numOrDisc);
-                    setHeart("");
+                    if (!isLiked) setHeart("");
                     setEllipsis(invisibleEllipsisSymbol());
                 }}>
                 <td style={{color: "#1ED760"}} onClick={() => {
@@ -179,7 +191,7 @@ export default function TrackListItem({song,artist,songsForQueue}) {
                         <li><Link to={`/artists/${artist.id}`}>{artist.name}</Link></li>
                     </ul>
                 </td>
-                <td>{heart}</td>
+                <td onClick={handleLikeClick}>{heart}</td>
                 <td>{formatTime(song.length)}</td>
                 <td>{ellipsis}</td>
             </tr>
