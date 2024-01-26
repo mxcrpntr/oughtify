@@ -1,7 +1,19 @@
 class Api::PlaylistSongsController < ApplicationController
 
     def create
-        @playlist_song = PlaylistSong.new(playlist_params)
+        puts "yoooooooooo"
+        @playlist_song = PlaylistSong.new(playlist_song_params)
+        playlist_id = params[:playlist_song][:playlist_id]
+        song_number = params[:playlist_song][:song_number]
+        if PlaylistSong.where(playlist_id: playlist_id, song_number: song_number).exists?
+            playlist_songs_after = PlaylistSong.where(playlist_id: playlist_id).where("song_number >= ?", song_number).order(song_number: :desc)
+            playlist_songs_after.each do |song_after|
+                new_number = song_after.song_number + 1
+                song_after.update(song_number: new_number)
+                p new_number
+            end
+        end
+        p "hey"
         if @playlist_song.save
             render :show
         else
@@ -11,11 +23,41 @@ class Api::PlaylistSongsController < ApplicationController
 
     def update
         @playlist_song = PlaylistSong.find(params[:id])
-        if @playlist_song.update(playlist_params)
-            render :show
+        old_song_number = @playlist_song.song_number
+        new_song_number = params[:playlist_song][:song_number].to_i
+        if old_song_number != new_song_number
+            playlist_id = @playlist_song.playlist_id
+            song_id = @playlist_song.song_id
+            @playlist_song.delete
+            if old_song_number < new_song_number
+                affected_song_numbers = (old_song_number..new_song_number).to_a
+                affected_songs = PlaylistSong.where(playlist_id: playlist_id, song_number: affected_song_numbers).order(song_number: :asc)
+                affected_songs.each do |affected_song|
+                    new_affected_song_number = affected_song.song_number - 1
+                    affected_song.update(song_number: new_affected_song_number)
+                end
+            else
+                affected_song_numbers = (new_song_number..old_song_number).to_a
+                affected_songs = PlaylistSong.where(playlist_id: playlist_id, song_number: affected_song_numbers).order(song_number: :desc)
+                affected_songs.each do |affected_song|
+                    new_affected_song_number = affected_song.song_number + 1
+                    affected_song.update(song_number: new_affected_song_number)
+                end
+            end
+            @playlist_song = PlaylistSong.new(playlist_id: playlist_id, song_id: song_id, song_number: new_song_number)
+            if @playlist_song.save
+                render :show
+            else
+                render json: { errors: @playlist_song.errors.full_messages }, status: :unprocessable_entity
+            end
         else
-            render json: { errors: @playlist_song.errors.full_messages }, status: :unprocessable_entity
+            if @playlist_song.update(playlist_song_params)
+                render :show
+            else
+                render json: { errors: @playlist_song.errors.full_messages }, status: :unprocessable_entity
+            end
         end
+
     end
 
     def destroy
@@ -26,8 +68,8 @@ class Api::PlaylistSongsController < ApplicationController
         playlist.playlist_song_ids.each do |playlist_song_id|
             updated_playlist_song = PlaylistSong.find(playlist_song_id)
             if updated_playlist_song.song_number > previous_song_number
-                updated_playlist_song.song_number -= 1
-                updated_playlist_song.save
+                new_number = updated_playlist_song.song_number - 1
+                updated_playlist_song.update(song_number: new_number)
             end
         end
     end
