@@ -18,13 +18,13 @@ export default function HomeNavigation({searching}) {
     useEffect(() => {
         const setOpacity = (homeWindow) => () => {
             const scrollTop = homeWindow.scrollTop;
-            if (scrollTop > 340) {
+            if (scrollTop > 680) {
                 setOpacityStyle({
                     backgroundColor: "rgba(18, 18, 18, 1)",
                     opacity: 1
                 })
             } else {
-                const newBkgdOpacity = scrollTop / 340;
+                const newBkgdOpacity = scrollTop / 680;
                 const newOpacity = .8 + (.2 * newBkgdOpacity)
                 setOpacityStyle({
                     backgroundColor: `rgba(18, 18, 18, ${newBkgdOpacity})`,
