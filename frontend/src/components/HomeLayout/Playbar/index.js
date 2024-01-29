@@ -39,6 +39,9 @@ export default function Playbar() {
 
     const [isDragging,setIsDragging] = useState(false);
 
+    const [shuffle,setShuffle] = useState(false);
+    const [repeat,setRepeat] = useState(false);
+
     const audioRef = useRef();
 
     const trackRef = useRef();
@@ -384,10 +387,14 @@ export default function Playbar() {
                 </section>
                 <section className="middle">
                     <div className="middleTop">
-                        <i class="fa-solid fa-shuffle"></i>
+                        <div className="shuffle" onClick={() => {setShuffle(!shuffle)}}>
+                                <i class="fa-solid fa-shuffle" style={shuffle ? ({color: "#1ED760"}) : ({})}></i>
+                            
+                        </div>
                         <i class="fa-solid fa-backward-step"
                             onClick={() => {
-                                if (audioRef.current.currentTime <= 2.7 && sessionUser.reverseQueue && Array.isArray(sessionUser.reverseQueue) && sessionUser.reverseQueue.length > 0) {
+                                const reverseQueue = sessionUser.reverseQueue
+                                if (audioRef.current.currentTime <= 2.7 && reverseQueue && Array.isArray(reverseQueue) && reverseQueue.length > 0) {
                                     const previousSong = sessionUser.reverseQueue.shift();
                                     sessionUser.queue.unshift(previousSong);
                                     sessionUser.queue[1][1] = 0;
@@ -410,8 +417,10 @@ export default function Playbar() {
                                     sessionUser.reverseQueue.unshift(finishedSong);
                                 }
                             }}>
-                        </i>
-                        <i class="fa-solid fa-repeat"></i>
+                        </i> 
+                        <div className="repeat" onClick={() => {setRepeat(!repeat)}}>
+                            <i class="fa-solid fa-repeat" style={repeat ? ({color: "#1ED760"}) : ({})}></i>
+                        </div>
                         <audio src={audioSrc} ref={audioRef} preload="auto" />
                     </div>
                     <div className="middleBottom">
