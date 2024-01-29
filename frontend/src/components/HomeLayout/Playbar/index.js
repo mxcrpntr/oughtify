@@ -148,7 +148,9 @@ export default function Playbar() {
 
     useEffect(() => {
         const goToNextSong = async () => {
-            sessionUser.queue.shift();
+            const finishedSong = sessionUser.queue.shift()
+            finishedSong[1] = 0
+            sessionUser.reverseQueue.unshift(finishedSong);
             setAudioSrc(sessionUser?.queue?.[0]?.[0]?.fileUrl);
         }
         if (audioRef.current) {
@@ -384,7 +386,16 @@ export default function Playbar() {
                     <div className="middleTop">
                         <i class="fa-solid fa-shuffle"></i>
                         <i class="fa-solid fa-backward-step"
-                            onClick={() => {audioRef.current.currentTime = 0}}>
+                            onClick={() => {
+                                if (audioRef.current.currentTime <= 2.7 && sessionUser.reverseQueue && Array.isArray(sessionUser.reverseQueue) && sessionUser.reverseQueue.length > 0) {
+                                    const previousSong = sessionUser.reverseQueue.shift();
+                                    sessionUser.queue.unshift(previousSong);
+                                    sessionUser.queue[1][1] = 0;
+                                } else {
+                                    audioRef.current.currentTime = 0;
+                                } 
+                            }
+                                }>
                         </i>
                         <div className="playPause" onClick={() => {setPaused(!paused)}}>
                             {audioRef?.current?.paused ? playCirc() : pauseCirc() }
@@ -394,7 +405,9 @@ export default function Playbar() {
                                 if (sessionUser.queue.length === 1) {
                                     audioRef.current.currentTime = audioRef.current.duration;
                                 } else {
-                                    sessionUser.queue.shift();
+                                    const finishedSong = sessionUser.queue.shift()
+                                    finishedSong[1] = 0
+                                    sessionUser.reverseQueue.unshift(finishedSong);
                                 }
                             }}>
                         </i>

@@ -30,7 +30,7 @@ const invisibleEllipsisSymbol = () => {
 
 
 
-export default function PlaylistTrackListItem({song,songsForQueue}) {
+export default function PlaylistTrackListItem({song,songsForQueue,songsForReverseQueue}) {
     const [numberPlay, setNumberPlay] = useState(song.songNumber);
     const [heart, setHeart] = useState("");
     const [isLiked,setIsLiked] = useState(false);
@@ -107,6 +107,7 @@ export default function PlaylistTrackListItem({song,songsForQueue}) {
         if (sessionUser) {
             if (song.id !== currentSong?.id) {
                 sessionUser.queue = [...songsForQueue];
+                sessionUser.reverseQueue = [...songsForReverseQueue];
                 const audio = document.querySelector("audio");
                 audio.currentTime = sessionUser.queue?.[0]?.[1] ? sessionUser.queue[0][1] : 0;
             }

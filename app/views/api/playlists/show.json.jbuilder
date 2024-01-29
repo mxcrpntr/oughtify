@@ -3,7 +3,7 @@ songs = []
 
 
 json.playlist do
-    json.extract! @playlist, :id, :title, :user_id, :playlist_song_ids, :color
+    json.extract! @playlist, :id, :title, :user_id, :playlist_song_ids, :color, :updated_at
     user = User.find(@playlist.user_id)
     json.set! :user_name, user.name
     json.set! :image_url, @playlist.image.url

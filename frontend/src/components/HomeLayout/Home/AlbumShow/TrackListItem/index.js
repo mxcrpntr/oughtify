@@ -26,7 +26,7 @@ export const invisibleEllipsisSymbol = () => {
     return <i class="fa-solid fa-ellipsis" style={{opacity: 0}}></i>;
 }
 
-export default function TrackListItem({song,artist,songsForQueue}) {
+export default function TrackListItem({song,artist,songsForQueue,songsForReverseQueue}) {
     const [numberPlay, setNumberPlay] = useState(song.number);
     const [heart, setHeart] = useState("");
     const [ellipsis,setEllipsis] = useState(invisibleEllipsisSymbol());
@@ -91,6 +91,7 @@ export default function TrackListItem({song,artist,songsForQueue}) {
         if (sessionUser) {
             if (song.id !== currentSong?.id) {
                 sessionUser.queue = [...songsForQueue];
+                sessionUser.reverseQueue = [...songsForReverseQueue];
                 const audio = document.querySelector("audio");
                 audio.currentTime = sessionUser.queue?.[0]?.[1] ? sessionUser.queue[0][1] : 0;
             }

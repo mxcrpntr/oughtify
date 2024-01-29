@@ -61,6 +61,9 @@ export default function AlbumShow() {
         songsForQueue[i][0].imageUrl = album.imageUrl;
     }
 
+    const songsForReverseQueue = [...songsForQueue]
+        .sort((a,b) => b[0].number - a[0].number)
+
     const handleLikeClick = () => {
         setIsLiked(!isLiked);
     }
@@ -131,7 +134,8 @@ export default function AlbumShow() {
                                     key={song.id}
                                     song={song}
                                     artist={artist}
-                                    songsForQueue={songsForQueue.filter(entry => entry[0].number >= song.number)} />
+                                    songsForQueue={songsForQueue.filter(entry => entry[0].number >= song.number)}
+                                    songsForReverseQueue={songsForReverseQueue.filter(entry => entry[0].number < song.number)} />
                             )
                         })}
 

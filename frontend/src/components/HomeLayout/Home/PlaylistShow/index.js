@@ -78,6 +78,9 @@ export default function PlaylistShow() {
     const songsForQueue = songsForTracklist
         .map(song => [song,0])
 
+    const songsForReverseQueue = [...songsForQueue]
+        .sort((a,b) => b[0].songNumber - a[0].songNumber)
+
     const handleLikeClick = () => {
         setIsLiked(!isLiked);
     }
@@ -116,7 +119,7 @@ export default function PlaylistShow() {
                 <span className="bigButtons">
                     <button className="bigPlay" onClick={() => {
                     if (sessionUser) {
-                        sessionUser.queue = songsForQueue
+                        sessionUser.queue = [...songsForQueue]
                         const audio = document.querySelector("audio")
                         audio.currentTime = sessionUser.queue?.[0]?.[1] ? sessionUser.queue[0][1] : 0
                         if (audio.paused) {
@@ -154,7 +157,8 @@ export default function PlaylistShow() {
                                 <PlaylistTrackListItem
                                     song={song}
                                     key={song.id}
-                                    songsForQueue={songsForQueue.filter(entry => entry[0].songNumber >= song.songNumber)} />
+                                    songsForQueue={songsForQueue.filter(entry => entry[0].songNumber >= song.songNumber)}
+                                    songsForReverseQueue={songsForReverseQueue.filter(entry => entry[0].songNumber < song.songNumber)} />
                             )
                         })}
 
