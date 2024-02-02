@@ -83,7 +83,6 @@ const usersReducer = (state = {}, action) => {
             return newState;
         case RECEIVE_USER:
             const updatedUser = {...action.user};
-            // debugger;
             updatedUser.queue = JSON.parse(updatedUser.queue)
             newState[updatedUser.id] = updatedUser;
             return newState;

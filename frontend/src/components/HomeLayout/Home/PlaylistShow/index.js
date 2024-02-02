@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min"
 import './PlaylistShow.css'
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPlaylist, getPlaylist, getPlaylists } from "../../../../store/playlists";
+import { fetchPlaylist, fetchPlaylists, getPlaylist, getPlaylists } from "../../../../store/playlists";
 import { useEffect, useRef, useState } from "react";
 import { getSongs } from "../../../../store/songs";
 import { getArtist } from "../../../../store/artists";
@@ -14,6 +14,8 @@ export default function PlaylistShow() {
     const dispatch = useDispatch();
 
     const {playlistId} = useParams();
+
+    const playlists = useSelector(getPlaylists);
 
     const sessionUser = useSelector(state => state.session.user);
 
@@ -55,7 +57,7 @@ export default function PlaylistShow() {
                 backgroundImage: `linear-gradient(to bottom, ${playlist.color}, rgba(18, 18, 18, 1))`
             }
         }
-    }, [playlist])
+    }, [playlist,playlistSongs])
 
 
     let runtime = 0;
@@ -71,6 +73,10 @@ export default function PlaylistShow() {
     useEffect(()=> {
         dispatch(fetchPlaylist(playlistId));
     },[playlistId])
+
+    useEffect(()=> {
+        dispatch(fetchPlaylists);
+    },[])
 
     const songsForTracklist = Object.values(playlistSongs)
         .sort((a,b) => a.songNumber - b.songNumber)
@@ -158,7 +164,9 @@ export default function PlaylistShow() {
                                     song={song}
                                     key={song.id}
                                     songsForQueue={songsForQueue.filter(entry => entry[0].songNumber >= song.songNumber)}
-                                    songsForReverseQueue={songsForReverseQueue.filter(entry => entry[0].songNumber < song.songNumber)} />
+                                    songsForReverseQueue={songsForReverseQueue.filter(entry => entry[0].songNumber < song.songNumber)}
+                                    playlist={playlist}
+                                    userPlaylists={Object.values(playlists).filter((pList) => sessionUser.playlistIds.includes(pList.id))}/>
                             )
                         })}
 

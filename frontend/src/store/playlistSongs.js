@@ -1,3 +1,5 @@
+import csrfFetch from "./csrf"
+
 const RECEIVE_PLAYLIST_SONGS = 'playlist_songs/RECEIVE_PLAYLIST_SONGS'
 
 const RECEIVE_PLAYLIST_SONG = 'playlist_songs/RECEIVE_PLAYLIST_SONG'
@@ -36,8 +38,8 @@ const fetchPlaylistSong = (playlistSongId) => async dispatch => {
     }
 }
 
-const createPlaylistSong = (playlistSong) => async dispatch => {
-    const res = await fetch(`api/playlist_songs`, {
+export const createPlaylistSong = (playlistSong) => async dispatch => {
+    const res = await csrfFetch(`api/playlist_songs`, {
         method: 'POST',
         body: JSON.stringify(playlistSong),
         headers: {
@@ -50,8 +52,8 @@ const createPlaylistSong = (playlistSong) => async dispatch => {
     }
 }
 
-const updatePlaylistSong = (playlistSong) => async dispatch => {
-    const res = await fetch(`api/playlist_songs/${playlistSong.id}`, {
+export const updatePlaylistSong = (playlistSong) => async dispatch => {
+    const res = await csrfFetch(`api/playlist_songs/${playlistSong.id}`, {
         method: 'PATCH',
         body: JSON.stringify(playlistSong),
         headers: {
@@ -62,6 +64,15 @@ const updatePlaylistSong = (playlistSong) => async dispatch => {
         const data = await res.json();
         dispatch(receivePlaylistSong(data));
     }
+}
+
+export const deletePlaylistSong = (playlistSong) => async dispatch => {
+    const res = await csrfFetch(`api/playlist_songs/${playlistSong.id}`, {
+        method: 'DELETE'
+    })
+    // if (res.ok) {
+    //     const data = await res.json();
+    // }
 }
 
 const playlistSongsReducer = (state = {}, action) => {

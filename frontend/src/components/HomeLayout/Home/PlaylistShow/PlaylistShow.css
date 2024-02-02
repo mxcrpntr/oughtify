@@ -139,6 +139,9 @@ div.home .opaqueBkgd-2 {
 .playlistTrackList > table > tr:hover {
     background-color: #282828;
 }
+.playlistTrackList > table > tr.selectedTrack {
+    background-color: #5c5c5c;
+}
 .playlistTrackList > table > tr:first-child {
     background-color: transparent;
     height: 36px;
@@ -157,7 +160,7 @@ div.home .opaqueBkgd-2 {
     padding-right: 16px;
 }
 
-.playlistTrackList > table ul > li:first-child{
+.playlistTrackList > table .playlistImageColumn ul > li:first-child{
     font-family: CircularSpotifyLight;
     font-size: 16px;
     color: #FFFFFF;
@@ -216,8 +219,61 @@ div.home .opaqueBkgd-2 {
 .playlistTrackList .hiddenUl {
     position: absolute;
     background-color: #282828;
-    width: 185.84px;
-    right: 
+    width: 213.84px;
+    right: 8px;
+    bottom: 12px;
+    color: #FFFFFF;
+    font-size: 14px;
+    padding: 4px;
+    border-radius: 4px;
+    z-index: 2;
+}
+.playlistTrackList .hiddenUl > li {
+    padding: 12px 8px 12px 12px;
+    border-radius: 4px;
+}
+.playlistTrackList .hiddenUl > li.barUnder {
+    border-bottom: 1px solid rgba(61, 61, 61, .8);
+}
+.playlistTrackList .hiddenUl > hr {
+    padding: 0;
+}
+.playlistTrackList .hiddenUl > li:hover {
+    background-color: #3d3d3d;
+}
+.playlistTrackList .hiddenUl > li > span {
+    cursor: default;
+    display: flex;
+    flex-direction: row;
+    /* justify-content:left; */
+    align-items: center;
+    vertical-align: middle;
+    gap: 12px;
+}
+
+.playlistTrackList .hiddenUl .hiddenPlaylistUl {
+    position: absolute;
+    background-color: #282828;
+    width: 213.84px;
+    right: 213.84px;
+    bottom: 0;
+    color: #FFFFFF;
+    font-size: 14px;
+    padding: 4px;
+    border-radius: 4px;
+    z-index: 2;
+}
+.playlistTrackList .hiddenUl .hidden {
+    display: none;
+}
+
+.playlistTrackList .hiddenUl .hiddenPlaylistUl > li {
+    cursor: default;
+    padding: 12px 8px 12px 12px;
+    border-radius: 4px;
+}
+.playlistTrackList .hiddenUl .hiddenPlaylistUl > li:hover {
+    background-color: #3d3d3d;
 }
 
 .playlistTrackList > table > tr > td:last-child{

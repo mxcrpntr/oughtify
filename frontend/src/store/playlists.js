@@ -60,7 +60,7 @@ export const createPlaylist = (playlist) => async dispatch => {
 }
 
 export const updatePlaylist = (playlist) => async dispatch => {
-    const res = await fetch(`api/playlists/${playlist.id}`, {
+    const res = await csrfFetch(`api/playlists/${playlist.id}`, {
         method: 'PATCH',
         body: JSON.stringify(playlist),
         headers: {
@@ -71,6 +71,16 @@ export const updatePlaylist = (playlist) => async dispatch => {
         const data = await res.json();
         dispatch(receivePlaylist(data));
     }
+}
+
+export const deletePlaylist = (playlist) => async dispatch => {
+    const res = await csrfFetch(`api/playlists/${playlist.id}`, {
+        method: 'DELETE'
+    })
+    // if (res.ok) {
+    //     const data = await res.json();
+    //     dispatch(receivePlaylist(data));
+    // }
 }
 
 const playlistsReducer = (state = {}, action) => {

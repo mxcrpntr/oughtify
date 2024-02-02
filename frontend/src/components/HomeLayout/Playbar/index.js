@@ -151,10 +151,12 @@ export default function Playbar() {
 
     useEffect(() => {
         const goToNextSong = async () => {
-            const finishedSong = sessionUser.queue.shift()
-            finishedSong[1] = 0
-            sessionUser.reverseQueue.unshift(finishedSong);
-            setAudioSrc(sessionUser?.queue?.[0]?.[0]?.fileUrl);
+            if (sessionUser?.queue && Array.isArray(sessionUser.queue)) {
+                const finishedSong = sessionUser.queue.shift();
+                finishedSong[1] = 0;
+                if (sessionUser?.reverseQueue && Array.isArray(sessionUser.reverseQueue)) sessionUser.reverseQueue.unshift(finishedSong);
+                setAudioSrc(sessionUser?.queue?.[0]?.[0]?.fileUrl);
+            }
         }
         if (audioRef.current) {
             audioRef.current.addEventListener("ended",goToNextSong)
@@ -393,7 +395,7 @@ export default function Playbar() {
                         </div>
                         <i class="fa-solid fa-backward-step"
                             onClick={() => {
-                                const reverseQueue = sessionUser.reverseQueue
+                                const reverseQueue = sessionUser?.reverseQueue
                                 if (audioRef.current.currentTime <= 2.7 && reverseQueue && Array.isArray(reverseQueue) && reverseQueue.length > 0) {
                                     const previousSong = sessionUser.reverseQueue.shift();
                                     sessionUser.queue.unshift(previousSong);
@@ -409,12 +411,14 @@ export default function Playbar() {
                         </div>
                         <i class="fa-solid fa-forward-step"
                             onClick={() => {
-                                if (sessionUser.queue.length === 1) {
+                                if (sessionUser?.queue && sessionUser.queue.length === 1) {
                                     audioRef.current.currentTime = audioRef.current.duration;
                                 } else {
-                                    const finishedSong = sessionUser.queue.shift()
-                                    finishedSong[1] = 0
-                                    sessionUser.reverseQueue.unshift(finishedSong);
+                                    if (sessionUser?.queue && Array.isArray(sessionUser.queue)) {
+                                        const finishedSong = sessionUser.queue.shift()
+                                        finishedSong[1] = 0
+                                        if (sessionUser?.reverseQueue && Array.isArray(sessionUser.reverseQueue)) sessionUser.reverseQueue.unshift(finishedSong);
+                                    }
                                 }
                             }}>
                         </i> 

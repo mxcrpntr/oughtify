@@ -1,9 +1,10 @@
 
 
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { formatTime } from "../../ArtistShow";
+import { createPlaylistSong, deletePlaylistSong } from "../../../../../store/playlistSongs";
 
 
 const playSymbol = () => {
@@ -30,7 +31,10 @@ const invisibleEllipsisSymbol = () => {
 
 
 
-export default function PlaylistTrackListItem({song,songsForQueue,songsForReverseQueue}) {
+export default function PlaylistTrackListItem({song,songsForQueue,songsForReverseQueue,playlist,userPlaylists}) {
+    const dispatch = useDispatch()
+    const history = useHistory()
+
     const [numberPlay, setNumberPlay] = useState(song.songNumber);
     const [heart, setHeart] = useState("");
     const [isLiked,setIsLiked] = useState(false);
@@ -40,14 +44,22 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
     const [currentSong, setCurrentSong] = useState(sessionUser?.queue?.[0]?.[0]);
     const [isCurrentSong, setIsCurrentSong] = useState(false);
     const [hiddenUlHidden, setHiddenUlHidden] = useState(true);
-    const [isPlaying,setIsPlaying] = useState(!document.querySelector("audio")?.paused)
-    const [numOrDisc, setNumOrDisc] = useState(song.songNumber)
-    const [isOver,setIsOver] = useState(false)
+    const [hiddenPlaylistUlHidden, setHiddenPlaylistUlHidden] = useState(true);
+    const [isPlaying,setIsPlaying] = useState(!document.querySelector("audio")?.paused);
+    const [numOrDisc, setNumOrDisc] = useState(song.songNumber);
+    const [isOver,setIsOver] = useState(false);
+    const [selected,setSelected] = useState(false);
+
+    const [userPlaylistId, setUserPlaylistId] = useState(0);
+    const [newPlaylistSong,setNewPlaylistSong] = useState(false);
+    const [removePlaylistSong,setRemovePlaylistSong] = useState(false);
 
 
     const [rowWidth,setRowWidth] = useState();
 
     const tableRowRef = useRef();
+    const hiddenUlRef = useRef();
+    const ellipsisRef = useRef();
 
     useEffect(() => {
         const getRowWidth = () => {
@@ -89,6 +101,25 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
     }, [])
 
     useEffect(() => {
+        if (tableRowRef.current) {
+            const handleOutsideClick = (e) => {
+                if (hiddenUlRef?.current && !hiddenUlRef.current.contains(e.target)) {
+                    setHiddenUlHidden(true);
+                }
+                if (tableRowRef?.current && !tableRowRef.current.contains(e.target)) {
+                    setSelected(false);
+                    if (!isLiked) setHeart("");
+                    setEllipsis(invisibleEllipsisSymbol());
+                }
+            }
+            document.addEventListener('click', handleOutsideClick)
+            return () => {
+                document.removeEventListener('click', handleOutsideClick)
+            }
+        }
+    })
+
+    useEffect(() => {
         setCurrentSong(sessionUser?.queue?.[0]?.[0])
         if (song.id === currentSong?.id) {
             setIsCurrentSong(true)
@@ -103,7 +134,8 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
 
     useEffect(() => {}, [hiddenUlHidden])
 
-    const handleTrackClick = () => {
+    const handleTrackClick = (e) => {
+        e.stopPropagation()
         if (sessionUser) {
             if (song.id !== currentSong?.id) {
                 sessionUser.queue = [...songsForQueue];
@@ -115,7 +147,8 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
         }
     }
 
-    const handleLikeClick = () => {
+    const handleLikeClick = (e) => {
+        e.stopPropagation()
         if (sessionUser) {
             if (!isLiked) setHeart(heartSymbolFilled());
             else setHeart(heartSymbol());
@@ -123,25 +156,65 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
         }
     }
 
+    const handleSelectionClick = (e) => {
+        setSelected(!selected);
+        if (ellipsisRef?.current && ellipsisRef.current.contains(e.target)) {
+            setHiddenUlHidden(!hiddenUlHidden);
+        }
+    }
+
     const hiddenUl = () => {
         return (
-            <ul className="hiddenUl">
-                <li>Add to queue</li>
-                <hr />
-                <li>Go to artist</li>
-                <li>Go to album</li>
-                <hr />
-                <li>Remove from this playlist</li>
-                <li>Add to playlist</li>
+            <ul className="hiddenUl" ref={hiddenUlRef}>
+                <li className="barUnder" onClick={() => {sessionUser.queue.push([song,0])}}><span className="hiddenUlSpan1"><i class="fa-solid fa-list" style={{"fontSize": "16px"}}></i> <span>Add to queue</span></span></li>
+                <li onClick={()=> {history.push(`/artists/${song.artistId}`)}}><span className="hiddenUlSpan1"><i class="fa-solid fa-user-astronaut" style={{"fontSize": "16px"}}></i> <span>Go to artist</span></span></li>
+                <li onClick={()=> {history.push(`/albums/${song.albumId}`)}} className="barUnder"><span className="hiddenUlSpan1"><i class="fa-solid fa-compact-disc" style={{"fontSize": "16px"}}></i> <span>Go to album</span></span></li>
+                {sessionUser.id === playlist.userId &&
+                (<li onClick={() => {setRemovePlaylistSong(true)}}><span className="hiddenUlSpan1"><i class="fa-regular fa-trash-can" style={{"fontSize": "16px"}}></i> <span>Remove from this playlist</span></span></li>)}
+                <li onMouseOver={() => {setHiddenPlaylistUlHidden(false)}}
+                    onMouseLeave={() => {setHiddenPlaylistUlHidden(true)}}><span className="hiddenUlSpan1"><i class="fa-solid fa-plus" style={{"fontSize": "16px"}}></i> <span>Add to playlist</span></span>
+                    {!hiddenPlaylistUlHidden && (hiddenPlaylistUl())}
+                </li>
             </ul>
         )
     }
 
+    const hiddenPlaylistUl = () => {
+        // let userPlaylists = []
+        // if (playlists && userPlaylistIds) {
+        //     userPlaylists = Object.values(playlists).filter((pList) => userPlaylistIds.includes(pList.id))
+        // }
+        return (
+            <ul className="hiddenPlaylistUl ">
+            {userPlaylists.map(userPlaylist => {
+                return (
+                    <li onClick={() => {setUserPlaylistId(userPlaylist.id)}}>{userPlaylist.title}</li>
+                )
+            })}
+        </ul>
+        )
+    }
+
+    useEffect(() => {
+        if (userPlaylistId !== 0) {
+            dispatch(createPlaylistSong({playlist_song: {playlist_id: userPlaylistId, song_id: song.songId}}))
+            setUserPlaylistId(0)
+        }
+    },[userPlaylistId])
+
+    useEffect(() => {
+        if (removePlaylistSong) {
+            dispatch(deletePlaylistSong(song))
+            setRemovePlaylistSong(false)
+        }
+    },[removePlaylistSong])
 
     return (
         <>
-        { song.id !== currentSong?.id && (
+        {song.id &&  song.id !== currentSong?.id && (
             <tr ref={tableRowRef}
+                className={selected ? ("selectedTrack") : ("")}
+                onClick={handleSelectionClick}
                 onMouseOver={() => {
                     setIsOver(true);
                     setNumberPlay(playSymbol());
@@ -151,8 +224,8 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
                 onMouseLeave={() => {
                     setIsOver(false);
                     setNumberPlay(numOrDisc);
-                    if (!isLiked) setHeart("");
-                    setEllipsis(invisibleEllipsisSymbol());
+                    if (!isLiked && !selected) setHeart("");
+                    if (!selected) setEllipsis(invisibleEllipsisSymbol());
                 }}>
                 <td style={{color: "#FFFFFF"}} onClick={handleTrackClick}>
                     {isOver ? numberPlay : numOrDisc}
@@ -168,14 +241,19 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
                 </td>
                 <td hidden={ rowWidth < 500 ? "hidden" : ""} ><Link to={`/albums/${song.albumId}`}>{song.albumTitle}</Link></td>
                 <td hidden={ rowWidth < 710 ? "hidden" : ""} >
-{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format((new Date(song.createdAt)))}</td>
+                {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format((new Date(song.createdAt)))}</td>
                 <td onClick={handleLikeClick}>{heart}</td>
                 <td>{formatTime(song.length)}</td>
-                <td onClick={() => {setHiddenUlHidden(!hiddenUlHidden)}}>{ellipsis}{ hiddenUlHidden ? "" : hiddenUl()}</td>
+                <td ref={ellipsisRef}  onClick={(e) => {
+                        setHiddenUlHidden(!hiddenUlHidden);
+                        if(selected) e.stopPropagation();
+                    }}>{ellipsis}{ hiddenUlHidden ? "" : hiddenUl()}</td>
             </tr>
         )}
-        {song.id === currentSong?.id && (
+        {song.id && song.id === currentSong?.id && (
             <tr ref={tableRowRef}
+                className={selected ? ("selectedTrack") : ("")}
+                onClick={handleSelectionClick}
                 onMouseOver={() => {
                     const audio = document.querySelector("audio");
                     let actionSymbol = pauseSymbol
@@ -184,14 +262,14 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
                     }
                     setIsOver(true);
                     setNumberPlay(actionSymbol());
-                    setHeart(heartSymbol());
+                    if (!isLiked) setHeart(heartSymbol());
                     setEllipsis(ellipsisSymbol());
                 }}
                 onMouseLeave={() => {
                     setIsOver(false);
                     setNumberPlay(numOrDisc);
-                    if (!isLiked) setHeart("");
-                    setEllipsis(invisibleEllipsisSymbol());
+                    if (!isLiked && !selected) setHeart("");
+                    if (!selected) setEllipsis(invisibleEllipsisSymbol());
                 }}>
                 <td style={{color: "#1ED760"}} onClick={() => {
                         document.querySelector(".playPause").click()
@@ -210,7 +288,10 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
 {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format((new Date(song.createdAt)))}</td>
                 <td onClick={handleLikeClick}>{heart}</td>
                 <td>{formatTime(song.length)}</td>
-                <td>{ellipsis}</td>
+                <td ref={ellipsisRef} onClick={(e) => {
+                        setHiddenUlHidden(!hiddenUlHidden);
+                        if(selected) e.stopPropagation();
+                }}>{ellipsis}{ hiddenUlHidden ? "" : hiddenUl()}</td>
             </tr>
         )}
         </>
