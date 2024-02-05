@@ -11,17 +11,68 @@ div.home .playlistShowTop {
     justify-content: flex-start;
     align-items: flex-end;
 }
-div.home .playlistImage > img {
+div.home .playlistImage > div.fourPlaylistImages {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     width: 200px;
     height: 200px;
-    box-shadow: 0px 0px 30px -5px rgba(0, 0, 0, 1);
-    background: linear-gradient(to bottom, #ff0000, #121212);
+    box-shadow: 0px 2px 15px -6px rgba(0, 0, 0, 1);
+    background: #282828;
+    border-radius: 5px;
+    overflow:hidden;
 }
-div.home .playlistImage > img:hover {
-    transform: scale(1.03);
+div.home .playlistImage > div.fourPlaylistImages > div.fourthImage {
+    width: 100%;
+    background-size: cover;
+}
+div.home .playlistImage > div.onePlaylistImage {
+    display: grid;
+    width: 200px;
+    height: 200px;
+    box-shadow: 0px 2px 15px -6px rgba(0, 0, 0, 1);
+    background: #282828;
+    border-radius: 5px;
+    overflow:hidden;
+}
+div.home .playlistImage > div.onePlaylistImage > div.onethImage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-size: cover;
+}
+div.home .playlistImage > div.onePlaylistImage  div.centerOfOne {
+    font-size: 100px;
 }
 div.home .playlistImage {
+    position: relative;
     margin: 0 0 30px 30px;
+    font-family: CircularSpotifyMedium;
+    color: #FFFFFF;
+    border-radius: 5px;
+    overflow: hidden;
+}
+div.home .playlistImage div.changePhotoOverlay {
+    display: none; 
+}
+/* div.home .playlistImage:hover div.changePhotoOverlay {
+    position:absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:rgb(0,0,0,.5);
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    top: 0;
+} */
+div.home .playlistImage h4 {
+    font-size: 15px;
+    text-decoration: none;
+    cursor: default;
 }
 div.home .playlistHeaders {
     margin: 0 0 30px 16px;
@@ -42,6 +93,7 @@ div.home .playlistHeaders {
     font-size: 55px;
     letter-spacing: -2px;
     white-space: nowrap;
+    cursor: pointer;
 }
 .playlistHeaders h4, a {
     font-family: CircularSpotifyBook;
@@ -256,12 +308,14 @@ div.home .opaqueBkgd-2 {
     background-color: #282828;
     width: 213.84px;
     right: 213.84px;
+    height: 300px;
     bottom: 0;
     color: #FFFFFF;
     font-size: 14px;
     padding: 4px;
     border-radius: 4px;
     z-index: 2;
+    overflow-y: scroll;
 }
 .playlistTrackList .hiddenUl .hidden {
     display: none;

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { formatTime } from "../../ArtistShow";
 import { createPlaylistSong, deletePlaylistSong } from "../../../../../store/playlistSongs";
+import { fetchPlaylist } from "../../../../../store/playlists";
 
 
 const playSymbol = () => {
@@ -31,7 +32,7 @@ const invisibleEllipsisSymbol = () => {
 
 
 
-export default function PlaylistTrackListItem({song,songsForQueue,songsForReverseQueue,playlist,userPlaylists}) {
+export default function PlaylistTrackListItem({song,songsForQueue,songsForReverseQueue,playlist,userPlaylists,setSongsUpdated,songsUpdated}) {
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -60,6 +61,14 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
     const tableRowRef = useRef();
     const hiddenUlRef = useRef();
     const ellipsisRef = useRef();
+
+
+    useEffect(()=> {
+        if(userPlaylistId !== 0) {
+            setSongsUpdated(!songsUpdated)
+        }
+    },[userPlaylistId])
+
 
     useEffect(() => {
         const getRowWidth = () => {
@@ -184,11 +193,12 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
         // if (playlists && userPlaylistIds) {
         //     userPlaylists = Object.values(playlists).filter((pList) => userPlaylistIds.includes(pList.id))
         // }
+        console.log(userPlaylists)
         return (
             <ul className="hiddenPlaylistUl ">
-            {userPlaylists.map(userPlaylist => {
+            {userPlaylists.map((userPlaylist, index) => {
                 return (
-                    <li onClick={() => {setUserPlaylistId(userPlaylist.id)}}>{userPlaylist.title}</li>
+                    <li key={index} onClick={() => {setUserPlaylistId(userPlaylist.id)}}>{userPlaylist.title}</li>
                 )
             })}
         </ul>
@@ -206,6 +216,7 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
         if (removePlaylistSong) {
             dispatch(deletePlaylistSong(song))
             setRemovePlaylistSong(false)
+            setSongsUpdated(!songsUpdated)
         }
     },[removePlaylistSong])
 

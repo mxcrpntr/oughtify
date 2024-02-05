@@ -9,6 +9,20 @@ import PlaylistTrackListItem from "./PlaylistTrackListItem";
 import { invisibleEllipsisSymbol } from "../AlbumShow/TrackListItem";
 import { getPlaylistSongs } from "../../../../store/playlistSongs";
 
+
+const zeroImageMusicSymb = () => {
+    return <i class="fa-solid fa-music" style={{color: "#7F7F7F"}}></i>
+}
+const changePhotoHoverSymbText = () => {
+    return (
+        <>
+        <i class="fa-solid fa-pen" style={{fontSize: "75px"}}></i>
+        <br></br>
+        <h4>Choose photo</h4>
+        </>
+    )
+}
+
 export default function PlaylistShow() {
 
     const dispatch = useDispatch();
@@ -24,6 +38,10 @@ export default function PlaylistShow() {
     const tableRowRef = useRef();
 
     const [isLiked, setIsLiked] = useState(false);
+
+    const [zeroSymbol, setZeroSymbol] = useState(zeroImageMusicSymb())
+
+    const [songsUpdated, setSongsUpdated] = useState(true);
 
     useEffect(() => {
         const getRowWidth = () => {
@@ -47,9 +65,9 @@ export default function PlaylistShow() {
 
     const playlist = useSelector(getPlaylist(playlistId));
     const playlistSongs = useSelector(getPlaylistSongs);
-    console.log(playlistSongs)
 
     let opaqueBkgdStyle = {};
+
 
     useEffect(() => {
         if (playlist) {
@@ -72,7 +90,7 @@ export default function PlaylistShow() {
 
     useEffect(()=> {
         dispatch(fetchPlaylist(playlistId));
-    },[playlistId])
+    },[playlistId,songsUpdated])
 
     useEffect(()=> {
         dispatch(fetchPlaylists);
@@ -91,11 +109,16 @@ export default function PlaylistShow() {
         setIsLiked(!isLiked);
     }
 
-    // for (let i = 0; i < songsForQueue.length; i++) {
-    //     songsForQueue[i][0].artistName = artist.name;
-    //     songsForQueue[i][0].artistId = artist.id;
-    //     songsForQueue[i][0].imageUrl = album.imageUrl;
-    // }
+
+    const oneImageCallback = (playlistSongArray) => {
+        if (Object.values(playlistSongArray).length > 0) {
+            return ({backgroundImage: `url("${Object.values(playlistSongArray)[0].imageUrl}")`})
+        }
+        else {
+            return ({})
+        }
+    }
+
     
     return (
         <>
@@ -104,7 +127,20 @@ export default function PlaylistShow() {
             <>
             <div className="playlistShowTop">
                 <div className="playlistImage">
-                    <img src={playlist.imageUrl}></img>
+                    {[...new Set(Object.values(playlistSongs).map(song => song.imageUrl))].length >= 4 ?
+                    (<div className="fourPlaylistImages">
+                        {[...new Set(Object.values(playlistSongs).map(song => song.imageUrl))].slice(0,4).map(imageUrl => {
+                            return (
+                                <div className="fourthImage" style={{backgroundImage: `url("${imageUrl}")`}}></div>
+                            )
+                        })}
+                    </div>) :
+                    (<div className="onePlaylistImage"><div className="onethImage" style={oneImageCallback(playlistSongs)}>
+                        {Object.values(playlistSongs).length === 0 && (
+                            <div className="centerOfOne">{zeroImageMusicSymb()}</div>
+                        )}
+                    </div></div>)}
+                    <div className="changePhotoOverlay">{changePhotoHoverSymbText()}</div>
                 </div>
                 <div className='playlistHeaders'>
                     <h4>Playlist</h4>
@@ -112,7 +148,7 @@ export default function PlaylistShow() {
 
                     <h5>
                         <Link to="" onClick={(e) => {e.preventDefault()}}>{playlist.userName}</Link>
-                        &nbsp;· {playlist.playlistSongIds?.length > 0 ? playlist.playlistSongIds.length : 0} song{ playlist.playlistSongIds?.length === 1 ? "" : "s" },
+                        &nbsp;· {Object.values(playlistSongs)?.length > 0 ? Object.values(playlistSongs).length : 0} song{ Object.values(playlistSongs).length === 1 ? "" : "s" },
                         &nbsp; <span className="playlistLength">{formatRuntime(runtime)}</span>
 
                     </h5>
@@ -125,14 +161,17 @@ export default function PlaylistShow() {
                 <span className="bigButtons">
                     <button className="bigPlay" onClick={() => {
                     if (sessionUser) {
-                        sessionUser.queue = [...songsForQueue]
                         const audio = document.querySelector("audio")
-                        audio.currentTime = sessionUser.queue?.[0]?.[1] ? sessionUser.queue[0][1] : 0
-                        if (audio.paused) {
+                        if (sessionUser.queue?.[0] && playlistSongs && !Object.values(playlistSongs).map(pSong => pSong.id).includes(sessionUser.queue[0][0].id)) {
+                            sessionUser.queue = [...songsForQueue]
+                            audio.currentTime = sessionUser.queue?.[0]?.[1] ? sessionUser.queue[0][1] : 0
+                            if (audio.paused) document.querySelector(".playPause").click()
+                        }
+                        else {
                             document.querySelector(".playPause").click()
                         }
                     }
-                    }}>{ currentSong?.playlistId === playlistId ?
+                    }}>{ sessionUser.queue?.[0] && playlistSongs && Object.values(playlistSongs).map(pSong => pSong.id).includes(sessionUser.queue[0][0].id) && !document.querySelector("audio").paused ?
                     (<i class="fa-solid fa-pause"></i>) :
                     (<i class="fa-solid fa-play"></i>)}</button>
                     <span className="bigHeart" onClick={handleLikeClick}>{isLiked ?
@@ -166,7 +205,9 @@ export default function PlaylistShow() {
                                     songsForQueue={songsForQueue.filter(entry => entry[0].songNumber >= song.songNumber)}
                                     songsForReverseQueue={songsForReverseQueue.filter(entry => entry[0].songNumber < song.songNumber)}
                                     playlist={playlist}
-                                    userPlaylists={Object.values(playlists).filter((pList) => sessionUser.playlistIds.includes(pList.id))}/>
+                                    userPlaylists={Object.values(playlists).filter((pList) => sessionUser.playlistIds.includes(pList.id))}
+                                    setSongsUpdated={setSongsUpdated}
+                                    songsUpdated={songsUpdated}/>
                             )
                         })}
 

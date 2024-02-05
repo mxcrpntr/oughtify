@@ -15,7 +15,7 @@ export default function LibraryNavigation() {
     }
     useEffect(() => {
         if (newPlaylist) {
-            dispatch(createPlaylist({title: "Untitled Playlist",user_id: sessionUser.id,public: true,color: "#FFFFFF"}));
+            dispatch(createPlaylist({user_id: sessionUser.id,public: true,color: "#FFFFFF"}));
             setNewPlaylist(false);
             console.log("hey fucker")
         }

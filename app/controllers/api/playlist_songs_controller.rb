@@ -4,7 +4,10 @@ class Api::PlaylistSongsController < ApplicationController
         # puts "yoooooooooo"
         @playlist_song = PlaylistSong.new(playlist_song_params)
         playlist_id = params[:playlist_song][:playlist_id]
-        last_song_number = PlaylistSong.where(playlist_id: playlist_id).order(song_number: :asc).pluck(:song_number).last
+        last_song_number = 0
+        if PlaylistSong.where(playlist_id: playlist_id).exists?
+            last_song_number = PlaylistSong.where(playlist_id: playlist_id).order(song_number: :asc).pluck(:song_number).last
+        end
         song_number = params[:playlist_song].has_key?(:song_number) ? params[:playlist_song][:song_number] : last_song_number + 1
         if PlaylistSong.where(playlist_id: playlist_id, song_number: song_number).exists?
             playlist_songs_after = PlaylistSong.where(playlist_id: playlist_id).where("song_number >= ?", song_number).order(song_number: :desc)
@@ -66,13 +69,13 @@ class Api::PlaylistSongsController < ApplicationController
         previous_song_number = playlist_song.song_number
         playlist = Playlist.find(playlist_song.playlist_id)
         playlist_song.delete
-        playlist.playlist_song_ids.each do |playlist_song_id|
-            updated_playlist_song = PlaylistSong.find(playlist_song_id)
-            if updated_playlist_song.song_number > previous_song_number
-                new_number = updated_playlist_song.song_number - 1
-                updated_playlist_song.update(song_number: new_number)
+        playlist.save
+        playlist.playlist_songs.sort{ |a,b| a.song_number <=> b.song_number}.each_with_index do |playlist_song, index|
+            if playlist_song.song_number != (index + 1)
+                playlist_song.update(song_number: (index + 1))
             end
         end
+        playlist.save
     end
 
     private

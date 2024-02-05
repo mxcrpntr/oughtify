@@ -40,9 +40,9 @@ const root = createRoot(document.getElementById('root'))
 
 const renderApplication = () => {
   root.render(
-    // <React.StrictMode>
+    <React.StrictMode>
       <Root />
-    // </React.StrictMode>
+    </React.StrictMode>
   );
 }
 
