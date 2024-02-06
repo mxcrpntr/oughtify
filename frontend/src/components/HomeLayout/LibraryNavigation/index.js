@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom/cjs/react-router-dom.min'
+import { NavLink, useLocation } from 'react-router-dom/cjs/react-router-dom.min'
 import './LibraryNavigation.css'
 import { createPlaylist } from '../../../store/playlists'
 import { useDispatch, useSelector } from "react-redux"
@@ -9,6 +9,8 @@ export default function LibraryNavigation() {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
     const [newPlaylist, setNewPlaylist] = useState(false);
+    const { pathname } = useLocation();
+    const library = document.querySelector("div.library");
     const handleClick = (e) => {
         e.preventDefault();
         if (sessionUser) setNewPlaylist(true);
@@ -17,7 +19,10 @@ export default function LibraryNavigation() {
         if (newPlaylist) {
             dispatch(createPlaylist({user_id: sessionUser.id,public: true,color: "#FFFFFF"}));
             setNewPlaylist(false);
-            console.log("hey fucker")
+            if (library) {
+                library.scrollTo(0, 0);
+                setTimeout(()=> {library.firstChild.firstChild.click()},1000)
+            }
         }
     }, [newPlaylist])
 

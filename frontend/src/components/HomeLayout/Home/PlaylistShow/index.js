@@ -43,6 +43,8 @@ export default function PlaylistShow() {
 
     const [songsUpdated, setSongsUpdated] = useState(true);
 
+    const playlistTracksRef = useRef();
+
     useEffect(() => {
         const getRowWidth = () => {
             if (tableRowRef.current) {
@@ -67,10 +69,12 @@ export default function PlaylistShow() {
     const playlistSongs = useSelector(getPlaylistSongs);
 
     const selectedTracksObj = {...playlistSongs,lastSong: null}
-    Object.keys(playlistSongs).forEach((pSongId) => selectedTracksObj[pSongId] = false)
-
+    // Object.keys(playlistSongs).forEach((pSongId) => selectedTracksObj[pSongId] = {...playlistSongs[pSongId], 'selected': false})
+    
     const [selectedTracks, setSelectedTracks] = useState(selectedTracksObj)
+    // setSelectedTracks(selectedTracksObj)
 
+    const [lastClickedTrack,setLastClickedTrack] = useState({clickedTrack: null, shift: false, ctrl: false})
 
     let opaqueBkgdStyle = {};
 
@@ -102,6 +106,7 @@ export default function PlaylistShow() {
         dispatch(fetchPlaylists);
     },[])
 
+
     const songsForTracklist = Object.values(playlistSongs)
         .sort((a,b) => a.songNumber - b.songNumber)
 
@@ -125,7 +130,18 @@ export default function PlaylistShow() {
         }
     }
 
-    
+    const trGridTemplate = (width) => {
+        if (width >= 710) {
+            return {gridTemplateColumns: ".5fr 6fr 5fr 5fr .5fr 1fr .35fr"}
+        }
+        else if (width >= 500) {
+            return {gridTemplateColumns: ".5fr 6fr 5fr .5fr 1fr .35fr"}
+        }
+        else {
+            return {gridTemplateColumns: ".5fr 6fr .5fr 1fr .35fr"}
+        }
+    }
+
     return (
         <>
             {playlist && Object.keys(playlist).length > 0 && playlistSongs
@@ -187,7 +203,8 @@ export default function PlaylistShow() {
                 </span>
 
                     <table>
-                        <tr ref={tableRowRef}>
+                        <tr ref={tableRowRef}
+                            style={trGridTemplate(rowWidth)}>
                             <td>#</td>
                             <td className="titleColumn">
                                 Title

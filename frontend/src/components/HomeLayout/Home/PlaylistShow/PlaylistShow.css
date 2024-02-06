@@ -179,7 +179,7 @@ div.home .opaqueBkgd-2 {
     padding: 16px;
 }
 
-.playlistTrackList > table > tr{
+.playlistTrackList > table > tr {
     width: 100%;
     display: grid;
     grid-template-columns: .5fr 6fr 5fr 5fr .5fr 1fr .35fr;
@@ -212,6 +212,12 @@ div.home .opaqueBkgd-2 {
     padding-right: 16px;
 }
 
+.playlistTrackList > table > tr > td {
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
 .playlistTrackList > table .playlistImageColumn ul > li:first-child{
     font-family: CircularSpotifyLight;
     font-size: 16px;
@@ -232,12 +238,14 @@ div.home .opaqueBkgd-2 {
     flex-direction: column;
     gap: 8px;
 }
+
 .playlistTrackList .playlistImageColumn {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
     gap: 16px;
+    width: 100%;
 }
 
 .playlistTrackList .playlistImageColumn img {
@@ -250,7 +258,7 @@ div.home .opaqueBkgd-2 {
     text-overflow: ellipsis;
 }
 .playlistTrackList .playlistImageColumn li {
-    max-width: 95%;
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -1,12 +1,14 @@
 playlist_songs = []
 songs = []
 
+album_images = @playlist.playlist_songs.map{|p_song| p_song.song.album.image.url}.uniq
 
 json.playlist do
     json.extract! @playlist, :id, :title, :user_id, :playlist_song_ids, :color, :updated_at
     user = User.find(@playlist.user_id)
     json.set! :user_name, user.name
     json.set! :image_url, @playlist.image.url
+    json.set! :album_images, album_images
     @playlist.playlist_song_ids.each { |playlist_song_id| playlist_songs << playlist_song_id }
 end
 

@@ -24,6 +24,16 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    border-radius: 4px;
+    overflow: hidden;
+    min-width: 50px;
+}
+.library .fourImages  {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    flex-direction: column;
+    justify-content: space-around;
 }
 .library > ul > li {
     display: flex;
@@ -44,11 +54,23 @@
 }
 
 
-.library > ul > li .playlistImageStandin {
+.library > ul > li .onethPlaylistImageStandin {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
     height: 50px;
     width: 50px;
-    border-radius: 4px;
+    background-size: cover;
 }
+
+.library > ul > li .fourthPlaylistImageStandin {
+    height: 25px;
+    width: 25px;
+    background-size: cover;
+}
+
 
 .library img {
     height: 50px;

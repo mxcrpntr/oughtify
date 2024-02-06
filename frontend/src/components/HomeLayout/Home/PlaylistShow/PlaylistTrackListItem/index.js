@@ -109,7 +109,7 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
         }
     }, [])
 
-    useEffect(() => {
+    useEffect(() =>  {
         if (tableRowRef.current) {
             const handleOutsideClick = (e) => {
                 if (hiddenUlRef?.current && !hiddenUlRef.current.contains(e.target)) {
@@ -118,10 +118,14 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
                 if (tableRowRef?.current && !tableRowRef.current.contains(e.target)) {
                     // setSelected(false);
                     const updatedSelectedTracks = {...selectedTracks}
-                    updatedSelectedTracks[song.id] = false
-                    setSelectedTracks(updatedSelectedTracks)
-                    if (!isLiked) setHeart("");
-                    setEllipsis(invisibleEllipsisSymbol());
+                    console.log(updatedSelectedTracks[song.id])
+                    if (!selectedTracks[song.id]?.['selected'] || selectedTracks[song.id]['selected']) {
+                        const pSongId = song.id
+                        setSelectedTracks({...selectedTracks, pSongId: {...song,'selected': false}})
+                        console.log(selectedTracks)
+                        if (!isLiked) setHeart("");
+                        setEllipsis(invisibleEllipsisSymbol());
+                    }
                 }
             }
             document.addEventListener('click', handleOutsideClick)
@@ -129,7 +133,7 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
                 document.removeEventListener('click', handleOutsideClick)
             }
         }
-    })
+    },[])
 
     useEffect(() => {
         setCurrentSong(sessionUser?.queue?.[0]?.[0])
@@ -170,9 +174,15 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
 
     const handleSelectionClick = (e) => {
         // setSelected(!selected);
-        const updatedSelectedTracks = {...selectedTracks}
-        updatedSelectedTracks[song.id] = !selectedTracks[song.id]
-        setSelectedTracks(updatedSelectedTracks)
+        // const updatedSelectedTracks = {...selectedTracks}
+        // updatedSelectedTracks[song.id] = !selectedTracks[song.id]
+        // console.log(`hey from playlist song ${song.songNumber}`)
+        // const updatedSelectedTracks = {...selectedTracks}
+        // const updatedSelectedTrack = {...song,selected: !selectedTracks[song.id]?.['selected']}
+        // updatedSelectedTracks[song.id] = updatedSelectedTrack
+        const pSongId = song.id
+        setSelectedTracks({...selectedTracks,pSongId: {...song, selected: !selectedTracks[song.id]?.['selected']}})
+        // console.log(selectedTracks)
         if (ellipsisRef?.current && ellipsisRef.current.contains(e.target)) {
             setHiddenUlHidden(!hiddenUlHidden);
         }
@@ -226,11 +236,24 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
         }
     },[removePlaylistSong])
 
+    const trGridTemplate = (width) => {
+        if (width >= 710) {
+            return {gridTemplateColumns: ".5fr 6fr 5fr 5fr .5fr 1fr .35fr"}
+        }
+        else if (width >= 500) {
+            return {gridTemplateColumns: ".5fr 6fr 5fr .5fr 1fr .35fr"}
+        }
+        else {
+            return {gridTemplateColumns: ".5fr 6fr .5fr 1fr .35fr"}
+        }
+    }
+
     return (
         <>
         {song.id &&  song.id !== currentSong?.id && (
-            <tr ref={tableRowRef}
-                className={selectedTracks[song.id] ? ("selectedTrack") : ("")}
+            <tr style={trGridTemplate(rowWidth)}
+                ref={tableRowRef}
+                className={selectedTracks?.[song.id]?.['selected'] ? ("selectedTrack") : ("")}
                 onClick={handleSelectionClick}
                 onMouseOver={() => {
                     setIsOver(true);
@@ -241,13 +264,13 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
                 onMouseLeave={() => {
                     setIsOver(false);
                     setNumberPlay(numOrDisc);
-                    if (!isLiked && !selectedTracks[song.id]) setHeart("");
-                    if (!selectedTracks[song.id]) setEllipsis(invisibleEllipsisSymbol());
+                    if (!isLiked && !selectedTracks?.[song.id]?.['selected']) setHeart("");
+                    if (!selectedTracks?.[song.id]?.['selected']) setEllipsis(invisibleEllipsisSymbol());
                 }}>
                 <td style={{color: "#FFFFFF"}} onClick={handleTrackClick}>
                     {isOver ? numberPlay : numOrDisc}
                 </td>
-                <td>
+                <td className="playlistImageColumnColumn">
                     <div className="playlistImageColumn">
                             <img src={song.imageUrl}></img>
                         <ul>
@@ -263,13 +286,14 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
                 <td>{formatTime(song.length)}</td>
                 <td ref={ellipsisRef}  onClick={(e) => {
                         setHiddenUlHidden(!hiddenUlHidden);
-                        if(selectedTracks[song.id]) e.stopPropagation();
+                        if(selectedTracks?.[song.id]?.['selected']) e.stopPropagation();
                     }}>{ellipsis}{ hiddenUlHidden ? "" : hiddenUl()}</td>
             </tr>
         )}
         {song.id && song.id === currentSong?.id && (
-            <tr ref={tableRowRef}
-                className={selectedTracks[song.id] ? ("selectedTrack") : ("")}
+            <tr style={trGridTemplate(rowWidth)}
+                ref={tableRowRef}
+                className={selectedTracks?.[song.id]?.['selected'] ? ("selectedTrack") : ("")}
                 onClick={handleSelectionClick}
                 onMouseOver={() => {
                     const audio = document.querySelector("audio");
@@ -285,8 +309,8 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
                 onMouseLeave={() => {
                     setIsOver(false);
                     setNumberPlay(numOrDisc);
-                    if (!isLiked && !selectedTracks[song.id]) setHeart("");
-                    if (!selectedTracks[song.id]) setEllipsis(invisibleEllipsisSymbol());
+                    if (!isLiked && !selectedTracks?.[song.id]?.['selected']) setHeart("");
+                    if (!selectedTracks?.[song.id]?.['selected']) setEllipsis(invisibleEllipsisSymbol());
                 }}>
                 <td style={{color: "#1ED760"}} onClick={() => {
                         document.querySelector(".playPause").click()
@@ -307,7 +331,7 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
                 <td>{formatTime(song.length)}</td>
                 <td ref={ellipsisRef} onClick={(e) => {
                         setHiddenUlHidden(!hiddenUlHidden);
-                        if(selectedTracks[song.id]) e.stopPropagation();
+                        if(selectedTracks?.[song.id]?.['selected']) e.stopPropagation();
                 }}>{ellipsis}{ hiddenUlHidden ? "" : hiddenUl()}</td>
             </tr>
         )}
