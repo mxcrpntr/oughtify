@@ -66,6 +66,12 @@ export default function PlaylistShow() {
     const playlist = useSelector(getPlaylist(playlistId));
     const playlistSongs = useSelector(getPlaylistSongs);
 
+    const selectedTracksObj = {...playlistSongs,lastSong: null}
+    Object.keys(playlistSongs).forEach((pSongId) => selectedTracksObj[pSongId] = false)
+
+    const [selectedTracks, setSelectedTracks] = useState(selectedTracksObj)
+
+
     let opaqueBkgdStyle = {};
 
 
@@ -207,7 +213,9 @@ export default function PlaylistShow() {
                                     playlist={playlist}
                                     userPlaylists={Object.values(playlists).filter((pList) => sessionUser.playlistIds.includes(pList.id))}
                                     setSongsUpdated={setSongsUpdated}
-                                    songsUpdated={songsUpdated}/>
+                                    songsUpdated={songsUpdated}
+                                    selectedTracks={selectedTracks}
+                                    setSelectedTracks={setSelectedTracks}/>
                             )
                         })}
 
