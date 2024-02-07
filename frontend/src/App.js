@@ -4,10 +4,14 @@ import SignupFormPage from "./components/SignupFormPage";
 import Navigation from "./components/Navigation";
 import HomeLayout from "./components/HomeLayout";
 import ScrollToTop from "./components/ScrollToTop";
+import { useEffect, useState } from "react";
 
 function App() {
 
   const { pathname } = useLocation();
+
+  const [shiftPressed,setShiftPressed] = useState(false);
+  const [ctrlPressed,setCtrlPressed] = useState(false);
 
   if (pathname === "/signup") {
     document.querySelector("body").className = "signUpBody";
@@ -19,6 +23,40 @@ function App() {
   } else {
     document.querySelector("body").classList.remove("logInBody");
   }
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.keyCode === 16)  {
+        e.preventDefault();
+        setShiftPressed(true);
+      }
+      if (e.keyCode === 91)  {
+        e.preventDefault();
+        setCtrlPressed(true);
+      }
+      if (e.keyCode === 32 || e.keyCode === 179)  {
+        e.preventDefault();
+        const playPause = document.querySelector(".playPause");
+        if (playPause) playPause.click();
+      }
+    }
+    const handleKeyUp = (e) => {
+      if (e.keyCode === 16)  {
+        e.preventDefault();
+        setShiftPressed(false);
+      }
+      if (e.keyCode === 91)  {
+        e.preventDefault();
+        setCtrlPressed(false);
+      }
+    }
+    window.addEventListener('keydown',handleKeyDown)
+    window.addEventListener('keyup',handleKeyUp)
+    return () => {
+      window.removeEventListener('keydown',handleKeyDown);
+      window.removeEventListener('keyup',handleKeyUp)
+    }
+  },[])
 
 
   return (
@@ -33,10 +71,10 @@ function App() {
         <SignupFormPage />
       </Route>
       <Route path="/search">
-        <HomeLayout searching={true}/>   
+        <HomeLayout searching={true} shiftPressed={shiftPressed} ctrlPressed={ctrlPressed}/>   
       </Route>
       <Route path="">
-        <HomeLayout searching={false}/>   
+        <HomeLayout searching={false} shiftPressed={shiftPressed} ctrlPressed={ctrlPressed}/>   
       </Route>
     </Switch>
     </>

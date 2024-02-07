@@ -23,7 +23,7 @@ const changePhotoHoverSymbText = () => {
     )
 }
 
-export default function PlaylistShow() {
+export default function PlaylistShow({shiftPressed, ctrlPressed}) {
 
     const dispatch = useDispatch();
 
@@ -35,13 +35,16 @@ export default function PlaylistShow() {
 
     const [rowWidth,setRowWidth] = useState();
 
+    const tableRef = useRef();
     const tableRowRef = useRef();
 
     const [isLiked, setIsLiked] = useState(false);
 
-    const [zeroSymbol, setZeroSymbol] = useState(zeroImageMusicSymb())
+    const [zeroSymbol, setZeroSymbol] = useState(zeroImageMusicSymb());
 
     const [songsUpdated, setSongsUpdated] = useState(true);
+
+    // if (shiftPressed) debugger
 
     const playlistTracksRef = useRef();
 
@@ -57,7 +60,66 @@ export default function PlaylistShow() {
         return () => window.removeEventListener('resize', getRowWidth);
     }, [])
 
+    const playlist = useSelector(getPlaylist(playlistId));
+    const playlistSongs = useSelector(getPlaylistSongs);
 
+    const selectedTracksObj = {...playlistSongs,lastSelectedTrack: null}
+    // Object.keys(playlistSongs).forEach((pSongId) => selectedTracksObj[pSongId] = {...playlistSongs[pSongId], 'selected': false})
+    
+    const [selectedTracks, setSelectedTracks] = useState(selectedTracksObj)
+    // setSelectedTracks(selectedTracksObj)
+
+    const [lastClickedTrack,setLastClickedTrack] = useState({clickedTrack: null, clickBoolean: false})
+
+    useEffect(() => {
+        const handleNonTrackClick = (e) => {
+            if (tableRef.current && !tableRef.current.contains(e.target)) {
+                setLastClickedTrack({clickedTrack: null, shift: shiftPressed, ctrl: ctrlPressed})
+            }
+        };
+        document.addEventListener('click', handleNonTrackClick);
+        return () => document.removeEventListener('click', handleNonTrackClick);
+    }, [])
+
+    useEffect(() => {
+        if (lastClickedTrack && playlistSongs && selectedTracks) {
+            const clickedTrack = lastClickedTrack.clickedTrack
+            if (clickedTrack === null) {
+                const noSelectedTracksObj = {...playlistSongs,lastSelectedTrack: null}
+                Object.keys(playlistSongs).forEach((pSongId) => noSelectedTracksObj[pSongId] = false)
+                setSelectedTracks(noSelectedTracksObj)
+            }
+            else {
+                const newSelectedTracksObj = {...selectedTracks}
+                const clickedSongNumber = playlistSongs[clickedTrack].songNumber
+                if (shiftPressed && !(selectedTracks.lastSelectedTrack === null)) {
+                    const previousSelectedSongNumber = playlistSongs[selectedTracks.lastSelectedTrack].songNumber
+                    const maxSongNumber = Math.max(clickedSongNumber,previousSelectedSongNumber)
+                    const minSongNumber = Math.min(clickedSongNumber,previousSelectedSongNumber)
+                    const playlistSongsBetween = Object
+                        .values(playlistSongs)
+                        .filter((pSong) => pSong.songNumber >= minSongNumber && pSong.songNumber <= maxSongNumber)
+                        .map(pSong => pSong.id)
+                    playlistSongsBetween.forEach((pSongId) => newSelectedTracksObj[pSongId] = true);
+                    newSelectedTracksObj.lastSelectedTrack = clickedTrack;
+                    setSelectedTracks(newSelectedTracksObj)
+                    setTimeout(()=> console.log(selectedTracks), 1000)
+                }
+                else if (ctrlPressed) {
+                    newSelectedTracksObj[clickedTrack] = !selectedTracks[clickedTrack]
+                    newSelectedTracksObj.lastSelectedTrack = clickedTrack;
+                    setSelectedTracks(newSelectedTracksObj)
+                }
+                else {
+                    console.log(selectedTracks.lastSelectedTrack)
+                    Object.keys(playlistSongs).forEach(pSongId => newSelectedTracksObj[pSongId] = false);
+                    newSelectedTracksObj[clickedTrack] = true;
+                    newSelectedTracksObj.lastSelectedTrack = clickedTrack;
+                    setSelectedTracks(newSelectedTracksObj)
+                }
+            }
+        }
+    }, [lastClickedTrack])
     
     let currentSong = sessionUser?.queue[0]?.[0]
 
@@ -65,16 +127,6 @@ export default function PlaylistShow() {
         currentSong = sessionUser?.queue[0]?.[0]
     }, [sessionUser])
 
-    const playlist = useSelector(getPlaylist(playlistId));
-    const playlistSongs = useSelector(getPlaylistSongs);
-
-    const selectedTracksObj = {...playlistSongs,lastSong: null}
-    // Object.keys(playlistSongs).forEach((pSongId) => selectedTracksObj[pSongId] = {...playlistSongs[pSongId], 'selected': false})
-    
-    const [selectedTracks, setSelectedTracks] = useState(selectedTracksObj)
-    // setSelectedTracks(selectedTracksObj)
-
-    const [lastClickedTrack,setLastClickedTrack] = useState({clickedTrack: null, shift: false, ctrl: false})
 
     let opaqueBkgdStyle = {};
 
@@ -202,7 +254,7 @@ export default function PlaylistShow() {
                     <span className="bigDots"><i class="fa-solid fa-ellipsis"></i></span>
                 </span>
 
-                    <table>
+                    <table ref={tableRef}>
                         <tr ref={tableRowRef}
                             style={trGridTemplate(rowWidth)}>
                             <td>#</td>
@@ -232,7 +284,8 @@ export default function PlaylistShow() {
                                     setSongsUpdated={setSongsUpdated}
                                     songsUpdated={songsUpdated}
                                     selectedTracks={selectedTracks}
-                                    setSelectedTracks={setSelectedTracks}/>
+                                    lastClickedTrack={lastClickedTrack}
+                                    setLastClickedTrack={setLastClickedTrack}/>
                             )
                         })}
 

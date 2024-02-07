@@ -8,7 +8,7 @@ import { getSongs } from "../../../../store/songs";
 import { getArtist } from "../../../../store/artists";
 import TrackListItem, { invisibleEllipsisSymbol } from "./TrackListItem";
 
-export default function AlbumShow() {
+export default function AlbumShow({shiftPressed, ctrlPressed}) {
 
     const dispatch = useDispatch();
 

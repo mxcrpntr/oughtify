@@ -12,7 +12,7 @@ import PlaylistShow from "./PlaylistShow";
 import SearchIndex from "./SearchIndex";
 import WelcomeMessage from "./WelcomeMessage";
 
-export default function Home() {
+export default function Home({searching, shiftPressed, ctrlPressed}) {
     const history = useHistory();
 
 
@@ -24,16 +24,16 @@ export default function Home() {
                     <PlaylistsIndex />
                 </Route>
                 <Route path="/artists/:artistId">
-                    <ArtistShow  />
+                    <ArtistShow shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} />
                 </Route>
                 <Route path="/albums/:albumId">
-                    <AlbumShow  />
+                    <AlbumShow shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} />
                 </Route>
                 <Route path="/playlists/:playlistId">
-                    <PlaylistShow  />
+                    <PlaylistShow shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} />
                 </Route>
                 <Route path="/search">
-                    <SearchIndex />
+                    <SearchIndex shiftPressed={shiftPressed} ctrlPressed={ctrlPressed}/>
                 </Route>
                 <Route path="">
                     <WelcomeMessage />

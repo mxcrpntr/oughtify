@@ -11,11 +11,16 @@ import signUpErrors from './components/SignupFormPage/signUpErrors';
 
 const store = configureStore();
 window.signUpErrors = signUpErrors;
-window.onkeydown = (e) => {
-  if (e.keyCode === 32 || e.keyCode === 179)  {
-    e.preventDefault();
-    const playPause = document.querySelector(".playPause");
-    if (playPause) playPause.click();
+// window.onkeydown = (e) => {
+//   if (e.keyCode === 32 || e.keyCode === 179)  {
+//     e.preventDefault();
+//     const playPause = document.querySelector(".playPause");
+//     if (playPause) playPause.click();
+//   }
+// }
+window.onload = function() {
+  document.onselectstart = function() {
+    return false;
   }
 }
 

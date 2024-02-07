@@ -21,7 +21,7 @@ export const formatTime = (seconds) => {
 } 
 
 
-export default function ArtistShow() {
+export default function ArtistShow({shiftPressed,ctrlPressed}) {
 
     const dispatch = useDispatch();
     const { artistId } = useParams();

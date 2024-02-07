@@ -7,7 +7,7 @@ import Playbar from "./Playbar";
 import "./HomeLayout.css"
 import LibraryNavigation from "./LibraryNavigation";
 
-export default function HomeLayout({searching}) {
+export default function HomeLayout({searching,shiftPressed,ctrlPressed}) {
     return (
         <div className="homeLayout">
             <div className="homeTop">
@@ -18,7 +18,7 @@ export default function HomeLayout({searching}) {
                 </section>
                 <Divider />
                 <section className="right">
-                    <Home searching={searching} />
+                    <Home searching={searching} shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} />
                     <HomeNavigation searching={searching} />
                 </section>
             </div>

@@ -193,6 +193,28 @@ div.home .opaqueBkgd-2 {
 }
 .playlistTrackList > table > tr.selectedTrack {
     background-color: #5c5c5c;
+    border-radius: 4px;
+}
+.playlistTrackList > table > tr:not(.selectedTrack) + .selectedTrack, .playlistTrackList > table > hr + tr.selectedTrack{
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    /* background-color: yellowgreen; */
+}
+
+.playlistTrackList > table > tr.selectedTrack + .selectedTrack {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;    /* background-color: yellow; */
+}
+.playlistTrackList > table > tr.selectedTrack + .selectedTrack:last-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    /* background-color: orange; */
 }
 .playlistTrackList > table > tr:first-child {
     background-color: transparent;
