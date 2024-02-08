@@ -136,6 +136,13 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
     // },[])
 
     useEffect(() => {
+        if (lastClickedTrack?.clickedTrack !== song.id) {
+            console.log(`hey from ${song.id}`)
+            setHiddenUlHidden(true);
+        }
+    },[lastClickedTrack])
+
+    useEffect(() => {
         setCurrentSong(sessionUser?.queue?.[0]?.[0])
         if (song.id === currentSong?.id) {
             setIsCurrentSong(true)
@@ -286,7 +293,7 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
                 <td>{formatTime(song.length)}</td>
                 <td ref={ellipsisRef}  onClick={(e) => {
                         setHiddenUlHidden(!hiddenUlHidden);
-                        if(selectedTracks?.[song.id]) e.stopPropagation();
+                        // if(selectedTracks?.[song.id]) e.stopPropagation();
                     }}>{ellipsis}{ hiddenUlHidden ? "" : hiddenUl()}</td>
             </tr>
         )}
@@ -331,7 +338,7 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
                 <td>{formatTime(song.length)}</td>
                 <td ref={ellipsisRef} onClick={(e) => {
                         setHiddenUlHidden(!hiddenUlHidden);
-                        if(selectedTracks?.[song.id]) e.stopPropagation();
+                        // if(selectedTracks?.[song.id]) e.stopPropagation();
                 }}>{ellipsis}{ hiddenUlHidden ? "" : hiddenUl()}</td>
             </tr>
         )}

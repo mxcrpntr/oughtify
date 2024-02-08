@@ -234,7 +234,7 @@ div.home .opaqueBkgd-2 {
     padding-right: 16px;
 }
 
-.playlistTrackList > table > tr > td {
+.playlistTrackList > table > tr > td:nth-child(2), .playlistTrackList > table > tr > td:nth-child(3) {
     max-width: 100%;
     overflow: hidden;
     white-space: nowrap;
