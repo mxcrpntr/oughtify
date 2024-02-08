@@ -219,12 +219,12 @@ export default function Playbar() {
 
     const handleDrag = (e) => {
         e.preventDefault()
-        if (e.screenX !== 0) {
+        if (e.clientX !== 0) {
             setIsDragging(true);
             const rect = trackRef.current.getBoundingClientRect();
             const trackLength = rect.right - rect.left;
             percent = 0;
-            const xPos = e.screenX
+            const xPos = e.clientX
             if (xPos > rect.right) {
                 percent = 100;
             } else if (xPos > rect.left) {
@@ -239,12 +239,12 @@ export default function Playbar() {
 
     const handleVolumeDrag = (e) => {
         e.preventDefault()
-        if (e.screenX !== 0) {
+        if (e.clientX !== 0) {
             // setIsDragging(true);
             const rect = volumeTrackRef.current.getBoundingClientRect();
             const trackLength = rect.right - rect.left;
             volPercent = 0;
-            const xPos = e.screenX
+            const xPos = e.clientX
             if (xPos > rect.right) {
                 volPercent = 100;
             } else if (xPos > rect.left) {
@@ -272,8 +272,8 @@ export default function Playbar() {
         const rect = trackRef.current.getBoundingClientRect();
         const trackLength = rect.right - rect.left;
         percent = 0;
-        const xPos = e.screenX
-        const yPos = e.screenY
+        const xPos = e.clientX
+        const yPos = e.clientY
         if (xPos > rect.right) {
             percent = 100;
         } else if (xPos > rect.left) {
@@ -294,8 +294,8 @@ export default function Playbar() {
         const rect = volumeTrackRef.current.getBoundingClientRect();
         const trackLength = rect.right - rect.left;
         volPercent = 0;
-        const xPos = e.screenX
-        const yPos = e.screenY
+        const xPos = e.clientX
+        const yPos = e.clientY
         if (xPos > rect.right) {
             volPercent = 100;
         } else if (xPos > rect.left) {
@@ -326,7 +326,7 @@ export default function Playbar() {
         const rect = trackRef.current.getBoundingClientRect();
         const trackLength = rect.right - rect.left;
         percent = 0;
-        const xPos = e.screenX
+        const xPos = e.clientX
         if (xPos > rect.right) {
             percent = 100;
         } else if (xPos > rect.left) {
@@ -341,7 +341,7 @@ export default function Playbar() {
         const rect = volumeTrackRef.current.getBoundingClientRect();
         const trackLength = rect.right - rect.left;
         volPercent = 0;
-        const xPos = e.screenX
+        const xPos = e.clientX
         if (xPos > rect.right) {
             volPercent = 100;
         } else if (xPos > rect.left) {
