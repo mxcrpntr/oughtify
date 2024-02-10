@@ -12,7 +12,7 @@ import PlaylistShow from "./PlaylistShow";
 import SearchIndex from "./SearchIndex";
 import WelcomeMessage from "./WelcomeMessage";
 
-export default function Home({searching, shiftPressed, ctrlPressed}) {
+export default function Home({searching, shiftPressed, ctrlPressed, whatIsDragging, setWhatIsDragging}) {
     const history = useHistory();
 
 
@@ -24,16 +24,16 @@ export default function Home({searching, shiftPressed, ctrlPressed}) {
                     <PlaylistsIndex />
                 </Route>
                 <Route path="/artists/:artistId">
-                    <ArtistShow shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} />
+                    <ArtistShow shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} whatIsDragging={whatIsDragging} setWhatIsDragging={setWhatIsDragging}/>
                 </Route>
                 <Route path="/albums/:albumId">
-                    <AlbumShow shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} />
+                    <AlbumShow shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} whatIsDragging={whatIsDragging} setWhatIsDragging={setWhatIsDragging}/>
                 </Route>
                 <Route path="/playlists/:playlistId">
-                    <PlaylistShow shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} />
+                    <PlaylistShow shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} whatIsDragging={whatIsDragging} setWhatIsDragging={setWhatIsDragging}/>
                 </Route>
                 <Route path="/search">
-                    <SearchIndex shiftPressed={shiftPressed} ctrlPressed={ctrlPressed}/>
+                    <SearchIndex shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} whatIsDragging={whatIsDragging} setWhatIsDragging={setWhatIsDragging}/>
                 </Route>
                 <Route path="">
                     <WelcomeMessage />

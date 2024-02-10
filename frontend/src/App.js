@@ -12,6 +12,7 @@ function App() {
 
   const [shiftPressed,setShiftPressed] = useState(false);
   const [ctrlPressed,setCtrlPressed] = useState(false);
+  const [whatIsDragging,setWhatIsDragging] = useState(null);
 
   if (pathname === "/signup") {
     document.querySelector("body").className = "signUpBody";
@@ -71,10 +72,10 @@ function App() {
         <SignupFormPage />
       </Route>
       <Route path="/search">
-        <HomeLayout searching={true} shiftPressed={shiftPressed} ctrlPressed={ctrlPressed}/>   
+        <HomeLayout searching={true} shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} whatIsDragging={whatIsDragging} setWhatIsDragging={setWhatIsDragging}/>   
       </Route>
       <Route path="">
-        <HomeLayout searching={false} shiftPressed={shiftPressed} ctrlPressed={ctrlPressed}/>   
+        <HomeLayout searching={false} shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} whatIsDragging={whatIsDragging} setWhatIsDragging={setWhatIsDragging}/>   
       </Route>
     </Switch>
     </>

@@ -7,18 +7,18 @@ import Playbar from "./Playbar";
 import "./HomeLayout.css"
 import LibraryNavigation from "./LibraryNavigation";
 
-export default function HomeLayout({searching,shiftPressed,ctrlPressed}) {
+export default function HomeLayout({searching,shiftPressed,ctrlPressed,whatIsDragging,setWhatIsDragging}) {
     return (
         <div className="homeLayout">
             <div className="homeTop">
                 <section className="left">
                     <HomeAndSearch />
                     <LibraryNavigation />
-                    <Library />
+                    <Library whatIsDragging={whatIsDragging} setWhatIsDragging={setWhatIsDragging}/>
                 </section>
                 <Divider />
                 <section className="right">
-                    <Home searching={searching} shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} />
+                    <Home searching={searching} shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} whatIsDragging={whatIsDragging} setWhatIsDragging={setWhatIsDragging}/>
                     <HomeNavigation searching={searching} />
                 </section>
             </div>

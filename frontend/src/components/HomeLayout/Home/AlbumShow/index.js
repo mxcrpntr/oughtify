@@ -8,7 +8,7 @@ import { getSongs } from "../../../../store/songs";
 import { getArtist } from "../../../../store/artists";
 import TrackListItem, { invisibleEllipsisSymbol } from "./TrackListItem";
 
-export default function AlbumShow({shiftPressed, ctrlPressed}) {
+export default function AlbumShow({shiftPressed, ctrlPressed, whatIsDragging, setWhatIsDragging}) {
 
     const dispatch = useDispatch();
 
@@ -87,8 +87,8 @@ export default function AlbumShow({shiftPressed, ctrlPressed}) {
                     <h5>
                         <img src={artist.imageUrl}></img>
                         <Link to={`/artists/${artist.id}`}>{artist.name}</Link>
-                        &nbsp;· {album.date.substr(0,4)}
-                        &nbsp;· {album.songIds.length} song{ album.songIds.length === 1 ? "" : "s" },
+                        &nbsp;• {album.date.substr(0,4)}
+                        &nbsp;• {album.songIds.length} song{ album.songIds.length === 1 ? "" : "s" },
                         &nbsp; <span className="albumLength">{formatRuntime(runtime)}</span>
 
                     </h5>
@@ -135,7 +135,9 @@ export default function AlbumShow({shiftPressed, ctrlPressed}) {
                                     song={song}
                                     artist={artist}
                                     songsForQueue={songsForQueue.filter(entry => entry[0].number >= song.number)}
-                                    songsForReverseQueue={songsForReverseQueue.filter(entry => entry[0].number < song.number)} />
+                                    songsForReverseQueue={songsForReverseQueue.filter(entry => entry[0].number < song.number)}
+                                    whatIsDragging={whatIsDragging}
+                                    setWhatIsDragging={setWhatIsDragging}/>
                             )
                         })}
 

@@ -7,7 +7,7 @@ import { getSongs } from "../../../../store/songs";
 import { getArtist } from "../../../../store/artists";
 import PlaylistTrackListItem from "./PlaylistTrackListItem";
 import { invisibleEllipsisSymbol } from "../AlbumShow/TrackListItem";
-import { getPlaylistSongs } from "../../../../store/playlistSongs";
+import { getPlaylistSongs, updatePlaylistSong } from "../../../../store/playlistSongs";
 
 
 const zeroImageMusicSymb = () => {
@@ -23,7 +23,7 @@ const changePhotoHoverSymbText = () => {
     )
 }
 
-export default function PlaylistShow({shiftPressed, ctrlPressed}) {
+export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging, setWhatIsDragging}) {
 
     const dispatch = useDispatch();
 
@@ -44,13 +44,14 @@ export default function PlaylistShow({shiftPressed, ctrlPressed}) {
 
     const [songsUpdated, setSongsUpdated] = useState(true);
 
-    // if (shiftPressed) debugger
+    const [updateSongNumbers,setUpdateSongNumbers] = useState({aboveOrBelow: null, songNumber: null});
 
     const playlistTracksRef = useRef();
 
     useEffect(() => {
         const getRowWidth = () => {
             if (tableRowRef.current) {
+                console.log('table is real')
                 const {width} = tableRowRef.current.getBoundingClientRect();
                 setRowWidth(width);
             }
@@ -58,10 +59,15 @@ export default function PlaylistShow({shiftPressed, ctrlPressed}) {
         getRowWidth();
         window.addEventListener('resize', getRowWidth);
         return () => window.removeEventListener('resize', getRowWidth);
-    }, [])
+    }, [tableRowRef.current])
+
+    useEffect(()=> {
+        dispatch(fetchPlaylist(playlistId));
+    },[playlistId,songsUpdated])
 
     const playlist = useSelector(getPlaylist(playlistId));
     const playlistSongs = useSelector(getPlaylistSongs);
+
 
     const selectedTracksObj = {...playlistSongs,lastSelectedTrack: null}
     // Object.keys(playlistSongs).forEach((pSongId) => selectedTracksObj[pSongId] = {...playlistSongs[pSongId], 'selected': false})
@@ -103,7 +109,6 @@ export default function PlaylistShow({shiftPressed, ctrlPressed}) {
                     playlistSongsBetween.forEach((pSongId) => newSelectedTracksObj[pSongId] = true);
                     newSelectedTracksObj.lastSelectedTrack = clickedTrack;
                     setSelectedTracks(newSelectedTracksObj)
-                    setTimeout(()=> console.log(selectedTracks), 1000)
                 }
                 else if (ctrlPressed) {
                     newSelectedTracksObj[clickedTrack] = !selectedTracks[clickedTrack]
@@ -151,10 +156,6 @@ export default function PlaylistShow({shiftPressed, ctrlPressed}) {
     }
 
     useEffect(()=> {
-        dispatch(fetchPlaylist(playlistId));
-    },[playlistId,songsUpdated])
-
-    useEffect(()=> {
         dispatch(fetchPlaylists);
     },[])
 
@@ -194,6 +195,43 @@ export default function PlaylistShow({shiftPressed, ctrlPressed}) {
         }
     }
 
+    useEffect(() => {
+        const updatePlaylistSongs = async () => {
+            const targetSongNumber = updateSongNumbers.songNumber
+            const selectedTrackIds = Object.keys(selectedTracks).filter(trackId => selectedTracks[trackId] === true).map(trackId => parseInt(trackId))
+            const selectedSongsInOrder = [...songsForTracklist].filter(pSong => selectedTrackIds.includes(pSong.id))
+            const minSelectedSongNumber = selectedSongsInOrder[0]?.songNumber
+            const maxSelectedSongNumber = selectedSongsInOrder[selectedSongsInOrder.length-1]?.songNumber
+            console.log([...songsForTracklist].filter(pSong => pSong.id > 130))
+            if (targetSongNumber < minSelectedSongNumber) {
+                const actualTargetSongNumber = updateSongNumbers.aboveOrBelow === 'above' ? targetSongNumber : targetSongNumber + 1
+                if (actualTargetSongNumber < minSelectedSongNumber) {
+                    for (let i = 0; i < selectedSongsInOrder.length; i++) {
+                        console.log(`hey we're here and target song number is ${actualTargetSongNumber}`)
+                        const selectedSong = selectedSongsInOrder[i]
+                        await dispatch(updatePlaylistSong({id: selectedSong.id, playlist_song: {song_id: selectedSong.id, songNumber: actualTargetSongNumber + i}}))
+                    }
+                }
+            } else if (targetSongNumber > maxSelectedSongNumber) {
+                const actualTargetSongNumber = updateSongNumbers.aboveOrBelow === 'above' ? (targetSongNumber - 1) : targetSongNumber
+                if (actualTargetSongNumber > maxSelectedSongNumber) {
+                    for (let i = 0; i < selectedSongsInOrder.length; i++) {
+                        const selectedSong = selectedSongsInOrder[i]
+                        await dispatch(updatePlaylistSong({id: selectedSong.id, playlist_song: {song_id: selectedSong.id, songNumber: actualTargetSongNumber}}))
+                    }
+                } 
+            }
+            setUpdateSongNumbers({aboveOrBelow: null, songId: null});
+            const noSelectedTracksObj = {...playlistSongs,lastSelectedTrack: null};
+            Object.keys(playlistSongs).forEach((pSongId) => noSelectedTracksObj[pSongId] = false);
+            setSelectedTracks(noSelectedTracksObj);
+            setSongsUpdated(!songsUpdated)
+        }
+        if (updateSongNumbers && updateSongNumbers?.songNumber && updateSongNumbers?.aboveOrBelow) {
+            updatePlaylistSongs();
+        }
+    }, [updateSongNumbers])
+
     return (
         <>
             {playlist && Object.keys(playlist).length > 0 && playlistSongs
@@ -222,7 +260,7 @@ export default function PlaylistShow({shiftPressed, ctrlPressed}) {
 
                     <h5>
                         <Link to="" onClick={(e) => {e.preventDefault()}}>{playlist.userName}</Link>
-                        &nbsp;· {Object.values(playlistSongs)?.length > 0 ? Object.values(playlistSongs).length : 0} song{ Object.values(playlistSongs).length === 1 ? "" : "s" },
+                        &nbsp;• {Object.values(playlistSongs)?.length > 0 ? Object.values(playlistSongs).length : 0} song{ Object.values(playlistSongs).length === 1 ? "" : "s" },
                         &nbsp; <span className="playlistLength">{formatRuntime(runtime)}</span>
 
                     </h5>
@@ -285,7 +323,12 @@ export default function PlaylistShow({shiftPressed, ctrlPressed}) {
                                     songsUpdated={songsUpdated}
                                     selectedTracks={selectedTracks}
                                     lastClickedTrack={lastClickedTrack}
-                                    setLastClickedTrack={setLastClickedTrack}/>
+                                    setLastClickedTrack={setLastClickedTrack}
+                                    whatIsDragging={whatIsDragging}
+                                    setWhatIsDragging={setWhatIsDragging}
+                                    shiftPressed={shiftPressed}
+                                    ctrlPressed={ctrlPressed}
+                                    setUpdateSongNumbers={setUpdateSongNumbers}/>
                             )
                         })}
 

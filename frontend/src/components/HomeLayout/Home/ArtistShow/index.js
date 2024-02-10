@@ -21,7 +21,7 @@ export const formatTime = (seconds) => {
 } 
 
 
-export default function ArtistShow({shiftPressed,ctrlPressed}) {
+export default function ArtistShow({shiftPressed,ctrlPressed,whatIsDragging,setWhatIsDragging}) {
 
     const dispatch = useDispatch();
     const { artistId } = useParams();

@@ -32,7 +32,7 @@ const invisibleEllipsisSymbol = () => {
 
 
 
-export default function PlaylistTrackListItem({song,songsForQueue,songsForReverseQueue,playlist,userPlaylists,setSongsUpdated,songsUpdated,selectedTracks,lastClickedTrack,setLastClickedTrack}) {
+export default function PlaylistTrackListItem({song,songsForQueue,songsForReverseQueue,playlist,userPlaylists,setSongsUpdated,songsUpdated,selectedTracks,lastClickedTrack,setLastClickedTrack,whatIsDragging,setWhatIsDragging,shiftPressed,ctrlPressed,setUpdateSongNumbers}) {
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -61,6 +61,9 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
     const tableRowRef = useRef();
     const hiddenUlRef = useRef();
     const ellipsisRef = useRef();
+
+    const [greenBorder,setGreenBorder] = useState(null);
+    const [isDragging,setIsDragging] = useState(false);
 
 
     useEffect(()=> {
@@ -109,36 +112,11 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
         }
     }, [])
 
-    // useEffect(() =>  {
-    //     if (tableRowRef.current) {
-    //         const handleOutsideClick = (e) => {
-    //             if (hiddenUlRef?.current && !hiddenUlRef.current.contains(e.target)) {
-    //                 setHiddenUlHidden(true);
-    //             }
-    //             if (tableRowRef?.current && !tableRowRef.current.contains(e.target)) {
-    //                 // setSelected(false);
-    //                 const updatedSelectedTracks = {...selectedTracks}
-    //                 console.log(updatedSelectedTracks[song.id])
-    //                 if (!selectedTracks[song.id]?.['selected'] || selectedTracks[song.id]['selected']) {
-    //                     const pSongId = song.id
-    //                     setSelectedTracks({...selectedTracks, pSongId: {...song,'selected': false}})
-    //                     console.log(selectedTracks)
-    //                     if (!isLiked) setHeart("");
-    //                     setEllipsis(invisibleEllipsisSymbol());
-    //                 }
-    //             }
-    //         }
-    //         document.addEventListener('click', handleOutsideClick)
-    //         return () => {
-    //             document.removeEventListener('click', handleOutsideClick)
-    //         }
-    //     }
-    // },[])
-
     useEffect(() => {
         if (lastClickedTrack?.clickedTrack !== song.id) {
-            console.log(`hey from ${song.id}`)
             setHiddenUlHidden(true);
+            setEllipsis(invisibleEllipsisSymbol())
+            if (!isLiked) setHeart("")
         }
     },[lastClickedTrack])
 
@@ -254,14 +232,77 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
             return {gridTemplateColumns: ".5fr 6fr .5fr 1fr .35fr"}
         }
     }
+    const invisibleImageUrl = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+
+
+    const handleTrackDragStart = (e) => {
+        if (!selectedTracks?.[song.id]) tableRowRef.current.click()
+        setIsDragging(true);
+        tableRowRef.current.style.cursor = 'copy'
+        setWhatIsDragging({draggedThings: 'playlistSongs', xPos: e.clientX, yPos: e.clientY});
+        const dragImage = new Image();
+        dragImage.src = invisibleImageUrl;    
+        e.dataTransfer.setDragImage(dragImage, 0, 0);
+    }
+
+    const handleTrackDrag = (e) => {
+        e.preventDefault();
+        if (!(tableRowRef.current.style.cursor === 'copy')) tableRowRef.current.style.cursor = 'copy'
+        if (e.clientX !== 0 && e.clientY !== 0) setWhatIsDragging({draggedThings: 'playlistSongs', xPos: e.clientX, yPos: e.clientY});
+    }
+
+    const handleTrackDragEnd = (e) => {
+        setIsDragging(false);
+        tableRowRef.current.style.cursor = 'auto'
+        setWhatIsDragging({draggedThings: null, xPos: null, yPos: null});
+    }
+
+    useEffect(() => {
+        if (whatIsDragging?.draggedThings) {
+            if (whatIsDragging.draggedThings === 'playlistSongs' || whatIsDragging.draggedThings === 'albumSongs' ) {
+                const xPos = whatIsDragging.xPos
+                const yPos = whatIsDragging.yPos
+                const rect = tableRowRef.current.getBoundingClientRect();
+                const trackMiddle = (rect.top + rect.bottom) / 2
+                if (xPos >= rect.left && xPos <= rect.right) {                  
+                    if (yPos > rect.top && yPos <= rect.bottom) {
+                        if (yPos <= trackMiddle) {
+                            setGreenBorder('greenBorderTop')
+                        }
+                        if (yPos > trackMiddle) {
+                            setGreenBorder('greenBorderBottom')
+                        }
+                    } else {
+                        if (greenBorder) setGreenBorder(null)
+                    }
+                } else {
+                    if (greenBorder) setGreenBorder(null)
+                }
+            }
+        } else if (whatIsDragging && whatIsDragging?.draggedThings === null) {
+            if (greenBorder && greenBorder === 'greenBorderTop') {
+                console.log(`trying to update songs to be above ${song.songNumber}`)
+                setUpdateSongNumbers({aboveOrBelow: 'above', songNumber: song.songNumber})
+            } else if (greenBorder && greenBorder === 'greenBorderBottom') {
+                console.log(`trying to update songs to be below ${song.songNumber}`)
+                setUpdateSongNumbers({aboveOrBelow: 'below', songNumber: song.songNumber})
+            }
+            setGreenBorder(null)
+        }
+    },[whatIsDragging])
+
 
     return (
         <>
         {song.id &&  song.id !== currentSong?.id && (
             <tr style={trGridTemplate(rowWidth)}
+                draggable={!shiftPressed && !ctrlPressed ? "true" : "false"}
                 ref={tableRowRef}
-                className={selectedTracks?.[song.id] ? ("selectedTrack") : ("")}
+                className={selectedTracks?.[song.id] ? (`selectedTrack ${greenBorder ? greenBorder : ""} ${isDragging ? "dragging" : ""}`) : (`${greenBorder ? greenBorder : ""} ${isDragging ? "dragging" : ""}`)}
                 onClick={handleSelectionClick}
+                onDragStart={handleTrackDragStart}
+                onDrag={handleTrackDrag}
+                onDragEnd={handleTrackDragEnd}
                 onMouseOver={() => {
                     setIsOver(true);
                     setNumberPlay(playSymbol());
