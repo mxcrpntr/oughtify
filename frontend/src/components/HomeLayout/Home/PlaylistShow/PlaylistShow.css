@@ -382,3 +382,14 @@ div.home .opaqueBkgd-2 {
 .playlistTrackList > table > tr > td:last-child{
     position: relative;
 }
+
+.editPlaylistModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 384px;
+    width: 524px;
+    z-index: 4;
+    background-color: #282828;
+}

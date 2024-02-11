@@ -8,6 +8,7 @@ import { getArtist } from "../../../../store/artists";
 import PlaylistTrackListItem from "./PlaylistTrackListItem";
 import { invisibleEllipsisSymbol } from "../AlbumShow/TrackListItem";
 import { getPlaylistSongs, updatePlaylistSong } from "../../../../store/playlistSongs";
+import EditPlaylistModal from "./EditPlaylistModal";
 
 
 const zeroImageMusicSymb = () => {
@@ -47,6 +48,8 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
     const [updateSongNumbers,setUpdateSongNumbers] = useState({aboveOrBelow: null, songNumber: null});
 
     const playlistTracksRef = useRef();
+
+    const [editModalHidden,setEditModalHidden] = useState(true)
 
     useEffect(() => {
         const getRowWidth = () => {
@@ -237,17 +240,20 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
             {playlist && Object.keys(playlist).length > 0 && playlistSongs
                 && (
             <>
+            {!editModalHidden && (<EditPlaylistModal
+                playlist={playlist}
+                setEditModalHidden={setEditModalHidden}/>)}
             <div className="playlistShowTop">
                 <div className="playlistImage">
                     {[...new Set(Object.values(playlistSongs).map(song => song.imageUrl))].length >= 4 ?
-                    (<div className="fourPlaylistImages">
+                    (<div className="fourPlaylistImages" onClick={() => {setEditModalHidden(false)}}>
                         {[...new Set(Object.values(playlistSongs).map(song => song.imageUrl))].slice(0,4).map(imageUrl => {
                             return (
                                 <div className="fourthImage" style={{backgroundImage: `url("${imageUrl}")`}}></div>
                             )
                         })}
                     </div>) :
-                    (<div className="onePlaylistImage"><div className="onethImage" style={oneImageCallback(playlistSongs)}>
+                    (<div className="onePlaylistImage" onClick={() => {setEditModalHidden(false)}}><div className="onethImage" style={oneImageCallback(playlistSongs)}>
                         {Object.values(playlistSongs).length === 0 && (
                             <div className="centerOfOne">{zeroImageMusicSymb()}</div>
                         )}
@@ -256,7 +262,7 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
                 </div>
                 <div className='playlistHeaders'>
                     <h4>Playlist</h4>
-                    <h1>{playlist.title}</h1>
+                    <h1 onClick={() => {setEditModalHidden(false)}}>{playlist.title}</h1>
 
                     <h5>
                         <Link to="" onClick={(e) => {e.preventDefault()}}>{playlist.userName}</Link>
