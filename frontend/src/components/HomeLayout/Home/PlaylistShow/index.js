@@ -9,6 +9,7 @@ import PlaylistTrackListItem from "./PlaylistTrackListItem";
 import { invisibleEllipsisSymbol } from "../AlbumShow/TrackListItem";
 import { getPlaylistSongs, updatePlaylistSong } from "../../../../store/playlistSongs";
 import EditPlaylistModal from "./EditPlaylistModal";
+import PlaylistImage from "./PlaylistImage";
 
 
 const zeroImageMusicSymb = () => {
@@ -242,24 +243,20 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
             <>
             {!editModalHidden && (<EditPlaylistModal
                 playlist={playlist}
-                setEditModalHidden={setEditModalHidden}/>)}
+                setEditModalHidden={setEditModalHidden}
+                sessionUser={sessionUser}
+                playlistSongs={playlistSongs}
+                zeroImageMusicSymb={zeroImageMusicSymb}
+                changePhotoHoverSymbText={changePhotoHoverSymbText}
+                oneImageCallback={oneImageCallback}/>)}
             <div className="playlistShowTop">
-                <div className="playlistImage">
-                    {[...new Set(Object.values(playlistSongs).map(song => song.imageUrl))].length >= 4 ?
-                    (<div className="fourPlaylistImages" onClick={() => {setEditModalHidden(false)}}>
-                        {[...new Set(Object.values(playlistSongs).map(song => song.imageUrl))].slice(0,4).map(imageUrl => {
-                            return (
-                                <div className="fourthImage" style={{backgroundImage: `url("${imageUrl}")`}}></div>
-                            )
-                        })}
-                    </div>) :
-                    (<div className="onePlaylistImage" onClick={() => {setEditModalHidden(false)}}><div className="onethImage" style={oneImageCallback(playlistSongs)}>
-                        {Object.values(playlistSongs).length === 0 && (
-                            <div className="centerOfOne">{zeroImageMusicSymb()}</div>
-                        )}
-                    </div></div>)}
-                    <div className="changePhotoOverlay">{changePhotoHoverSymbText()}</div>
-                </div>
+                <PlaylistImage
+                    playlistSongs={playlistSongs}
+                    setEditModalHidden={setEditModalHidden}
+                    photoClickFunction={() => {setEditModalHidden(false)}}
+                    zeroImageMusicSymb={zeroImageMusicSymb}
+                    changePhotoHoverSymbText={changePhotoHoverSymbText}
+                    oneImageCallback={oneImageCallback}/>
                 <div className='playlistHeaders'>
                     <h4>Playlist</h4>
                     <h1 onClick={() => {setEditModalHidden(false)}}>{playlist.title}</h1>

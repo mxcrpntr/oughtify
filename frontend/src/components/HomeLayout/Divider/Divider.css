@@ -3,6 +3,6 @@
     width: 8px;
     background-color: #000000;
     cursor: col-resize;
-    z-index: 1;
+    z-index: 0;
 }
   
