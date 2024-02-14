@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux"
-import { updatePlaylist } from "../../../../store/playlists";
+import { updatePlaylistTitle, updatePlaylistImage } from "../../../../store/playlists";
 import PlaylistImage from "./PlaylistImage";
 
 
@@ -20,6 +20,8 @@ export default function EditPlaylistModal({playlist,setEditModalHidden,sessionUs
 
   const handFileInputChange = (e) => {
     if (e.target.files[0]) {
+      console.log(e.target.files[0])
+      setLocalImageFile(e.target.files[0])
       const reader = new FileReader();
       reader.onload = (e) => {
         setLocalImageFileSrc(e.target.result);
@@ -27,13 +29,17 @@ export default function EditPlaylistModal({playlist,setEditModalHidden,sessionUs
       reader.readAsDataURL(e.target.files[0]);
     }
   }
-  useEffect(() => {
-    console.log(localImageFileSrc)
-  }, [localImageFileSrc])
   
   useEffect(() => {
     if (attemptPlaylistUpdate) {
-      dispatch(updatePlaylist({id: playlist.id, playlist: {playlist_id: playlist.id, title: playlistTitle, user_id: sessionUser.id}}));
+      if (playlistTitle !== playlist.title) {
+        const updatePlaylistTitleParams = {title: playlistTitle, user_id: sessionUser.id}
+        dispatch(updatePlaylistTitle({id: playlist.id, playlist: updatePlaylistTitleParams}));
+      }
+      if (localImageFile) {
+        const updatePlaylistImageParams = {image_file: localImageFile, user_id: sessionUser.id}
+        dispatch(updatePlaylistImage({id: playlist.id, playlist: updatePlaylistImageParams}))
+      }
       setAttemptPlaylistUpdate(false);
       setEditModalHidden(true);
     }
@@ -51,17 +57,27 @@ export default function EditPlaylistModal({playlist,setEditModalHidden,sessionUs
                 zeroImageMusicSymb={zeroImageMusicSymb}
                 changePhotoHoverSymbText={changePhotoHoverSymbText}
                 oneImageCallback={oneImageCallback}
-                workingImageUrl={localImageFileSrc}/>
+                workingImageUrl={localImageFileSrc ? localImageFileSrc : playlist.imageUrl}/>
           <div className="editModalTitle">
             <input type="text"
                    id="playlistTitle"
                    name="playlistTitle"
                    value={playlistTitle} 
-                   onChange={(e)=> setPlaylistTitle(e.target.value)}></input>
+                   onChange={(e)=> setPlaylistTitle(e.target.value)}
+                   onKeyDown={(e) => {
+                    if (e.keyCode === 32) {
+                        e.stopPropagation();
+                    }
+                }}></input>
             <input type="text"
                    id="playlistDescription"
                    name="playlistDescription"
-                   value=""></input>
+                   value=""
+                   onKeyDown={(e) => {
+                    if (e.keyCode === 32) {
+                        e.stopPropagation();
+                    }
+                }}></input>
           </div>
         </div>
         <div className="editModalSave">
@@ -72,7 +88,7 @@ export default function EditPlaylistModal({playlist,setEditModalHidden,sessionUs
         <input ref={hiddenFileInputRef} className="hiddenFileInput" type="file" accept="image/*" onChange={handFileInputChange} />
         <div>By proceeding, you agree to give Oughtify access to the image you choose to upload. Please make sure you have the right to upload the image.</div>
       </div>
-      <div className="d"></div>
+      <div className="editPlaylistModalBkgd"></div>
     </>
   )
 }

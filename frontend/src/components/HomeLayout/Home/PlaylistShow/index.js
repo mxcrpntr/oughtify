@@ -256,7 +256,8 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
                     photoClickFunction={() => {setEditModalHidden(false)}}
                     zeroImageMusicSymb={zeroImageMusicSymb}
                     changePhotoHoverSymbText={changePhotoHoverSymbText}
-                    oneImageCallback={oneImageCallback}/>
+                    oneImageCallback={oneImageCallback}
+                    workingImageUrl={playlist.imageUrl}/>
                 <div className='playlistHeaders'>
                     <h4>Playlist</h4>
                     <h1 onClick={() => {setEditModalHidden(false)}}>{playlist.title}</h1>

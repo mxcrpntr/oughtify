@@ -20,13 +20,17 @@ class Api::PlaylistsController < ApplicationController
     end
 
     def update
+        # debugger
+        params.require(:playlist).permit(:title,:user_id,:public,:color,:image_file)
         @playlist = Playlist.find(params[:id])
-        if params[:playlist].key?(:user_id) && @playlist.user_id == params[:playlist][:user_id]
+        if params[:playlist].key?(:user_id) && @playlist.user_id == params[:playlist][:user_id].to_i
             update_playlist_params = playlist_params.dup
-            if params[:playlist].key?(:image_file_path)
-                new_playlist_image = File.open(params[:playlist][:image_file_path])
-                @playlist.image.attach(io: new_playlist_image, filename: `#{@playlist.title}_image.jpg`)
-                update_playlist_params.delete(:image_file_path)
+            if params[:playlist].key?(:image_file)
+                new_playlist_image = params[:playlist][:image_file]
+                ext = new_playlist_image.original_filename.split(".").last
+                # debugger
+                @playlist.image.attach(io: new_playlist_image, filename: "#{@playlist.title}_image.#{ext}")
+                update_playlist_params.delete(:image_file)
             end
             if @playlist.update(update_playlist_params)
                 render :show
@@ -34,7 +38,7 @@ class Api::PlaylistsController < ApplicationController
                 render json: { errors: @playlist.errors.full_messages }, status: :unprocessable_entity
             end
         else
-            render json: { errors: "Unauthorized: Current user's id does not match playlist creator's id." }, status: :unauthorized
+            render json: { errors: "Unauthorized: Current user's id (#{params[:playlist][:user_id]}) does not match playlist creator's id (#{@playlist.user_id}). First condition is #{params[:playlist].key?(:user_id)} and second condition is #{@playlist.user_id == params[:playlist][:user_id].to_i}" }, status: :unauthorized
         end
     end
 
@@ -45,6 +49,6 @@ class Api::PlaylistsController < ApplicationController
 
     private
     def playlist_params
-        params.require(:playlist).permit(:title,:user_id,:public,:color,:image_file_path)
+        params.require(:playlist).permit(:title,:user_id,:public,:color,:image_file)
     end
 end

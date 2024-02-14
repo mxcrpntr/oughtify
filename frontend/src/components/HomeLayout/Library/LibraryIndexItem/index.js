@@ -35,9 +35,9 @@ export default function LibraryIndexItem({playlist, album}) {
                         <div className="fourthPlaylistImageStandin" style={{backgroundImage: `url(${playlist.albumImages[2]})`}}></div>
                         <div className="fourthPlaylistImageStandin" style={{backgroundImage: `url(${playlist.albumImages[3]})`}}></div>
                         </>) :
-                        (<div className="onethPlaylistImageStandin" style={!playlist?.imageUrl && playlist?.albumImages && playlist.albumImages.length > 0 ?
-                        {backgroundImage: `url(${playlist.albumImages[0]})`} :
-                        {backgroundColor: `#282828`}}>{!playlist?.imageUrl && playlist?.albumImages && playlist.albumImages.length > 0 ? (<></>) : zeroImageMusicSymb()}</div>)}
+                        (<div className="onethPlaylistImageStandin" style={playlist?.imageUrl || playlist?.albumImages && playlist.albumImages.length > 0 ?
+                        {backgroundImage: `url(${playlist.imageUrl ? playlist.imageUrl : playlist.albumImages[0]})`} :
+                        {backgroundColor: `#282828`}}>{playlist?.imageUrl || playlist?.albumImages && playlist.albumImages.length > 0 ? (<></>) : zeroImageMusicSymb()}</div>)}
                     </div>
                     <div className="albumInfo">
                         <h3>{playlist ? playlist.title : album.title}</h3>

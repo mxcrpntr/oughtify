@@ -59,7 +59,8 @@ export const createPlaylist = (playlist) => async dispatch => {
     }
 }
 
-export const updatePlaylist = (playlist) => async dispatch => {
+export const updatePlaylistTitle = (playlist) => async dispatch => {
+    debugger
     const res = await csrfFetch(`api/playlists/${playlist.id}`, {
         method: 'PATCH',
         body: JSON.stringify(playlist),
@@ -67,6 +68,23 @@ export const updatePlaylist = (playlist) => async dispatch => {
             'Content-Type': 'application/json'
         }
     })
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(receivePlaylist(data));
+    }
+}
+
+export const updatePlaylistImage = (playlist) => async dispatch => {
+    const formData = new FormData();
+    // formData.append('id', playlist.id);
+    formData.append('playlist[user_id]', playlist.playlist.user_id);
+    formData.append('playlist[image_file]', playlist.playlist.image_file, playlist.playlist.image_file.name);
+    console.log(playlist.playlist.image_file);
+    debugger
+    const res = await csrfFetch(`api/playlists/${playlist.id}`, {
+        method: 'PATCH',
+        body: formData
+    }, true)
     if (res.ok) {
         const data = await res.json();
         dispatch(receivePlaylist(data));

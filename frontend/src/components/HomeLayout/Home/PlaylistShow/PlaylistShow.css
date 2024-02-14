@@ -55,9 +55,18 @@ div.home .playlistImage {
     overflow: hidden;
 }
 div.home .playlistImage div.workingImageUrl {
+    width: 200px;
+    height: 200px;
+    background-size: cover;
+    align-items: center;
+    justify-content: center;
+}
+div.home .editPlaylistModal .playlistImage div.workingImageUrl {
     width: 180px;
     height: 180px;
     background-size: cover;
+    align-items: center;
+    justify-content: center;
 }
 div.home .playlistImage div.changePhotoOverlay {
     display: none; 
@@ -474,7 +483,7 @@ div.home .opaqueBkgd-2 {
     font-size: 16px;
     margin: 0;
 }
-.editPlaylistModal > input.hiddenFileInput {
+.editPlaylistModal  input.hiddenFileInput {
     display: none;
 }
 .editPlaylistModal > div:last-child {
@@ -508,8 +517,8 @@ div.home .editPlaylistModal .playlistImage > div.fourPlaylistImages > div.fourth
 }
 div.home .editPlaylistModal .playlistImage > div.onePlaylistImage {
     display: grid;
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
     box-shadow: 0px 2px 15px -6px rgba(0, 0, 0, 1);
     background: #282828;
     border-radius: 5px;
@@ -534,7 +543,7 @@ div.home .editPlaylistModal .playlistImage {
     font-family: CircularSpotifyMedium;
     color: #FFFFFF;
     border-radius: 5px;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 div.home .editPlaylistModal .playlistImage div.changePhotoOverlay {
     display: none; 
