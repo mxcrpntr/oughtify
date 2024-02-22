@@ -32,7 +32,8 @@ class Api::PlaylistSongsController < ApplicationController
         if old_song_number != new_song_number
             playlist_id = @playlist_song.playlist_id
             song_id = @playlist_song.song_id
-            @playlist_song.delete
+            # @playlist_song.delete
+            @playlist_song.update(song_number: 0)
             if old_song_number < new_song_number
                 affected_song_numbers = (old_song_number..new_song_number).to_a
                 affected_songs = PlaylistSong.where(playlist_id: playlist_id, song_number: affected_song_numbers).order(song_number: :asc)
@@ -48,7 +49,7 @@ class Api::PlaylistSongsController < ApplicationController
                     affected_song.update(song_number: new_affected_song_number)
                 end
             end
-            @playlist_song = PlaylistSong.new(playlist_id: playlist_id, song_id: song_id, song_number: new_song_number)
+            @playlist_song.update(song_number: new_song_number)
             if @playlist_song.save
                 render :show
             else

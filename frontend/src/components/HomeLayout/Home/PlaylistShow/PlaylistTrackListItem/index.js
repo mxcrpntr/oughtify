@@ -73,6 +73,7 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
     },[userPlaylistId])
 
 
+
     useEffect(() => {
         const getRowWidth = () => {
             if (tableRowRef.current) {
@@ -93,7 +94,7 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
         } else {
             setNumOrDisc(song.songNumber)
         }
-    }, [currentSong?.song,currentSong?.isPlaying])
+    }, [currentSong?.song,currentSong?.isPlaying,song?.songNumber])
 
     useEffect(() => {
         if (lastClickedTrack?.clickedTrack !== song.id) {
@@ -278,7 +279,6 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
 
     return (
         <>
-        {song.id &&  song.id !== currentSong?.song?.id && (
             <tr style={trGridTemplate(rowWidth)}
                 draggable={!shiftPressed && !ctrlPressed ? "true" : "false"}
                 ref={tableRowRef}
@@ -299,21 +299,21 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
                     if (!isLiked && !selectedTracks?.[song.id]) setHeart("");
                     if (!selectedTracks?.[song.id]) setEllipsis(invisibleEllipsisSymbol());
                 }}>
-                <td style={{color: "#FFFFFF"}} onClick={handleTrackClick}>
+                <td style={{color: song.id === currentSong?.song?.id ? "#1ED760" : "#FFFFFF"}} onClick={handleTrackClick}>
                     {isOver ? numberPlay : numOrDisc}
                 </td>
                 <td className="playlistImageColumnColumn">
                     <div className="playlistImageColumn">
                             <img src={song.imageUrl}></img>
                         <ul>
-                            <li style={{color: "#FFFFFF"}}>{song.title}</li>
+                            <li style={{color: song.id === currentSong?.song?.id ? "#1ED760" : "#FFFFFF"}}>{song.title}</li>
                             <li><Link to={`/artists/${song.artistId}`}>{song.artistName}</Link></li>
                         </ul>
                     </div>
                 </td>
                 <td hidden={ rowWidth < 500 ? "hidden" : ""} ><Link to={`/albums/${song.albumId}`}>{song.albumTitle}</Link></td>
                 <td hidden={ rowWidth < 710 ? "hidden" : ""} >
-                {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format((new Date(song.createdAt)))}</td>
+                {song?.createdAt && new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format((new Date(song.createdAt)))}</td>
                 <td onClick={handleLikeClick}>{heart}</td>
                 <td>{formatTime(song.length)}</td>
                 <td ref={ellipsisRef}  onClick={(e) => {
@@ -321,52 +321,6 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
                         // if(selectedTracks?.[song.id]) e.stopPropagation();
                     }}>{ellipsis}{ hiddenUlHidden ? "" : hiddenUl()}</td>
             </tr>
-        )}
-        {song.id && song.id === currentSong?.song?.id && (
-            <tr style={trGridTemplate(rowWidth)}
-                ref={tableRowRef}
-                className={selectedTracks?.[song.id] ? ("selectedTrack") : ("")}
-                onClick={handleSelectionClick}
-                onMouseOver={() => {
-                    const audio = document.querySelector("audio");
-                    let actionSymbol = pauseSymbol
-                    if (audio?.paused) {
-                        actionSymbol = playSymbol
-                    }
-                    setIsOver(true);
-                    setNumberPlay(actionSymbol());
-                    if (!isLiked) setHeart(heartSymbol());
-                    setEllipsis(ellipsisSymbol());
-                }}
-                onMouseLeave={() => {
-                    setIsOver(false);
-                    setNumberPlay(numOrDisc);
-                    if (!isLiked && !selectedTracks?.[song.id]) setHeart("");
-                    if (!selectedTracks?.[song.id]) setEllipsis(invisibleEllipsisSymbol());
-                }}>
-                <td style={{color: "#1ED760"}} onClick={() => {
-                        document.querySelector(".playPause").click()
-                    }}>{isOver ? numberPlay : numOrDisc}</td>
-                <td>
-                    <div className="playlistImageColumn">
-                        <img src={song.imageUrl}></img>
-                    <ul>
-                        <li style={{color: "#1ED760"}}>{song.title}</li>
-                        <li><Link to={`/artists/${song.artistId}`}>{song.artistName}</Link></li>
-                    </ul>
-                    </div>
-                </td>
-                <td hidden={ rowWidth < 500 ? "hidden" : ""} ><Link to={`/albums/${song.albumId}`}>{song.albumTitle}</Link></td>
-                <td hidden={ rowWidth < 710 ? "hidden" : ""} >
-{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format((new Date(song.createdAt)))}</td>
-                <td onClick={handleLikeClick}>{heart}</td>
-                <td>{formatTime(song.length)}</td>
-                <td ref={ellipsisRef} onClick={(e) => {
-                        setHiddenUlHidden(!hiddenUlHidden);
-                        // if(selectedTracks?.[song.id]) e.stopPropagation();
-                }}>{ellipsis}{ hiddenUlHidden ? "" : hiddenUl()}</td>
-            </tr>
-        )}
         </>
     )
 }

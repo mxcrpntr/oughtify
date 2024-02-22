@@ -287,7 +287,7 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
                             document.querySelector(".playPause").click()
                         }
                     }
-                    }}>{ sessionUser.queue?.[0] && playlistSongs && Object.values(playlistSongs).map(pSong => pSong.id).includes(sessionUser.queue[0][0].id) && !document.querySelector("audio").paused ?
+                    }}>{ sessionUser.queue?.[0] && playlistSongs && Object.values(playlistSongs).map(pSong => pSong.id).includes(sessionUser.queue[0][0].id) && currentSong?.isPlaying ?
                     (<i class="fa-solid fa-pause"></i>) :
                     (<i class="fa-solid fa-play"></i>)}</button>
                     <span className="bigHeart" onClick={handleLikeClick}>{isLiked ?
