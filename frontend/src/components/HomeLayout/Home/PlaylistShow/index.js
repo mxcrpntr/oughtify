@@ -25,7 +25,7 @@ const changePhotoHoverSymbText = () => {
     )
 }
 
-export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging, setWhatIsDragging}) {
+export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging, setWhatIsDragging, currentSong}) {
 
     const dispatch = useDispatch();
 
@@ -130,11 +130,11 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
         }
     }, [lastClickedTrack])
     
-    let currentSong = sessionUser?.queue[0]?.[0]
+    // let currentSong = sessionUser?.queue[0]?.[0]
 
-    useEffect(() => {
-        currentSong = sessionUser?.queue[0]?.[0]
-    }, [sessionUser])
+    // useEffect(() => {
+    //     currentSong = sessionUser?.queue[0]?.[0]
+    // }, [sessionUser])
 
 
     let opaqueBkgdStyle = {};
@@ -332,7 +332,8 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
                                     setWhatIsDragging={setWhatIsDragging}
                                     shiftPressed={shiftPressed}
                                     ctrlPressed={ctrlPressed}
-                                    setUpdateSongNumbers={setUpdateSongNumbers}/>
+                                    setUpdateSongNumbers={setUpdateSongNumbers}
+                                    currentSong={currentSong}/>
                             )
                         })}
 

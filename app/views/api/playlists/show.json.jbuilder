@@ -16,7 +16,7 @@ json.playlist_songs do
     playlist_songs.each do |playlist_song_id|
         json.set! playlist_song_id do
             playlist_song = PlaylistSong.find(playlist_song_id)
-            json.extract! playlist_song, :id, :song_id, :song_number, :created_at
+            json.extract! playlist_song, :id, :song_id, :song_number, :playlist_id, :created_at
             song = Song.find(playlist_song.song_id)
             album = Album.find(song.album_id)
             json.extract! song, :title, :length, :album_id

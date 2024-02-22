@@ -1,7 +1,7 @@
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import './AlbumsIndexItem.css'
 
-export default function AlbumsIndexItem({album}) {
+export default function AlbumsIndexItem({album, currentSong}) {
     const history = useHistory();
     return (
         <ul onClick={()=> {history.push(`/albums/${album?.id}`)}}>

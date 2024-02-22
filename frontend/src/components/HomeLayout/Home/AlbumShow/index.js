@@ -8,7 +8,7 @@ import { getSongs } from "../../../../store/songs";
 import { getArtist } from "../../../../store/artists";
 import TrackListItem, { invisibleEllipsisSymbol } from "./TrackListItem";
 
-export default function AlbumShow({shiftPressed, ctrlPressed, whatIsDragging, setWhatIsDragging}) {
+export default function AlbumShow({shiftPressed, ctrlPressed, whatIsDragging, setWhatIsDragging, currentSong}) {
 
     const dispatch = useDispatch();
 
@@ -18,11 +18,11 @@ export default function AlbumShow({shiftPressed, ctrlPressed, whatIsDragging, se
 
     const [isLiked,setIsLiked] = useState(false);
     
-    let currentSong = sessionUser?.queue?.[0]?.[0]
+    // let currentSong = sessionUser?.queue?.[0]?.[0]
 
-    useEffect(() => {
-        currentSong = sessionUser?.queue?.[0]?.[0]
-    }, [sessionUser])
+    // useEffect(() => {
+    //     currentSong = sessionUser?.queue?.[0]?.[0]
+    // }, [sessionUser])
 
     const album = useSelector(getAlbum(albumId));
     const artist = useSelector(getArtist(album.artistId))
@@ -108,7 +108,7 @@ export default function AlbumShow({shiftPressed, ctrlPressed, whatIsDragging, se
                             document.querySelector(".playPause").click()
                         }
                     }
-                    }}>{ currentSong?.albumId === albumId ?
+                    }}>{ currentSong?.song?.albumId === albumId ?
                     (<i class="fa-solid fa-pause"></i>) :
                     (<i class="fa-solid fa-play"></i>)}</button>
                     <span className="bigHeart" onClick={handleLikeClick}>{isLiked ?
@@ -137,7 +137,8 @@ export default function AlbumShow({shiftPressed, ctrlPressed, whatIsDragging, se
                                     songsForQueue={songsForQueue.filter(entry => entry[0].number >= song.number)}
                                     songsForReverseQueue={songsForReverseQueue.filter(entry => entry[0].number < song.number)}
                                     whatIsDragging={whatIsDragging}
-                                    setWhatIsDragging={setWhatIsDragging}/>
+                                    setWhatIsDragging={setWhatIsDragging}
+                                    currentSong={currentSong}/>
                             )
                         })}
 

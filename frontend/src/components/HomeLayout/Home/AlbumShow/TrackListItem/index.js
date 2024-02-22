@@ -26,14 +26,14 @@ export const invisibleEllipsisSymbol = () => {
     return <i class="fa-solid fa-ellipsis" style={{opacity: 0}}></i>;
 }
 
-export default function TrackListItem({song,artist,songsForQueue,songsForReverseQueue,whatIsDragging,setWhatIsDragging}) {
+export default function TrackListItem({song,artist,songsForQueue,songsForReverseQueue,whatIsDragging,setWhatIsDragging,currentSong}) {
     const [numberPlay, setNumberPlay] = useState(song.number);
     const [heart, setHeart] = useState("");
     const [ellipsis,setEllipsis] = useState(invisibleEllipsisSymbol());
     const sessionUser = useSelector(state => state.session.user);
     const [greenText,setGreenText] = useState({color: "#FFFFFF"});
     const [isLiked,setIsLiked] = useState(false);
-    const [currentSong, setCurrentSong] = useState(sessionUser?.queue?.[0]?.[0]);
+    // const [currentSong, setCurrentSong] = useState(sessionUser?.queue?.[0]?.[0]);
     const [isCurrentSong, setIsCurrentSong] = useState(false);
     const [hiddenUlHidden, setHiddenUlHidden] = useState(true);
     const [isPlaying,setIsPlaying] = useState(!document.querySelector("audio")?.paused)
@@ -43,29 +43,12 @@ export default function TrackListItem({song,artist,songsForQueue,songsForReverse
     // let currentSong = sessionUser?.queue?.[0]?.[0]
 
     useEffect(() => {
-        const audio = document.querySelector("audio");
-        if (audio) {
-            const handleAudioChange = (e) => {
-                setIsPlaying(!audio.paused)
-                setCurrentSong(sessionUser?.queue?.[0]?.[0])
-                if (song.id === sessionUser?.queue?.[0]?.[0]?.id) {
-                    !audio.paused ? setNumOrDisc(spinningDiscSymbol()) : setNumOrDisc(song.number)
-                } else {
-                    setNumOrDisc(song.number)
-                }
-            }
-            audio.addEventListener("play", handleAudioChange)
-            audio.addEventListener("playing", handleAudioChange)
-            audio.addEventListener("pause", handleAudioChange)
-            audio.addEventListener("timeUpdate", handleAudioChange)
-            return () => {
-                audio.removeEventListener('play', handleAudioChange);
-                audio.removeEventListener('playing', handleAudioChange);
-                audio.removeEventListener('pause', handleAudioChange);
-                audio.removeEventListener('timeUpdate', handleAudioChange);
-            };
+        if (song.id === currentSong?.song?.id) {
+            currentSong.isPlaying ? setNumOrDisc(spinningDiscSymbol()) : setNumOrDisc(song.number)
+        } else {
+            setNumOrDisc(song.number)
         }
-    }, [])
+    }, [currentSong?.song,currentSong?.isPlaying])
 
     // useEffect(() => {
     //     const audio = document.querySelector("audio");
@@ -78,8 +61,8 @@ export default function TrackListItem({song,artist,songsForQueue,songsForReverse
     // }, [sessionUser?.queue?.[0]])
 
     useEffect(() => {
-        setCurrentSong(sessionUser?.queue?.[0]?.[0])
-        if (song.id === currentSong?.id) {
+        // setCurrentSong(sessionUser?.queue?.[0]?.[0])
+        if (song.id === currentSong?.song?.id) {
             setIsCurrentSong(true)
         } else {
             setIsCurrentSong(false)
@@ -89,7 +72,7 @@ export default function TrackListItem({song,artist,songsForQueue,songsForReverse
 
     const handleTrackClick = () => {
         if (sessionUser) {
-            if (song.id !== currentSong?.id) {
+            if (song.id !== currentSong?.song?.id) {
                 sessionUser.queue = [...songsForQueue];
                 sessionUser.reverseQueue = [...songsForReverseQueue];
                 const audio = document.querySelector("audio");
@@ -136,7 +119,7 @@ export default function TrackListItem({song,artist,songsForQueue,songsForReverse
 
     return (
         <>
-        { song.id !== currentSong?.id && (
+        { song.id !== currentSong?.song?.id && (
             <tr
                 onMouseOver={() => {
                     setIsOver(true);
@@ -164,7 +147,7 @@ export default function TrackListItem({song,artist,songsForQueue,songsForReverse
                 <td>{ellipsis}</td>
             </tr>
         )}
-        {song.id === currentSong?.id && (
+        {song.id === currentSong?.song?.id && (
             <tr
                 onMouseOver={() => {
                     const audio = document.querySelector("audio");

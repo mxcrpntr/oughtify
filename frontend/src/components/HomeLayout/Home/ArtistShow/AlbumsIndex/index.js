@@ -2,7 +2,7 @@ import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import AlbumsIndexItem from "./AlbumsIndexItem"
 // import './AlbumsIndex.css'
 
-export default function AlbumsIndex({albums}) {
+export default function AlbumsIndex({albums,currentSong}) {
     // const topPadding = {
     //     paddingTop: `66px`,
     // }
@@ -18,7 +18,7 @@ export default function AlbumsIndex({albums}) {
             {albums && (
                 <div className="albumGrid">
                     {albums.map(album => {
-                        return <AlbumsIndexItem album={album} />
+                        return <AlbumsIndexItem album={album} currentSong={currentSong}/>
                     })}
                 </div>
             )}

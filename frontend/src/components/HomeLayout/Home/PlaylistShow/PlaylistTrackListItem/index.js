@@ -32,7 +32,7 @@ const invisibleEllipsisSymbol = () => {
 
 
 
-export default function PlaylistTrackListItem({song,songsForQueue,songsForReverseQueue,playlist,userPlaylists,setSongsUpdated,songsUpdated,selectedTracks,lastClickedTrack,setLastClickedTrack,whatIsDragging,setWhatIsDragging,shiftPressed,ctrlPressed,setUpdateSongNumbers}) {
+export default function PlaylistTrackListItem({song,songsForQueue,songsForReverseQueue,playlist,userPlaylists,setSongsUpdated,songsUpdated,selectedTracks,lastClickedTrack,setLastClickedTrack,whatIsDragging,setWhatIsDragging,shiftPressed,ctrlPressed,setUpdateSongNumbers,currentSong}) {
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -42,7 +42,7 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
     const [ellipsis,setEllipsis] = useState(invisibleEllipsisSymbol());
     const sessionUser = useSelector(state => state.session.user);
     // const [greenText,setGreenText] = useState({color: "#FFFFFF"});
-    const [currentSong, setCurrentSong] = useState(sessionUser?.queue?.[0]?.[0]);
+    // const [currentSong, setCurrentSong] = useState(sessionUser?.queue?.[0]?.[0]);
     const [isCurrentSong, setIsCurrentSong] = useState(false);
     const [hiddenUlHidden, setHiddenUlHidden] = useState(true);
     const [hiddenPlaylistUlHidden, setHiddenPlaylistUlHidden] = useState(true);
@@ -88,29 +88,12 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
     // let currentSong = sessionUser?.queue?.[0]?.[0]
 
     useEffect(() => {
-        const audio = document.querySelector("audio");
-        if (audio) {
-            const handleAudioChange = (e) => {
-                setIsPlaying(!audio.paused)
-                setCurrentSong(sessionUser?.queue?.[0]?.[0])
-                if (song.id === sessionUser?.queue?.[0]?.[0]?.id) {
-                    !audio.paused ? setNumOrDisc(spinningDiscSymbol()) : setNumOrDisc(song.songNumber)
-                } else {
-                    setNumOrDisc(song.songNumber)
-                }
-            }
-            audio.addEventListener("play", handleAudioChange)
-            audio.addEventListener("playing", handleAudioChange)
-            audio.addEventListener("pause", handleAudioChange)
-            audio.addEventListener("timeUpdate", handleAudioChange)
-            return () => {
-                audio.removeEventListener('play', handleAudioChange);
-                audio.removeEventListener('playing', handleAudioChange);
-                audio.removeEventListener('pause', handleAudioChange);
-                audio.removeEventListener('timeUpdate', handleAudioChange);
-            };
+        if (song.id === currentSong?.song?.id) {
+            currentSong.isPlaying ? setNumOrDisc(spinningDiscSymbol()) : setNumOrDisc(song.songNumber)
+        } else {
+            setNumOrDisc(song.songNumber)
         }
-    }, [])
+    }, [currentSong?.song,currentSong?.isPlaying])
 
     useEffect(() => {
         if (lastClickedTrack?.clickedTrack !== song.id) {
@@ -121,13 +104,14 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
     },[lastClickedTrack])
 
     useEffect(() => {
-        setCurrentSong(sessionUser?.queue?.[0]?.[0])
-        if (song.id === currentSong?.id) {
+        console.log("hey it's me")
+        // setCurrentSong(sessionUser?.queue?.[0]?.[0])
+        if (song.id === currentSong?.song?.id) {
             setIsCurrentSong(true)
         } else {
             setIsCurrentSong(false)
         }
-    }, [sessionUser?.queue?.[0]?.[0],document.querySelector("audio")?.paused])
+    }, [sessionUser?.queue?.[0]?.[0]])
 
     const colorTextStyle = {
         color: isCurrentSong ? "#1ED760" : "#FFFFFF"
@@ -138,7 +122,7 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
     const handleTrackClick = (e) => {
         e.stopPropagation()
         if (sessionUser) {
-            if (song.id !== currentSong?.id) {
+            if (song.id !== currentSong?.song?.id) {
                 sessionUser.queue = [...songsForQueue];
                 sessionUser.reverseQueue = [...songsForReverseQueue];
                 const audio = document.querySelector("audio");
@@ -294,7 +278,7 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
 
     return (
         <>
-        {song.id &&  song.id !== currentSong?.id && (
+        {song.id &&  song.id !== currentSong?.song?.id && (
             <tr style={trGridTemplate(rowWidth)}
                 draggable={!shiftPressed && !ctrlPressed ? "true" : "false"}
                 ref={tableRowRef}
@@ -338,7 +322,7 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
                     }}>{ellipsis}{ hiddenUlHidden ? "" : hiddenUl()}</td>
             </tr>
         )}
-        {song.id && song.id === currentSong?.id && (
+        {song.id && song.id === currentSong?.song?.id && (
             <tr style={trGridTemplate(rowWidth)}
                 ref={tableRowRef}
                 className={selectedTracks?.[song.id] ? ("selectedTrack") : ("")}

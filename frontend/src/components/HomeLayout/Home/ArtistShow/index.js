@@ -21,7 +21,7 @@ export const formatTime = (seconds) => {
 } 
 
 
-export default function ArtistShow({shiftPressed,ctrlPressed,whatIsDragging,setWhatIsDragging}) {
+export default function ArtistShow({shiftPressed,ctrlPressed,whatIsDragging,setWhatIsDragging,currentSong}) {
 
     const dispatch = useDispatch();
     const { artistId } = useParams();
@@ -70,14 +70,17 @@ export default function ArtistShow({shiftPressed,ctrlPressed,whatIsDragging,setW
                             return <PopularSongItem i={i} songs={
                                 Object.values(songs)
                                     .sort((a,b) => b.plays - a.plays)
-                            } albums={albums}/>
+                            }
+                            albums={albums}
+                            currentSong={currentSong}/>
                         })}
 
                     </table>
                 </div>
                 <div className='discog'>
                     <h2>Discography</h2>
-                    <AlbumsIndex albums={albums}/>
+                    <AlbumsIndex albums={albums}
+                     currentSong={currentSong}/>
                 </div>
             </div>
 

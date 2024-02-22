@@ -20,7 +20,6 @@ class Api::PlaylistsController < ApplicationController
     end
 
     def update
-        # debugger
         params.require(:playlist).permit(:title,:user_id,:public,:color,:image_file)
         @playlist = Playlist.find(params[:id])
         if params[:playlist].key?(:user_id) && @playlist.user_id == params[:playlist][:user_id].to_i
@@ -28,7 +27,6 @@ class Api::PlaylistsController < ApplicationController
             if params[:playlist].key?(:image_file)
                 new_playlist_image = params[:playlist][:image_file]
                 ext = new_playlist_image.original_filename.split(".").last
-                # debugger
                 @playlist.image.attach(io: new_playlist_image, filename: "#{@playlist.title}_image.#{ext}")
                 update_playlist_params.delete(:image_file)
             end

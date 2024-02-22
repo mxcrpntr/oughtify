@@ -1,7 +1,7 @@
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 
 
-export default function PlaylistsIndexItem({playlist}) {
+export default function PlaylistsIndexItem({playlist, currentSong}) {
     const history = useHistory();
 
     return (

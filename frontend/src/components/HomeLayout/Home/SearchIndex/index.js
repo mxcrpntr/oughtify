@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearSearchResults, fetchSearchResults } from "../../../../store/search";
 import './SearchIndex.css'
-export default function SearchIndex({shiftPressed, ctrlPressed, whatIsDragging, setWhatIsDragging}) {
+export default function SearchIndex({shiftPressed, ctrlPressed, whatIsDragging, setWhatIsDragging,currentSong}) {
     const location = useLocation();
     const dispatch = useDispatch();
     const history = useHistory();

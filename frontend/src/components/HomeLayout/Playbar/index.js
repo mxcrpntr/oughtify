@@ -7,7 +7,7 @@ import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { fetchArtists, getArtists } from "../../../store/artists";
 import { updateUser } from "../../../store/users";
 
-export default function Playbar() {
+export default function Playbar({currentSong,setCurrentSong}) {
     const sessionUser = useSelector(state => state.session.user);
 
     const dispatch = useDispatch();
@@ -16,7 +16,7 @@ export default function Playbar() {
 
     const [paused, setPaused] = useState(true);
     const [durationOrRemainder, setDurationOrRemainder] = useState(true);
-    const [currentSong, setCurrentSong] = useState(sessionUser?.queue?.[0]?.[0]);
+    // const [currentSong, setCurrentSong] = useState(sessionUser?.queue?.[0]?.[0]);
     const [currentSongTime, setCurrentSongTime] = useState(sessionUser?.queue?.[0]?.[1] ? sessionUser?.queue[0][1] : 0);
 
     const [knobStyle,setKnobStyle] = useState({
@@ -70,7 +70,7 @@ export default function Playbar() {
     let percent = 0;
     let volPercent = 100;
 
-    const [audioSrc,setAudioSrc] = useState(currentSong?.fileUrl ? currentSong.fileUrl : "");
+    const [audioSrc,setAudioSrc] = useState(currentSong?.song?.fileUrl ? currentSong.song.fileUrl : "");
 
     useEffect(() => {
         if (audioRef.current && currentSongTime) {
@@ -100,17 +100,29 @@ export default function Playbar() {
 
     useEffect(() => {
         if (sessionUser?.queue?.[0]) {
-            setCurrentSong(sessionUser?.queue?.[0]?.[0]);
+            setCurrentSong({song: sessionUser?.queue?.[0]?.[0],isPlaying: audioRef?.current ? audioRef.current.paused : false});
             setAudioSrc(sessionUser?.queue?.[0]?.[0]?.fileUrl);
             setKnobStyle({...rangeStyle, left: 0});
             setRangeStyle({...rangeStyle, width: 0});
             setPaused(!paused);
+        } else if (sessionUser?.queue && sessionUser.queue.length === 0) {
+            setCurrentSong({song: null, isPlaying: false})
+            setAudioSrc("")
+            setKnobStyle({...rangeStyle, left: 0});
+            setRangeStyle({...rangeStyle, width: 0});
+            setPaused(true);
         }
-    }, [sessionUser?.queue?.[0]])
+    }, [sessionUser?.queue?.[0]?.[0]])
+
+
+    useEffect(() => {
+        if (currentSong?.song && audioRef?.current) setCurrentSong({song: currentSong.song,isPlaying: !audioRef.current.paused})
+    },[audioRef?.current?.paused])
 
     const toggleDurationView = () => {
         setDurationOrRemainder(!durationOrRemainder);
     }
+
 
     useEffect(() => {
         const updateTime = () => {
@@ -236,6 +248,28 @@ export default function Playbar() {
             setRangeStyle({...rangeStyle,backgroundColor: `#5FBA56`, width: `${percent}%`, transition: "none"})
         }
     }
+    useEffect(() => {
+        // const audio = document.querySelector("audio");
+        if (audioRef?.current) {
+            const handleAudioChange = (e) => {
+                setCurrentSong({song: sessionUser?.queue?.[0]?.[0], isPlaying: !audioRef.current.paused})
+            }
+            audioRef.current.addEventListener("play", handleAudioChange)
+            audioRef.current.addEventListener("playing", handleAudioChange)
+            audioRef.current.addEventListener("pause", handleAudioChange)
+            audioRef.current.addEventListener("timeUpdate", handleAudioChange)
+            return () => {
+                audioRef.current.removeEventListener('play', handleAudioChange);
+                audioRef.current.removeEventListener('playing', handleAudioChange);
+                audioRef.current.removeEventListener('pause', handleAudioChange);
+                audioRef.current.removeEventListener('timeUpdate', handleAudioChange);
+            };
+        }
+    }, [])
+
+    useEffect(() => {
+        console.log(sessionUser?.queue?.[0])
+    }, [sessionUser?.queue?.[0]])
 
     const handleVolumeDrag = (e) => {
         e.preventDefault()
@@ -372,14 +406,14 @@ export default function Playbar() {
                     {currentSong && (
                         <>
                             <div className="trackImage">
-                                <img src={currentSong?.imageUrl}></img>
+                                {currentSong?.song?.imageUrl && (<img src={currentSong?.song?.imageUrl}></img>)}
                             </div>
                             <div className="trackInfo">
-                                <h3 onClick={() => {history.push(`/albums/${currentSong?.albumId}`)}}>{currentSong?.title ? currentSong.title : ""}</h3>
-                                <h4 onClick={() => {history.push(`/artists/${currentSong?.artistId}`)}}>{currentSong?.artistName ? currentSong.artistName : ""}</h4>
+                                <h3 onClick={() => {history.push(`/albums/${currentSong?.song?.albumId}`)}}>{currentSong?.song?.title ? currentSong.song.title : ""}</h3>
+                                <h4 onClick={() => {history.push(`/artists/${currentSong?.song?.artistId}`)}}>{currentSong?.song?.artistName ? currentSong.song.artistName : ""}</h4>
                             </div>
                             <div>
-                            <i class="fa-regular fa-heart"></i>
+                            {currentSong?.song && (<i class="fa-regular fa-heart"></i>)}
                             </div>
                             <div>
 
@@ -398,8 +432,13 @@ export default function Playbar() {
                                 const reverseQueue = sessionUser?.reverseQueue
                                 if (audioRef.current.currentTime <= 2.7 && reverseQueue && Array.isArray(reverseQueue) && reverseQueue.length > 0) {
                                     const previousSong = sessionUser.reverseQueue.shift();
-                                    sessionUser.queue.unshift(previousSong);
-                                    sessionUser.queue[1][1] = 0;
+                                    if (sessionUser?.queue && Array.isArray(sessionUser.queue) && sessionUser.queue.length > 0) {
+                                        sessionUser.queue.unshift(previousSong);                                    sessionUser.queue[1][1] = 0;
+                                        sessionUser.queue[1][1] = 0;
+                                    } else {
+                                        sessionUser.queue = [previousSong]
+                                    }
+                                    setCurrentSong({song: sessionUser?.queue?.[0]?.[0],isPlaying: audioRef?.current ? audioRef.current.paused : false});
                                 } else {
                                     audioRef.current.currentTime = 0;
                                 } 
@@ -411,21 +450,24 @@ export default function Playbar() {
                         </div>
                         <i class="fa-solid fa-forward-step"
                             onClick={() => {
-                                if (sessionUser?.queue && sessionUser.queue.length === 1) {
-                                    audioRef.current.currentTime = audioRef.current.duration;
-                                } else {
+                                // if (sessionUser?.queue && sessionUser.queue.length === 1) {
+                                //     audioRef.current.currentTime = audioRef.current.duration;
+                                // } else {
                                     if (sessionUser?.queue && Array.isArray(sessionUser.queue)) {
                                         const finishedSong = sessionUser.queue.shift()
-                                        finishedSong[1] = 0
-                                        if (sessionUser?.reverseQueue && Array.isArray(sessionUser.reverseQueue)) sessionUser.reverseQueue.unshift(finishedSong);
+                                        if (finishedSong) {
+                                            finishedSong[1] = 0
+                                            if (sessionUser?.reverseQueue && Array.isArray(sessionUser.reverseQueue)) sessionUser.reverseQueue.unshift(finishedSong);
+                                        }
+                                        setCurrentSong({song: sessionUser?.queue?.[0]?.[0],isPlaying: audioRef?.current ? audioRef.current.paused : false});
                                     }
-                                }
+                                // } 
                             }}>
                         </i> 
                         <div className="repeat" onClick={() => {setRepeat(!repeat)}}>
                             <i class="fa-solid fa-repeat" style={repeat ? ({color: "#1ED760"}) : ({})}></i>
                         </div>
-                        <audio src={audioSrc} ref={audioRef} preload="auto" />
+                        <audio src={audioSrc} ref={audioRef} key={currentSong?.song?.id} preload="auto" />
                     </div>
                     <div className="middleBottom">
                         <div>{formatTime(currentSongTime)}</div>

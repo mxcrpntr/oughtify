@@ -3,7 +3,7 @@ import { formatTime } from ".";
 import { useSelector } from "react-redux";
 
 
-export default function PopularSongItem({i,songs,albums}) {
+export default function PopularSongItem({i,songs,albums,currentSong}) {
     const album = useSelector(({albums}) => songs[0]?.albumId ? albums[songs[i].albumId]: {});
     return (
         <tr>

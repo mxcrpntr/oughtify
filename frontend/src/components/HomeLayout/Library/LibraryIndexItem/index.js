@@ -5,7 +5,7 @@ const zeroImageMusicSymb = () => {
     return <i class="fa-solid fa-music" style={{color: "#7F7F7F"}}></i>
 }
 
-export default function LibraryIndexItem({playlist, album}) {
+export default function LibraryIndexItem({playlist, album, currentSong}) {
     const history = useHistory();
 
     const [fourImages,setFourImages] = useState(!playlist?.imageUrl && playlist?.albumImages && playlist.albumImages.length >= 4);
@@ -17,6 +17,8 @@ export default function LibraryIndexItem({playlist, album}) {
             setFourImages(false)
         }
     }, [])
+
+    const isCurrentlyPlaying = (playlist && currentSong?.song?.playlistId === playlist.id || album && currentSong?.song?.albumId === album.id)
 
     return (
         <>
@@ -40,9 +42,13 @@ export default function LibraryIndexItem({playlist, album}) {
                         {backgroundColor: `#282828`}}>{playlist?.imageUrl || playlist?.albumImages && playlist.albumImages.length > 0 ? (<></>) : zeroImageMusicSymb()}</div>)}
                     </div>
                     <div className="albumInfo">
-                        <h3>{playlist ? playlist.title : album.title}</h3>
+                        <h3 style={isCurrentlyPlaying ? {color: "#1ED760"} : {}}>{playlist ? playlist.title : album.title}</h3>
                         <h4>{playlist ? "Playlist" : "Album"} · { playlist ? playlist.userName : album.artistName}</h4>
                     </div>
+                    {isCurrentlyPlaying && currentSong?.isPlaying &&
+                    (
+                        <i class="fa-solid fa-volume-high" style={{color: "#1ED760"}}></i>
+                    )}
                 </li>
             )}
         </>

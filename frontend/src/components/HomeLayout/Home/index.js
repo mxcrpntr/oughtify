@@ -12,7 +12,7 @@ import PlaylistShow from "./PlaylistShow";
 import SearchIndex from "./SearchIndex";
 import WelcomeMessage from "./WelcomeMessage";
 
-export default function Home({searching, shiftPressed, ctrlPressed, whatIsDragging, setWhatIsDragging}) {
+export default function Home({searching, shiftPressed, ctrlPressed, whatIsDragging, setWhatIsDragging, currentSong}) {
     const history = useHistory();
 
 
@@ -21,19 +21,19 @@ export default function Home({searching, shiftPressed, ctrlPressed, whatIsDraggi
             <Switch>
                 <Route path="/home">
                     <ArtistsIndex  />
-                    <PlaylistsIndex />
+                    <PlaylistsIndex currentSong={currentSong}/>
                 </Route>
                 <Route path="/artists/:artistId">
-                    <ArtistShow shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} whatIsDragging={whatIsDragging} setWhatIsDragging={setWhatIsDragging}/>
+                    <ArtistShow shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} whatIsDragging={whatIsDragging} setWhatIsDragging={setWhatIsDragging} currentSong={currentSong}/>
                 </Route>
                 <Route path="/albums/:albumId">
-                    <AlbumShow shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} whatIsDragging={whatIsDragging} setWhatIsDragging={setWhatIsDragging}/>
+                    <AlbumShow shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} whatIsDragging={whatIsDragging} setWhatIsDragging={setWhatIsDragging} currentSong={currentSong}/>
                 </Route>
                 <Route path="/playlists/:playlistId">
-                    <PlaylistShow shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} whatIsDragging={whatIsDragging} setWhatIsDragging={setWhatIsDragging}/>
+                    <PlaylistShow shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} whatIsDragging={whatIsDragging} setWhatIsDragging={setWhatIsDragging} currentSong={currentSong}/>
                 </Route>
                 <Route path="/search">
-                    <SearchIndex shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} whatIsDragging={whatIsDragging} setWhatIsDragging={setWhatIsDragging}/>
+                    <SearchIndex shiftPressed={shiftPressed} ctrlPressed={ctrlPressed} whatIsDragging={whatIsDragging} setWhatIsDragging={setWhatIsDragging} currentSong={currentSong}/>
                 </Route>
                 <Route path="">
                     <WelcomeMessage />
