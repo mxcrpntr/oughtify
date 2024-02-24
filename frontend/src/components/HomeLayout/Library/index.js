@@ -8,6 +8,7 @@ import { useEffect } from "react";
 export default function Library({whatIsDragging, setWhatIsDragging, currentSong}) {
     const history = useHistory();
     const dispatch = useDispatch();
+    const sessionUser = useSelector(state => state.session.user);
 
     const playlists = useSelector(getPlaylists);
 
@@ -21,7 +22,7 @@ export default function Library({whatIsDragging, setWhatIsDragging, currentSong}
                 { playlists && (
                     <>
                     { [...Object.values(playlists)].sort((a,b) => new Date(b.updatedAt) - new Date(a.updatedAt)).map(playlist => {
-                       return <LibraryIndexItem playlist={playlist} album={null} key={playlist.id + 66600}  currentSong={currentSong}/>
+                       return <LibraryIndexItem playlist={playlist} album={null} key={playlist.id + 66600}  currentSong={currentSong} whatIsDragging={whatIsDragging} setWhatIsDragging={setWhatIsDragging} sessionUser={sessionUser}/>
                     }) }
                     </>
                 )}

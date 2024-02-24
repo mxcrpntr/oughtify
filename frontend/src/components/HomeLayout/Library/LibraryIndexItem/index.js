@@ -1,14 +1,17 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 
 const zeroImageMusicSymb = () => {
     return <i class="fa-solid fa-music" style={{color: "#7F7F7F"}}></i>
 }
 
-export default function LibraryIndexItem({playlist, album, currentSong}) {
+export default function LibraryIndexItem({playlist, album, currentSong, whatIsDragging, setWhatIsDragging, sessionUser}) {
     const history = useHistory();
 
     const [fourImages,setFourImages] = useState(!playlist?.imageUrl && playlist?.albumImages && playlist.albumImages.length >= 4);
+    const [cannotAddTo,setCannotAddTo] = useState(false);
+    const [greenBorder,setGreenBorder] = useState(false);
+    const libraryItemRef = useRef();
 
     useEffect(() => {
         if (!playlist?.imageUrl && playlist?.albumImages && playlist.albumImages.length >= 4) {
@@ -18,17 +21,46 @@ export default function LibraryIndexItem({playlist, album, currentSong}) {
         }
     }, [])
 
+    useEffect(() => {
+        if (whatIsDragging?.draggedThings && (album || (playlist && sessionUser?.id !== playlist.userId))) {
+            setCannotAddTo(true)
+        } else if (whatIsDragging?.draggedThings) {
+            const xPos = whatIsDragging.xPos
+            const yPos = whatIsDragging.yPos  
+            const rect = libraryItemRef.current.getBoundingClientRect();
+            if (xPos >= rect.left && xPos <= rect.right && yPos >= rect.top && yPos <= rect.bottom) {
+                setGreenBorder(true)
+            } else if (greenBorder) {
+                setGreenBorder(false)
+            }
+        }
+        if (!whatIsDragging?.draggedThings) {
+            setGreenBorder(false)
+            setCannotAddTo(false)
+        }
+    },[whatIsDragging])
+
     const isCurrentlyPlaying = (playlist && currentSong?.song?.playlistId === playlist.id || album && currentSong?.song?.albumId === album.id)
 
     return (
         <>
             { (playlist || album) && (
-                <li onClick={() => {
+                <li
+                    ref={libraryItemRef}
+                    className={cannotAddTo ? "cannotAddTo" : `${greenBorder ? "greenBorder" : ""}` }
+                    onClick={() => {
                     if (playlist) {
                         history.push(`/playlists/${playlist.id}`)
                     } else {
                         history.push(`/albums/${album.id}`)
-                    }}}>
+                    }}}
+                    onMouseOver={() => {
+                        if (whatIsDragging?.draggedThings && !cannotAddTo) setGreenBorder(true)
+                    }}
+                    onMouseLeave={() => {
+                        if (greenBorder) setGreenBorder(false)
+                    }}
+                    >
                     <div className={fourImages && playlist?.albumImages ? "albumImage fourImages" : "albumImage"}>
                         {fourImages && playlist?.albumImages ?
                         (<>
