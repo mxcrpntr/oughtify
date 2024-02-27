@@ -224,7 +224,9 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
         if (!selectedTracks?.[song.id]) tableRowRef.current.click()
         setIsDragging(true);
         tableRowRef.current.style.cursor = 'copy'
-        setWhatIsDragging({draggedThings: 'playlistSongs', xPos: e.clientX, yPos: e.clientY});
+        const selectedTrackIds = Object.values(selectedTracks).some(el => el) ? Object.keys(selectedTracks).filter(trackId => selectedTracks[trackId] === true).map(trackId => parseInt(trackId)) : [song.id]
+        console.log(selectedTrackIds)
+        setWhatIsDragging({draggedThings: 'playlistSongs', playlistSongIds: selectedTrackIds, xPos: e.clientX, yPos: e.clientY});
         const dragImage = new Image();
         dragImage.src = invisibleImageUrl;    
         e.dataTransfer.setDragImage(dragImage, 0, 0);
@@ -233,7 +235,15 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
     const handleTrackDrag = (e) => {
         e.preventDefault();
         if (!(tableRowRef.current.style.cursor === 'copy')) tableRowRef.current.style.cursor = 'copy'
-        if (e.clientX !== 0 && e.clientY !== 0) setWhatIsDragging({draggedThings: 'playlistSongs', xPos: e.clientX, yPos: e.clientY});
+        if (e.clientX !== 0 && e.clientY !== 0) {
+            if (whatIsDragging?.draggedThings === 'playlistSongs') {
+                setWhatIsDragging({...whatIsDragging, xPos: e.clientX, yPos: e.clientY})
+            } else {
+                const selectedTrackIds = Object.values(selectedTracks).some(el => el) ? Object.keys(selectedTracks).filter(trackId => selectedTracks[trackId] === true).map(trackId => parseInt(trackId)) : [song.id]
+                console.log(selectedTracks)
+                setWhatIsDragging({draggedThings: 'playlistSongs', playlistSongIds: selectedTrackIds, xPos: e.clientX, yPos: e.clientY});
+            }
+        }
     }
 
     const handleTrackDragEnd = (e) => {
@@ -276,6 +286,13 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
         }
     },[whatIsDragging])
 
+
+    useEffect(() => {
+        if (sessionUser && song && currentSong?.song?.id === song.id) {
+            sessionUser.reverseQueue = [...songsForReverseQueue]
+            sessionUser.queue = [sessionUser.queue[0]].concat([...songsForQueue].slice(1))
+        }
+    }, [songsForQueue,songsForReverseQueue])
 
     return (
         <>

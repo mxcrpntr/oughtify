@@ -1,27 +1,37 @@
 class Api::PlaylistSongsController < ApplicationController
 
     def create
-        # puts "yoooooooooo"
-        @playlist_song = PlaylistSong.new(playlist_song_params)
         playlist_id = params[:playlist_song][:playlist_id]
-        last_song_number = 0
-        if PlaylistSong.where(playlist_id: playlist_id).exists?
-            last_song_number = PlaylistSong.where(playlist_id: playlist_id).order(song_number: :asc).pluck(:song_number).last
-        end
-        song_number = params[:playlist_song].has_key?(:song_number) ? params[:playlist_song][:song_number] : last_song_number + 1
-        if PlaylistSong.where(playlist_id: playlist_id, song_number: song_number).exists?
-            playlist_songs_after = PlaylistSong.where(playlist_id: playlist_id).where("song_number >= ?", song_number).order(song_number: :desc)
-            playlist_songs_after.each do |song_after|
-                new_number = song_after.song_number + 1
-                song_after.update(song_number: new_number)
-                # p new_number
+        if params[:playlist_song].has_key?(:playlist_song_ids)
+            songs_to_add = PlaylistSong.where(id: params[:playlist_song][:playlist_song_ids]).pluck(:song_id)
+            songs_to_add.each do |song_id|
+                @new_playlist_song = PlaylistSong.new(playlist_id: playlist_id, song_id: song_id)
+                if !@new_playlist_song.save
+                    render json: {errors: @new_playlist_song.errors.full_messages }, status: :unprocessable_entity
+                end
             end
-        end
-        # p "hey"
-        if @playlist_song.save
             render :show
         else
-            render json: { errors: @playlist_song.errors.full_messages }, status: :unprocessable_entity
+            @playlist_song = PlaylistSong.new(playlist_song_params)
+            last_song_number = 0
+            if PlaylistSong.where(playlist_id: playlist_id).exists?
+                last_song_number = PlaylistSong.where(playlist_id: playlist_id).order(song_number: :asc).pluck(:song_number).last
+            end
+            song_number = params[:playlist_song].has_key?(:song_number) ? params[:playlist_song][:song_number] : last_song_number + 1
+            if PlaylistSong.where(playlist_id: playlist_id, song_number: song_number).exists?
+                playlist_songs_after = PlaylistSong.where(playlist_id: playlist_id).where("song_number >= ?", song_number).order(song_number: :desc)
+                playlist_songs_after.each do |song_after|
+                    new_number = song_after.song_number + 1
+                    song_after.update(song_number: new_number)
+                    # p new_number
+                end
+            end
+            # p "hey"
+            if @playlist_song.save
+                render :show
+            else
+                render json: { errors: @playlist_song.errors.full_messages }, status: :unprocessable_entity
+            end
         end
     end
 
@@ -81,6 +91,6 @@ class Api::PlaylistSongsController < ApplicationController
 
     private
     def playlist_song_params
-        params.require(:playlist_song).permit(:playlist_id,:song_id,:song_number)
+        params.require(:playlist_song).permit(:playlist_id,:song_id,:song_number,:playlist_song_ids)
     end
 end

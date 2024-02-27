@@ -1,5 +1,7 @@
 import { useState,useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
+import { createPlaylistSong } from "../../../../store/playlistSongs";
+import { useDispatch } from "react-redux";
 
 const zeroImageMusicSymb = () => {
     return <i class="fa-solid fa-music" style={{color: "#7F7F7F"}}></i>
@@ -11,7 +13,9 @@ export default function LibraryIndexItem({playlist, album, currentSong, whatIsDr
     const [fourImages,setFourImages] = useState(!playlist?.imageUrl && playlist?.albumImages && playlist.albumImages.length >= 4);
     const [cannotAddTo,setCannotAddTo] = useState(false);
     const [greenBorder,setGreenBorder] = useState(false);
+    const [memoryOfDraggedThings,setMemoryOfDraggedThings] = useState(null)
     const libraryItemRef = useRef();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (!playlist?.imageUrl && playlist?.albumImages && playlist.albumImages.length >= 4) {
@@ -30,11 +34,20 @@ export default function LibraryIndexItem({playlist, album, currentSong, whatIsDr
             const rect = libraryItemRef.current.getBoundingClientRect();
             if (xPos >= rect.left && xPos <= rect.right && yPos >= rect.top && yPos <= rect.bottom) {
                 setGreenBorder(true)
+                if (whatIsDragging.draggedThings === 'playlistSongs') {
+                    setMemoryOfDraggedThings(whatIsDragging.playlistSongIds)
+                }
             } else if (greenBorder) {
                 setGreenBorder(false)
+                setMemoryOfDraggedThings(null)
             }
         }
         if (!whatIsDragging?.draggedThings) {
+            if (greenBorder) {
+                if (playlist && memoryOfDraggedThings && memoryOfDraggedThings.length > 0) {
+                    dispatch(createPlaylistSong({playlist_song: {playlist_id: playlist.id, playlist_song_ids: memoryOfDraggedThings}}))
+                }
+            }
             setGreenBorder(false)
             setCannotAddTo(false)
         }
