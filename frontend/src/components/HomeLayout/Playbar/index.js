@@ -259,10 +259,12 @@ export default function Playbar({currentSong,setCurrentSong}) {
             audioRef.current.addEventListener("pause", handleAudioChange)
             audioRef.current.addEventListener("timeUpdate", handleAudioChange)
             return () => {
-                audioRef.current.removeEventListener('play', handleAudioChange);
-                audioRef.current.removeEventListener('playing', handleAudioChange);
-                audioRef.current.removeEventListener('pause', handleAudioChange);
-                audioRef.current.removeEventListener('timeUpdate', handleAudioChange);
+                if (audioRef?.current) {
+                    audioRef.current.removeEventListener('play', handleAudioChange);
+                    audioRef.current.removeEventListener('playing', handleAudioChange);
+                    audioRef.current.removeEventListener('pause', handleAudioChange);
+                    audioRef.current.removeEventListener('timeUpdate', handleAudioChange);
+                }
             };
         }
     }, [])

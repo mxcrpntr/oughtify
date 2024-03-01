@@ -138,7 +138,9 @@ export default function AlbumShow({shiftPressed, ctrlPressed, whatIsDragging, se
                                     songsForReverseQueue={songsForReverseQueue.filter(entry => entry[0].number < song.number)}
                                     whatIsDragging={whatIsDragging}
                                     setWhatIsDragging={setWhatIsDragging}
-                                    currentSong={currentSong}/>
+                                    currentSong={currentSong}
+                                    shiftPressed={shiftPressed}
+                                    ctrlPressed={ctrlPressed}/>
                             )
                         })}
 

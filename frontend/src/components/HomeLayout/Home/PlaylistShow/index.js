@@ -55,7 +55,6 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
     useEffect(() => {
         const getRowWidth = () => {
             if (tableRowRef.current) {
-                console.log('table is real')
                 const {width} = tableRowRef.current.getBoundingClientRect();
                 setRowWidth(width);
             }
@@ -155,8 +154,14 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
 
     const formatRuntime = (runtime) => {
         const min = Math.floor(runtime / 60);
-        const sec = runtime % 60;
-        return `${min} min ${sec} sec`
+        if (min >= 60) {
+            const hr = Math.floor(runtime / 3600);
+            const modMin = min % 60;
+            return `${hr} hr${ modMin === 0 ? `` : ` ${modMin} min`}`
+        } else {
+            const sec = runtime % 60;
+            return `${min} min ${sec} sec`
+        }
     }
 
     useEffect(()=> {

@@ -105,8 +105,6 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
     },[lastClickedTrack])
 
     useEffect(() => {
-        console.log("hey it's me")
-        // setCurrentSong(sessionUser?.queue?.[0]?.[0])
         if (song.id === currentSong?.song?.id) {
             setIsCurrentSong(true)
         } else {

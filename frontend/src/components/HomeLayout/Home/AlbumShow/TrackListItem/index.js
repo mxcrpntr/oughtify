@@ -26,7 +26,7 @@ export const invisibleEllipsisSymbol = () => {
     return <i class="fa-solid fa-ellipsis" style={{opacity: 0}}></i>;
 }
 
-export default function TrackListItem({song,artist,songsForQueue,songsForReverseQueue,whatIsDragging,setWhatIsDragging,currentSong}) {
+export default function TrackListItem({song,artist,songsForQueue,songsForReverseQueue,whatIsDragging,setWhatIsDragging,currentSong,shiftPressed,ctrlPressed}) {
     const [numberPlay, setNumberPlay] = useState(song.number);
     const [heart, setHeart] = useState("");
     const [ellipsis,setEllipsis] = useState(invisibleEllipsisSymbol());
