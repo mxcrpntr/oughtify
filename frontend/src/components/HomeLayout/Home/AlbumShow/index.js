@@ -3,10 +3,11 @@ import AlbumsIndex from "../ArtistShow/AlbumsIndex"
 import './AlbumShow.css'
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAlbum, getAlbum, getAlbums } from "../../../../store/albums";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getSongs } from "../../../../store/songs";
 import { getArtist } from "../../../../store/artists";
 import TrackListItem, { invisibleEllipsisSymbol } from "./TrackListItem";
+import { fetchPlaylists, getPlaylists } from "../../../../store/playlists";
 
 export default function AlbumShow({shiftPressed, ctrlPressed, whatIsDragging, setWhatIsDragging, currentSong}) {
 
@@ -16,18 +17,21 @@ export default function AlbumShow({shiftPressed, ctrlPressed, whatIsDragging, se
 
     const sessionUser = useSelector(state => state.session.user);
 
+    const [rowWidth,setRowWidth] = useState();
+    const tableRef = useRef();
+    const tableRowRef = useRef();
     const [isLiked,setIsLiked] = useState(false);
-    
-    // let currentSong = sessionUser?.queue?.[0]?.[0]
-
-    // useEffect(() => {
-    //     currentSong = sessionUser?.queue?.[0]?.[0]
-    // }, [sessionUser])
 
     const album = useSelector(getAlbum(albumId));
     const artist = useSelector(getArtist(album.artistId))
     const songs = useSelector(getSongs);
     const albums = useSelector(getAlbums);
+    const playlists = useSelector(getPlaylists);
+
+    useEffect(()=> {
+        dispatch(fetchPlaylists);
+    },[])
+
 
     const moreAlbums = Object.values(albums).filter(album => album.id !== Number(albumId) && album.artistId === artist.id);
     
@@ -36,6 +40,18 @@ export default function AlbumShow({shiftPressed, ctrlPressed, whatIsDragging, se
     //     .forEach(album => moreAlbums[album.id] = album);
 
     let runtime = 0;
+
+    useEffect(() => {
+        const getRowWidth = () => {
+            if (tableRowRef.current) {
+                const {width} = tableRowRef.current.getBoundingClientRect();
+                setRowWidth(width);
+            }
+        };
+        getRowWidth();
+        window.addEventListener('resize', getRowWidth);
+        return () => window.removeEventListener('resize', getRowWidth);
+    }, [tableRowRef.current])
 
     Object.values(songs).forEach(song => runtime += song.length)
 
@@ -48,6 +64,60 @@ export default function AlbumShow({shiftPressed, ctrlPressed, whatIsDragging, se
     useEffect(()=> {
         dispatch(fetchAlbum(albumId));
     },[albumId])
+
+    const selectedTracksObj = {...songs,lastSelectedTrack: null}
+    const [selectedTracks, setSelectedTracks] = useState(selectedTracksObj)
+    const [lastClickedTrack,setLastClickedTrack] = useState({clickedTrack: null, clickBoolean: false})
+
+
+    useEffect(() => {
+        const handleNonTrackClick = (e) => {
+            if (tableRef.current && !tableRef.current.contains(e.target)) {
+                setLastClickedTrack({clickedTrack: null, shift: shiftPressed, ctrl: ctrlPressed})
+            }
+        };
+        document.addEventListener('click', handleNonTrackClick);
+        return () => document.removeEventListener('click', handleNonTrackClick);
+    }, [])
+
+    useEffect(() => {
+        if (lastClickedTrack && songs && selectedTracks) {
+            const clickedTrack = lastClickedTrack.clickedTrack
+            if (clickedTrack === null) {
+                const noSelectedTracksObj = {...songs,lastSelectedTrack: null}
+                Object.keys(songs).forEach((songId) => noSelectedTracksObj[songId] = false)
+                setSelectedTracks(noSelectedTracksObj)
+            }
+            else {
+                const newSelectedTracksObj = {...selectedTracks}
+                const clickedSongNumber = songs[clickedTrack].number
+                if (shiftPressed && !(selectedTracks.lastSelectedTrack === null)) {
+                    const previousSelectedSongNumber = songs[selectedTracks.lastSelectedTrack].number
+                    const maxSongNumber = Math.max(clickedSongNumber,previousSelectedSongNumber)
+                    const minSongNumber = Math.min(clickedSongNumber,previousSelectedSongNumber)
+                    const songsBetween = Object
+                        .values(songs)
+                        .filter((song) => song.number >= minSongNumber && song.number <= maxSongNumber)
+                        .map(song => song.id)
+                    songsBetween.forEach((songId) => newSelectedTracksObj[songId] = true);
+                    newSelectedTracksObj.lastSelectedTrack = clickedTrack;
+                    setSelectedTracks(newSelectedTracksObj)
+                }
+                else if (ctrlPressed) {
+                    newSelectedTracksObj[clickedTrack] = !selectedTracks[clickedTrack]
+                    newSelectedTracksObj.lastSelectedTrack = clickedTrack;
+                    setSelectedTracks(newSelectedTracksObj)
+                }
+                else {
+                    console.log(selectedTracks.lastSelectedTrack)
+                    Object.keys(songs).forEach(songId => newSelectedTracksObj[songId] = false);
+                    newSelectedTracksObj[clickedTrack] = true;
+                    newSelectedTracksObj.lastSelectedTrack = clickedTrack;
+                    setSelectedTracks(newSelectedTracksObj)
+                }
+            }
+        }
+    }, [lastClickedTrack])
 
     const songsForTracklist = Object.values(songs)
         .sort((a,b) => a.number - b.number)
@@ -68,6 +138,27 @@ export default function AlbumShow({shiftPressed, ctrlPressed, whatIsDragging, se
         setIsLiked(!isLiked);
     }
 
+    let opaqueBkgdStyle = {};
+
+    useEffect(() => {
+        if (album) {
+            opaqueBkgdStyle = {
+                backgroundImage: `linear-gradient(to bottom, ${album.color}, rgba(18, 18, 18, 1))`
+            }
+        }
+    }, [album,songs])
+
+    // const trGridTemplate = (width) => {
+    //     if (width >= 710) {
+    //         return {gridTemplateColumns: ".5fr 6fr 5fr 5fr .5fr 1fr .35fr"}
+    //     }
+    //     else if (width >= 500) {
+    //         return {gridTemplateColumns: ".5fr 6fr 5fr .5fr 1fr .35fr"}
+    //     }
+    //     else {
+    //         return {gridTemplateColumns: ".5fr 6fr .5fr 1fr .35fr"}
+    //     }
+    // }
 
     return (
         <>
@@ -117,8 +208,8 @@ export default function AlbumShow({shiftPressed, ctrlPressed, whatIsDragging, se
                     <span className="bigDots"><i class="fa-solid fa-ellipsis"></i></span>
                 </span>
 
-                    <table>
-                        <tr>
+                    <table ref={tableRef}>
+                        <tr ref={tableRowRef}>
                             <td>#</td>
                             <td>
                                 Title
@@ -140,7 +231,11 @@ export default function AlbumShow({shiftPressed, ctrlPressed, whatIsDragging, se
                                     setWhatIsDragging={setWhatIsDragging}
                                     currentSong={currentSong}
                                     shiftPressed={shiftPressed}
-                                    ctrlPressed={ctrlPressed}/>
+                                    ctrlPressed={ctrlPressed}
+                                    selectedTracks={selectedTracks}
+                                    lastClickedTrack={lastClickedTrack}
+                                    setLastClickedTrack={setLastClickedTrack}
+                                    userPlaylists={Object.values(playlists).filter((pList) => sessionUser.playlistIds.includes(pList.id))}/>
                             )
                         })}
 

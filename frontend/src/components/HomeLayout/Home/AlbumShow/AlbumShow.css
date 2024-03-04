@@ -192,3 +192,73 @@ div.home .moreBy ul:hover {
     margin-left: -22px;
     margin-right: -22px;
 }
+
+.trackList > table > tr.selectedTrack {
+    background-color: #5c5c5c;
+    border-radius: 4px;
+}
+.trackList > table > tr > td:last-child{
+    position: relative;
+}
+
+.trackList .hiddenUl {
+    position: absolute;
+    background-color: #282828;
+    width: 213.84px;
+    right: 8px;
+    bottom: 12px;
+    color: #FFFFFF;
+    font-size: 14px;
+    padding: 4px;
+    border-radius: 4px;
+    z-index: 2;
+}
+.trackList .hiddenUl > li {
+    padding: 12px 8px 12px 12px;
+    border-radius: 4px;
+}
+.trackList .hiddenUl > li.barUnder {
+    border-bottom: 1px solid rgba(61, 61, 61, .8);
+}
+.trackList .hiddenUl > hr {
+    padding: 0;
+}
+.trackList .hiddenUl > li:hover {
+    background-color: #3d3d3d;
+}
+.trackList .hiddenUl > li > span {
+    cursor: default;
+    display: flex;
+    flex-direction: row;
+    /* justify-content:left; */
+    align-items: center;
+    vertical-align: middle;
+    gap: 12px;
+}
+
+.trackList .hiddenUl .hiddenPlaylistUl {
+    position: absolute;
+    background-color: #282828;
+    width: 213.84px;
+    right: 213.84px;
+    height: 300px;
+    bottom: 0;
+    color: #FFFFFF;
+    font-size: 14px;
+    padding: 4px;
+    border-radius: 4px;
+    z-index: 2;
+    overflow-y: scroll;
+}
+.trackList .hiddenUl .hidden {
+    display: none;
+}
+
+.trackList .hiddenUl .hiddenPlaylistUl > li {
+    cursor: default;
+    padding: 12px 8px 12px 12px;
+    border-radius: 4px;
+}
+.trackList .hiddenUl .hiddenPlaylistUl > li:hover {
+    background-color: #3d3d3d;
+}
