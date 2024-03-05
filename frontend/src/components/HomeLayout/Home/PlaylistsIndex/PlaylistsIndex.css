@@ -14,3 +14,38 @@ div.home .playlistGrid .imageStandIn {
     aspect-ratio: 1;
     border-radius: 4px;
 }
+
+div.home .playlistGrid .albumImage  {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 1;
+    margin: 0;
+}
+div.home .playlistGrid .fourImages  {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+div.home .playlistGrid  .onethPlaylistImageStandin {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 60px;
+    width: 100%;
+    aspect-ratio: 1;
+    background-size: cover;
+}
+
+div.home .playlistGrid  .fourthPlaylistImageStandin {
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+}

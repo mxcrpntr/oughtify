@@ -12,7 +12,9 @@ export default function SearchIndex({shiftPressed, ctrlPressed, whatIsDragging, 
     const [query,setQuery] = useState(params.get("query"));
     const searchResults = useSelector(state => state.search)
 
-
+    const zeroImageMusicSymb = () => {
+        return <i class="fa-solid fa-music" style={{color: "#7F7F7F"}}></i>
+    }
 
     return (
         <div className="searchGrid" style={{paddingTop: '66px'}}>
@@ -81,11 +83,19 @@ export default function SearchIndex({shiftPressed, ctrlPressed, whatIsDragging, 
                     return (
                     <ul onClick={()=> {history.push(`/playlists/${playlist.id}`)}}>
                         <div>
-                        <li>{ playlist.imageUrl ? (
-                            <img src={`${playlist.imageUrl}`}></img>
-                        ) : (
-                            <div className="imageStandIn" style={{backgroundColor: playlist.color}}></div>
-                        )}
+                        <li>
+                            <div className={!playlist?.imageUrl && playlist?.albumImages && playlist.albumImages.length >= 4 && playlist?.albumImages ? "albumImage fourImages" : "albumImage"}>
+                                {!playlist?.imageUrl && playlist?.albumImages && playlist.albumImages.length >= 4 && playlist?.albumImages ?
+                                (<>
+                                <div className="fourthPlaylistImageStandin" style={{backgroundImage: `url(${playlist.albumImages[0]})`}}></div>
+                                <div className="fourthPlaylistImageStandin" style={{backgroundImage: `url(${playlist.albumImages[1]})`}}></div>
+                                <div className="fourthPlaylistImageStandin" style={{backgroundImage: `url(${playlist.albumImages[2]})`}}></div>
+                                <div className="fourthPlaylistImageStandin" style={{backgroundImage: `url(${playlist.albumImages[3]})`}}></div>
+                                </>) :
+                                (<div className="onethPlaylistImageStandin" style={playlist?.imageUrl || playlist?.albumImages && playlist.albumImages.length > 0 ?
+                                {backgroundImage: `url(${playlist.imageUrl ? playlist.imageUrl : playlist.albumImages[0]})`} :
+                                {backgroundColor: `#282828`}}>{playlist?.imageUrl || playlist?.albumImages && playlist.albumImages.length > 0 ? (<></>) : zeroImageMusicSymb()}</div>)}
+                            </div>
                         </li>
                         <li className="playlistTitle">{playlist.title}</li>
                         </div>

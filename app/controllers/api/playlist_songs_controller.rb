@@ -11,6 +11,15 @@ class Api::PlaylistSongsController < ApplicationController
                 end
             end
             render :show
+        elsif params[:playlist_song].has_key?(:album_song_ids)
+            songs_to_add = params[:playlist_song][:album_song_ids]
+            songs_to_add.each do |song_id|
+                @new_playlist_song = PlaylistSong.new(playlist_id: playlist_id, song_id: song_id)
+                if !@new_playlist_song.save
+                    render json: {errors: @new_playlist_song.errors.full_messages }, status: :unprocessable_entity
+                end
+            end
+            render :show
         else
             @playlist_song = PlaylistSong.new(playlist_song_params)
             last_song_number = 0
@@ -91,6 +100,6 @@ class Api::PlaylistSongsController < ApplicationController
 
     private
     def playlist_song_params
-        params.require(:playlist_song).permit(:playlist_id,:song_id,:song_number,:playlist_song_ids)
+        params.require(:playlist_song).permit(:playlist_id,:song_id,:song_number,:playlist_song_ids,:album_song_ids)
     end
 end

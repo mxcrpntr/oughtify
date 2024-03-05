@@ -34,9 +34,7 @@ export default function LibraryIndexItem({playlist, album, currentSong, whatIsDr
             const rect = libraryItemRef.current.getBoundingClientRect();
             if (xPos >= rect.left && xPos <= rect.right && yPos >= rect.top && yPos <= rect.bottom) {
                 setGreenBorder(true)
-                if (whatIsDragging.draggedThings === 'playlistSongs') {
-                    setMemoryOfDraggedThings(whatIsDragging.playlistSongIds)
-                }
+                setMemoryOfDraggedThings(whatIsDragging)
             } else if (greenBorder) {
                 setGreenBorder(false)
                 setMemoryOfDraggedThings(null)
@@ -44,8 +42,10 @@ export default function LibraryIndexItem({playlist, album, currentSong, whatIsDr
         }
         if (!whatIsDragging?.draggedThings) {
             if (greenBorder) {
-                if (playlist && memoryOfDraggedThings && memoryOfDraggedThings.length > 0) {
-                    dispatch(createPlaylistSong({playlist_song: {playlist_id: playlist.id, playlist_song_ids: memoryOfDraggedThings}}))
+                if (playlist && memoryOfDraggedThings?.playlistSongIds && memoryOfDraggedThings.playlistSongIds.length > 0) {
+                    dispatch(createPlaylistSong({playlist_song: {playlist_id: playlist.id, playlist_song_ids: memoryOfDraggedThings.playlistSongIds}}))
+                } else if (playlist && memoryOfDraggedThings?.albumSongIds && memoryOfDraggedThings.albumSongIds.length > 0) {
+                    dispatch(createPlaylistSong({playlist_song: {playlist_id: playlist.id, album_song_ids: memoryOfDraggedThings.albumSongIds}}))
                 }
             }
             setGreenBorder(false)

@@ -1,7 +1,7 @@
-import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min"
+import { Link, useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min"
 import './PlaylistShow.css'
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPlaylist, fetchPlaylists, getPlaylist, getPlaylists } from "../../../../store/playlists";
+import { deletePlaylist, fetchPlaylist, fetchPlaylists, getPlaylist, getPlaylists } from "../../../../store/playlists";
 import { useEffect, useRef, useState } from "react";
 import { getSongs } from "../../../../store/songs";
 import { getArtist } from "../../../../store/artists";
@@ -50,7 +50,11 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
 
     const playlistTracksRef = useRef();
 
+    const [detailsUlHidden,setDetailsUlHidden] = useState(true);
+    const [deletePlaylistBoolean,setDeletePlaylistBoolean] = useState(false);
+
     const [editModalHidden,setEditModalHidden] = useState(true)
+    const history = useHistory()
 
     useEffect(() => {
         const getRowWidth = () => {
@@ -241,6 +245,27 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
         }
     }, [updateSongNumbers])
 
+
+    const detailsUl = () => {
+        return (
+            <ul className="detailsUl">
+                <li className="barUnder">Add to queue</li>
+                {sessionUser.id === playlist.userId &&
+                (<>
+                    <li>Edit details</li>
+                    <li onClick={() => {setDeletePlaylistBoolean(true)}} className="barUnder"><span className="hiddenUlSpan1"><i class="fa-regular fa-trash-can" style={{"fontSize": "16px"}}></i> <span>Delete</span></span></li>
+                </>)}
+                <li>Copy link to playlist</li>
+            </ul>
+        )
+    }
+    
+    useEffect(() => {
+        if (deletePlaylistBoolean) {
+            dispatch(deletePlaylist(playlist))
+            history.push(`/home`)
+        }
+    },[deletePlaylistBoolean])
     return (
         <>
             {playlist && Object.keys(playlist).length > 0 && playlistSongs
@@ -298,7 +323,7 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
                     <span className="bigHeart" onClick={handleLikeClick}>{isLiked ?
                     (<i class="fa-solid fa-heart"style={{color: "#1ED760"}}></i>) :
                     (<i class="fa-regular fa-heart"></i>)}</span>
-                    <span className="bigDots"><i class="fa-solid fa-ellipsis"></i></span>
+                    <span className="bigDots" onClick={() => {setDetailsUlHidden(!detailsUlHidden)}}><i class="fa-solid fa-ellipsis">{ !detailsUlHidden && (detailsUl())}</i></span>
                 </span>
 
                     <table ref={tableRef}>
