@@ -56,7 +56,9 @@ export default function EditPlaylistModal({playlist,setEditModalHidden,sessionUs
                 zeroImageMusicSymb={zeroImageMusicSymb}
                 changePhotoHoverSymbText={changePhotoHoverSymbText}
                 oneImageCallback={oneImageCallback}
-                workingImageUrl={localImageFileSrc ? localImageFileSrc : playlist.imageUrl}/>
+                workingImageUrl={localImageFileSrc ? localImageFileSrc : playlist.imageUrl}
+                playlist={playlist}
+                sessionUser={sessionUser}/>
           <div className="editModalTitle">
             <input type="text"
                    id="playlistTitle"
