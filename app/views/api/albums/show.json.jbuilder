@@ -6,6 +6,7 @@ json.album do
   @album.song_ids.each { |song_id| songs << song_id }
 end
 
+date_fetched = DateTime.now
 
 json.songs do
     songs.each do |song_id|
@@ -13,6 +14,7 @@ json.songs do
             song = Song.find(song_id)
             json.extract! song, :id, :title, :length, :album_id, :plays, :number
             json.set! :file_url, song.file.url
+            json.set! :date_fetched, date_fetched
         end
     end
 end

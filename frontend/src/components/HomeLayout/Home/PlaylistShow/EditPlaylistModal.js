@@ -20,7 +20,6 @@ export default function EditPlaylistModal({playlist,setEditModalHidden,sessionUs
 
   const handFileInputChange = (e) => {
     if (e.target.files[0]) {
-      console.log(e.target.files[0])
       setLocalImageFile(e.target.files[0])
       const reader = new FileReader();
       reader.onload = (e) => {

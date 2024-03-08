@@ -12,6 +12,8 @@ json.playlist do
     @playlist.playlist_song_ids.each { |playlist_song_id| playlist_songs << playlist_song_id }
 end
 
+date_fetched = DateTime.now
+
 json.playlist_songs do
     playlist_songs.each do |playlist_song_id|
         json.set! playlist_song_id do
@@ -26,6 +28,7 @@ json.playlist_songs do
             json.set! :album_title, album.title
             artist = Artist.find(album.artist_id)
             json.set! :artist_name, artist.name
+            json.set! :date_fetched, date_fetched
         end
     end
 end

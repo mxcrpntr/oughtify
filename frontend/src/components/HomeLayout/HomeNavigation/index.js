@@ -49,8 +49,6 @@ export default function HomeNavigation({searching}) {
     }
     const handleForward = (e) => {
         e.preventDefault();
-        console.log(`history index is ${history.index}`)
-        console.log(`history length is ${history.length}`)
         history.goForward();
     }
 

@@ -165,7 +165,6 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
     }
 
     const hiddenPlaylistUl = () => {
-        console.log(userPlaylists)
         return (
             <ul className="hiddenPlaylistUl ">
             {userPlaylists.map((userPlaylist, index) => {
@@ -211,7 +210,6 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
         setIsDragging(true);
         tableRowRef.current.style.cursor = 'copy'
         const selectedTrackIds = Object.values(selectedTracks).some(el => el) ? Object.keys(selectedTracks).filter(trackId => selectedTracks[trackId] === true).map(trackId => parseInt(trackId)) : [song.id]
-        console.log(selectedTrackIds)
         setWhatIsDragging({draggedThings: 'playlistSongs', playlistSongIds: selectedTrackIds, xPos: e.clientX, yPos: e.clientY});
         const dragImage = new Image();
         dragImage.src = invisibleImageUrl;    
@@ -226,7 +224,6 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
                 setWhatIsDragging({...whatIsDragging, xPos: e.clientX, yPos: e.clientY})
             } else {
                 const selectedTrackIds = Object.values(selectedTracks).some(el => el) ? Object.keys(selectedTracks).filter(trackId => selectedTracks[trackId] === true).map(trackId => parseInt(trackId)) : [song.id]
-                console.log(selectedTracks)
                 setWhatIsDragging({draggedThings: 'playlistSongs', playlistSongIds: selectedTrackIds, xPos: e.clientX, yPos: e.clientY});
             }
         }
@@ -239,36 +236,36 @@ export default function PlaylistTrackListItem({song,songsForQueue,songsForRevers
     }
 
     useEffect(() => {
-        if (whatIsDragging?.draggedThings) {
-            if (whatIsDragging.draggedThings === 'playlistSongs' || whatIsDragging.draggedThings === 'albumSongs' ) {
-                const xPos = whatIsDragging.xPos
-                const yPos = whatIsDragging.yPos
-                const rect = tableRowRef.current.getBoundingClientRect();
-                const trackMiddle = (rect.top + rect.bottom) / 2
-                if (xPos >= rect.left && xPos <= rect.right) {                  
-                    if (yPos > rect.top && yPos <= rect.bottom) {
-                        if (yPos <= trackMiddle) {
-                            setGreenBorder('greenBorderTop')
-                        }
-                        if (yPos > trackMiddle) {
-                            setGreenBorder('greenBorderBottom')
+        if (sessionUser && sessionUser.id === playlist.userId) {
+            if (whatIsDragging?.draggedThings) {
+                if (whatIsDragging.draggedThings === 'playlistSongs' || whatIsDragging.draggedThings === 'albumSongs' ) {
+                    const xPos = whatIsDragging.xPos
+                    const yPos = whatIsDragging.yPos
+                    const rect = tableRowRef.current.getBoundingClientRect();
+                    const trackMiddle = (rect.top + rect.bottom) / 2
+                    if (xPos >= rect.left && xPos <= rect.right) {                  
+                        if (yPos > rect.top && yPos <= rect.bottom) {
+                            if (yPos <= trackMiddle) {
+                                setGreenBorder('greenBorderTop')
+                            }
+                            if (yPos > trackMiddle) {
+                                setGreenBorder('greenBorderBottom')
+                            }
+                        } else {
+                            if (greenBorder) setGreenBorder(null)
                         }
                     } else {
                         if (greenBorder) setGreenBorder(null)
                     }
-                } else {
-                    if (greenBorder) setGreenBorder(null)
                 }
+            } else if (whatIsDragging && whatIsDragging?.draggedThings === null) {
+                if (greenBorder && greenBorder === 'greenBorderTop') {
+                    setUpdateSongNumbers({aboveOrBelow: 'above', songNumber: song.songNumber})
+                } else if (greenBorder && greenBorder === 'greenBorderBottom') {
+                    setUpdateSongNumbers({aboveOrBelow: 'below', songNumber: song.songNumber})
+                }
+                setGreenBorder(null)
             }
-        } else if (whatIsDragging && whatIsDragging?.draggedThings === null) {
-            if (greenBorder && greenBorder === 'greenBorderTop') {
-                console.log(`trying to update songs to be above ${song.songNumber}`)
-                setUpdateSongNumbers({aboveOrBelow: 'above', songNumber: song.songNumber})
-            } else if (greenBorder && greenBorder === 'greenBorderBottom') {
-                console.log(`trying to update songs to be below ${song.songNumber}`)
-                setUpdateSongNumbers({aboveOrBelow: 'below', songNumber: song.songNumber})
-            }
-            setGreenBorder(null)
         }
     },[whatIsDragging])
 

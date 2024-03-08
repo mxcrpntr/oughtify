@@ -34,17 +34,17 @@ export const restoreSession = () => async dispatch => {
     let updatedUser = null;
     if (data.user) {
       updatedUser = {...data.user};
-      updatedUser.queue = JSON.parse(updatedUser.queue);
-      // if (updatedUser.queue?.[0]?.[0]) {
-      //   const firstSong = updatedUser.queue[0][0];
-      //   const fileUrl = firstSong.fileUrl;
-      //   try {
-      //     await fetch(fileUrl, { method: "HEAD" });
-      //   } catch (error) {
-      //     debugger
-      //     updatedUser.queue = [];
-      //   }
-      // }
+      const storedQueue = JSON.parse(updatedUser.queue)
+      const storedReverseQueue = JSON.parse(updatedUser.reverseQueue);
+      if (storedQueue && storedReverseQueue &&
+         ((storedQueue.length === 0 || (storedQueue.length > 0 && storedQueue.map(songAndTime => new Date() - new Date(songAndTime[0].dateFetched)).sort().slice(-1)[0] < 86400000)) ||
+         (storedReverseQueue.length === 0 || (storedReverseQueue.length > 0 && storedReverseQueue.map(songAndTime => new Date() - new Date(songAndTime[0].dateFetched)).sort().slice(-1)[0] < 86400000)))) {
+          updatedUser.queue = storedQueue
+          updatedUser.reverseQueue = storedReverseQueue
+      } else {
+          updatedUser.queue = []
+          updatedUser.reverseQueue = []
+      }
     }
     storeCurrentUser(updatedUser);
     dispatch(setCurrentUser(updatedUser));
@@ -60,7 +60,17 @@ export const login = ({ credential, password }) => async dispatch => {
     let updatedUser = null;
     if (data.user) {
       updatedUser = {...data.user};
-      updatedUser.queue = [];
+      const storedQueue = JSON.parse(updatedUser.queue)
+      const storedReverseQueue = JSON.parse(updatedUser.reverseQueue);
+      if (storedQueue && storedReverseQueue &&
+         ((storedQueue.length === 0 || (storedQueue.length > 0 && storedQueue.map(songAndTime => new Date() - new Date(songAndTime[0].dateFetched)).sort().slice(-1)[0] < 86400000)) ||
+         (storedReverseQueue.length === 0 || (storedReverseQueue.length > 0 && storedReverseQueue.map(songAndTime => new Date() - new Date(songAndTime[0].dateFetched)).sort().slice(-1)[0] < 86400000)))) {
+          updatedUser.queue = storedQueue
+          updatedUser.reverseQueue = storedReverseQueue
+      } else {
+          updatedUser.queue = []
+          updatedUser.reverseQueue = []
+      }
     }
     storeCurrentUser(updatedUser);
     dispatch(setCurrentUser(updatedUser));

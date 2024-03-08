@@ -16,7 +16,6 @@ export const clearSearchResults = () => ({
 export const fetchSearchResults = (query) => async dispatch => {
     const res = await csrfFetch(`api/songs/search?query=${query}`);
     const data = await res.json();
-    // console.log(data)
     dispatch(receiveSearchResults(data));
 }
 

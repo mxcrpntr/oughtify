@@ -109,7 +109,6 @@ export default function AlbumShow({shiftPressed, ctrlPressed, whatIsDragging, se
                     setSelectedTracks(newSelectedTracksObj)
                 }
                 else {
-                    console.log(selectedTracks.lastSelectedTrack)
                     Object.keys(songs).forEach(songId => newSelectedTracksObj[songId] = false);
                     newSelectedTracksObj[clickedTrack] = true;
                     newSelectedTracksObj.lastSelectedTrack = clickedTrack;
@@ -235,7 +234,7 @@ export default function AlbumShow({shiftPressed, ctrlPressed, whatIsDragging, se
                                     selectedTracks={selectedTracks}
                                     lastClickedTrack={lastClickedTrack}
                                     setLastClickedTrack={setLastClickedTrack}
-                                    userPlaylists={Object.values(playlists).filter((pList) => sessionUser.playlistIds.includes(pList.id))}/>
+                                    userPlaylists={Object.values(playlists).filter((pList) => sessionUser && sessionUser.playlistIds.includes(pList.id))}/>
                             )
                         })}
 

@@ -269,9 +269,6 @@ export default function Playbar({currentSong,setCurrentSong}) {
         }
     }, [])
 
-    useEffect(() => {
-        console.log(sessionUser?.queue?.[0])
-    }, [sessionUser?.queue?.[0]])
 
     const handleVolumeDrag = (e) => {
         e.preventDefault()

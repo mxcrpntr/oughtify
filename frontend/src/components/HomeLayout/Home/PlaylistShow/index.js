@@ -123,7 +123,6 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
                     setSelectedTracks(newSelectedTracksObj)
                 }
                 else {
-                    console.log(selectedTracks.lastSelectedTrack)
                     Object.keys(playlistSongs).forEach(pSongId => newSelectedTracksObj[pSongId] = false);
                     newSelectedTracksObj[clickedTrack] = true;
                     newSelectedTracksObj.lastSelectedTrack = clickedTrack;
@@ -215,12 +214,10 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
             const selectedSongsInOrder = [...songsForTracklist].filter(pSong => selectedTrackIds.includes(pSong.id))
             const minSelectedSongNumber = selectedSongsInOrder[0]?.songNumber
             const maxSelectedSongNumber = selectedSongsInOrder[selectedSongsInOrder.length-1]?.songNumber
-            console.log([...songsForTracklist].filter(pSong => pSong.id > 130))
             if (targetSongNumber < minSelectedSongNumber) {
                 const actualTargetSongNumber = updateSongNumbers.aboveOrBelow === 'above' ? targetSongNumber : targetSongNumber + 1
                 if (actualTargetSongNumber < minSelectedSongNumber) {
                     for (let i = 0; i < selectedSongsInOrder.length; i++) {
-                        console.log(`hey we're here and target song number is ${actualTargetSongNumber}`)
                         const selectedSong = selectedSongsInOrder[i]
                         await dispatch(updatePlaylistSong({id: selectedSong.id, playlist_song: {song_id: selectedSong.id, songNumber: actualTargetSongNumber + i}}))
                     }
@@ -250,7 +247,7 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
         return (
             <ul className="detailsUl">
                 <li className="barUnder">Add to queue</li>
-                {sessionUser.id === playlist.userId &&
+                {sessionUser?.id === playlist.userId &&
                 (<>
                     <li>Edit details</li>
                     <li onClick={() => {setDeletePlaylistBoolean(true)}} className="barUnder"><span className="hiddenUlSpan1"><i class="fa-regular fa-trash-can" style={{"fontSize": "16px"}}></i> <span>Delete</span></span></li>
@@ -283,14 +280,16 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
                 <PlaylistImage
                     playlistSongs={playlistSongs}
                     setEditModalHidden={setEditModalHidden}
-                    photoClickFunction={() => {setEditModalHidden(false)}}
+                    photoClickFunction={() => {if (sessionUser && sessionUser.id === playlist.userId) setEditModalHidden(false)}}
                     zeroImageMusicSymb={zeroImageMusicSymb}
                     changePhotoHoverSymbText={changePhotoHoverSymbText}
                     oneImageCallback={oneImageCallback}
-                    workingImageUrl={playlist.imageUrl}/>
+                    workingImageUrl={playlist.imageUrl}
+                    playlist={playlist}
+                    sessionUser={sessionUser}/>
                 <div className='playlistHeaders'>
                     <h4>Playlist</h4>
-                    <h1 onClick={() => {setEditModalHidden(false)}}>{playlist.title}</h1>
+                    <h1 onClick={() => {if (sessionUser && sessionUser.id === playlist.userId) setEditModalHidden(false)}}>{playlist.title}</h1>
 
                     <h5>
                         <Link to="" onClick={(e) => {e.preventDefault()}}>{playlist.userName}</Link>
@@ -308,7 +307,7 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
                     <button className="bigPlay" onClick={() => {
                     if (sessionUser) {
                         const audio = document.querySelector("audio")
-                        if (sessionUser.queue?.[0] && playlistSongs && !Object.values(playlistSongs).map(pSong => pSong.id).includes(sessionUser.queue[0][0].id)) {
+                        if (sessionUser?.queue?.[0] && playlistSongs && !Object.values(playlistSongs).map(pSong => pSong.id).includes(sessionUser.queue[0][0].id)) {
                             sessionUser.queue = [...songsForQueue]
                             audio.currentTime = sessionUser.queue?.[0]?.[1] ? sessionUser.queue[0][1] : 0
                             if (audio.paused) document.querySelector(".playPause").click()
@@ -317,7 +316,7 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
                             document.querySelector(".playPause").click()
                         }
                     }
-                    }}>{ sessionUser.queue?.[0] && playlistSongs && Object.values(playlistSongs).map(pSong => pSong.id).includes(sessionUser.queue[0][0].id) && currentSong?.isPlaying ?
+                    }}>{ sessionUser?.queue?.[0] && playlistSongs && Object.values(playlistSongs).map(pSong => pSong.id).includes(sessionUser.queue[0][0].id) && currentSong?.isPlaying ?
                     (<i class="fa-solid fa-pause"></i>) :
                     (<i class="fa-solid fa-play"></i>)}</button>
                     <span className="bigHeart" onClick={handleLikeClick}>{isLiked ?
@@ -352,7 +351,7 @@ export default function PlaylistShow({shiftPressed, ctrlPressed, whatIsDragging,
                                     songsForQueue={songsForQueue.filter(entry => entry[0].songNumber >= song.songNumber)}
                                     songsForReverseQueue={songsForReverseQueue.filter(entry => entry[0].songNumber < song.songNumber)}
                                     playlist={playlist}
-                                    userPlaylists={Object.values(playlists).filter((pList) => sessionUser.playlistIds.includes(pList.id))}
+                                    userPlaylists={Object.values(playlists).filter((pList) => sessionUser && sessionUser.playlistIds.includes(pList.id))}
                                     setSongsUpdated={setSongsUpdated}
                                     songsUpdated={songsUpdated}
                                     selectedTracks={selectedTracks}

@@ -217,7 +217,6 @@ export default function TrackListItem({song,artist,songsForQueue,songsForReverse
         setIsDragging(true);
         tableRowRef.current.style.cursor = 'copy'
         const selectedTrackIds = Object.values(selectedTracks).some(el => el) ? Object.keys(selectedTracks).filter(trackId => selectedTracks[trackId] === true).map(trackId => parseInt(trackId)) : [song.id]
-        console.log(selectedTrackIds)
         setWhatIsDragging({draggedThings: 'albumSongs', albumSongIds: selectedTrackIds, xPos: e.clientX, yPos: e.clientY});
         const dragImage = new Image();
         dragImage.src = invisibleImageUrl;    
@@ -232,7 +231,6 @@ export default function TrackListItem({song,artist,songsForQueue,songsForReverse
                 setWhatIsDragging({...whatIsDragging, xPos: e.clientX, yPos: e.clientY})
             } else {
                 const selectedTrackIds = Object.values(selectedTracks).some(el => el) ? Object.keys(selectedTracks).filter(trackId => selectedTracks[trackId] === true).map(trackId => parseInt(trackId)) : [song.id]
-                console.log(selectedTracks)
                 setWhatIsDragging({draggedThings: 'albumSongs', albumSongIds: selectedTrackIds, xPos: e.clientX, yPos: e.clientY});
             }
         }
